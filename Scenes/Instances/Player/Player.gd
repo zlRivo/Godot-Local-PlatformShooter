@@ -9,7 +9,6 @@ const GRAVITY = 2
 
 const MAXSPEED = 160
 const ACCEL = 6
-const DECEL = 6
 
 var motion = Vector2.ZERO
 
