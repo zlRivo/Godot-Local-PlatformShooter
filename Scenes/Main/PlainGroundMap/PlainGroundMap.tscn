@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Main/PlainGroundMap/TileSet/PlainGroundMapTileSet.tres" type="TileSet" id=1]
+[ext_resource path="res://Assets/Sprites/Player/DinoSprites - doux.png" type="Texture" id=2]
+
+[node name="PlainGroundMap" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 18, 18 )
+format = 1
+
+[node name="Player" type="KinematicBody2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Player"]
+texture = ExtResource( 2 )
