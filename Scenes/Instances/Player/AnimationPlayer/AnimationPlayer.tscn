@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=2]
 resource_name = "crouch"
 length = 0.001
 tracks/0/type = "value"
@@ -16,7 +16,7 @@ tracks/0/keys = {
 "values": [ 17 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "hurt"
 length = 0.3
 tracks/0/type = "value"
@@ -32,7 +32,7 @@ tracks/0/keys = {
 "values": [ 14, 15, 16 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
 resource_name = "idle"
 length = 0.5
 loop = true
@@ -50,7 +50,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 resource_name = "jump"
 length = 0.001
 tracks/0/type = "value"
@@ -66,7 +66,7 @@ tracks/0/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=6]
 resource_name = "kick"
 length = 0.4
 tracks/0/type = "value"
@@ -82,7 +82,7 @@ tracks/0/keys = {
 "values": [ 10, 11, 12, 13 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=7]
 resource_name = "move"
 length = 0.6
 loop = true
@@ -99,7 +99,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7, 8, 9 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=8]
 resource_name = "sneak"
 length = 0.6
 loop = true
@@ -117,10 +117,10 @@ tracks/0/keys = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer"]
-anims/crouch = SubResource( 7 )
-anims/hurt = SubResource( 5 )
-anims/idle = SubResource( 2 )
-anims/jump = SubResource( 8 )
-anims/kick = SubResource( 4 )
-anims/move = SubResource( 3 )
-anims/sneak = SubResource( 6 )
+anims/crouch = SubResource( 2 )
+anims/hurt = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/jump = SubResource( 5 )
+anims/kick = SubResource( 6 )
+anims/move = SubResource( 7 )
+anims/sneak = SubResource( 8 )
