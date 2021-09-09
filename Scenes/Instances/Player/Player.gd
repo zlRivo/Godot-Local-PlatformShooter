@@ -54,10 +54,10 @@ func _manage_movement_inputs():
 		if is_on_floor() and not is_kicking():
 			motion.y = -JUMP_HEIGHT
 	
-	if Input.is_action_pressed("right_0"):
+	if Input.is_action_pressed("right_0") and not Input.is_action_pressed("left_0"):
 		motion.x += ACCEL
 		
-	elif Input.is_action_pressed("left_0"):
+	elif Input.is_action_pressed("left_0") and not Input.is_action_pressed("right_0"):
 		motion.x -= ACCEL
 	else:
 		motion.x = lerp(motion.x, 0, 0.03)
@@ -72,9 +72,9 @@ func _manage_animations():
 	
 	if not is_kicking():
 		# Sprite flip
-		if Input.is_action_pressed("right_0"):
+		if Input.is_action_pressed("right_0") and not Input.is_action_pressed("left_0"):
 			sprite.scale.x = 1
-		elif Input.is_action_pressed("left_0"):
+		elif Input.is_action_pressed("left_0") and not Input.is_action_pressed("right_0"):
 			sprite.scale.x = -1
 	
 	# Standing and jumping state animations
@@ -85,7 +85,7 @@ func _manage_animations():
 		# Stop kick oneshot
 		stop_kicking()
 	
-	if Input.is_action_pressed("right_0") or Input.is_action_pressed("left_0"):
+	if (Input.is_action_pressed("right_0") or Input.is_action_pressed("left_0")) and not (Input.is_action_pressed("left_0") and Input.is_action_pressed("right_0")):
 		# Play the walk animation
 		animation_tree.set(idle_move_transition, 1)
 		animation_tree.set(crouch_sneak_transition, 1)

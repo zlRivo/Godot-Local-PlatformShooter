@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/DinoSprites - tard.png-544d20d3c81dade9d130849fd09e92b4.stex"
+path="res://.import/mort.png-579c99f008f45d0c4e972fd756e25ec1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Player/DinoSprites - tard.png"
-dest_files=[ "res://.import/DinoSprites - tard.png-544d20d3c81dade9d130849fd09e92b4.stex" ]
+source_file="res://Assets/Sprites/Player/mort.png"
+dest_files=[ "res://.import/mort.png-579c99f008f45d0c4e972fd756e25ec1.stex" ]
 
 [params]
 

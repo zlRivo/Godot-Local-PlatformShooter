@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Assets/Sprites/Player/DinoSprites - doux.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/Player/doux.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Instances/Player/AnimationPlayer/AnimationPlayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Instances/Player/Player.gd" type="Script" id=3]
 
@@ -14,51 +14,51 @@ animation = "jump"
 [sub_resource type="AnimationNodeAnimation" id=3]
 animation = "move"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=4]
 animation = "crouch"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "sneak"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "kick"
 
-[sub_resource type="AnimationNodeAnimation" id=14]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "hurt"
 
-[sub_resource type="AnimationNodeAnimation" id=4]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "idle"
 
-[sub_resource type="AnimationNodeTransition" id=6]
+[sub_resource type="AnimationNodeTransition" id=9]
 input_count = 2
 input_0/name = "crouch"
 input_0/auto_advance = false
 input_1/name = "sneak"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTransition" id=7]
+[sub_resource type="AnimationNodeTransition" id=10]
 input_count = 2
 input_0/name = "crouch"
 input_0/auto_advance = false
 input_1/name = "stand"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTimeSeek" id=19]
+[sub_resource type="AnimationNodeTimeSeek" id=11]
 
-[sub_resource type="AnimationNodeOneShot" id=15]
+[sub_resource type="AnimationNodeOneShot" id=12]
 fadein_time = 0.0
 fadeout_time = 0.0
 
-[sub_resource type="AnimationNodeTransition" id=8]
+[sub_resource type="AnimationNodeTransition" id=13]
 input_count = 2
 input_0/name = "idle"
 input_0/auto_advance = false
 input_1/name = "move"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTimeSeek" id=17]
+[sub_resource type="AnimationNodeTimeSeek" id=14]
 
-[sub_resource type="AnimationNodeOneShot" id=5]
+[sub_resource type="AnimationNodeOneShot" id=15]
 fadein_time = 0.0
 fadeout_time = 0.0
 
@@ -69,35 +69,35 @@ input_0/auto_advance = false
 input_1/name = "jump"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeBlendTree" id=9]
+[sub_resource type="AnimationNodeBlendTree" id=17]
 graph_offset = Vector2( -233, 203 )
-nodes/Animation/node = SubResource( 4 )
+nodes/Animation/node = SubResource( 8 )
 nodes/Animation/position = Vector2( -740, 100 )
 "nodes/Animation 2/node" = SubResource( 2 )
 "nodes/Animation 2/position" = Vector2( 60, 300 )
 "nodes/Animation 3/node" = SubResource( 3 )
 "nodes/Animation 3/position" = Vector2( -740, 260 )
-"nodes/Animation 4/node" = SubResource( 10 )
+"nodes/Animation 4/node" = SubResource( 4 )
 "nodes/Animation 4/position" = Vector2( -720, -175 )
-"nodes/Animation 5/node" = SubResource( 11 )
+"nodes/Animation 5/node" = SubResource( 5 )
 "nodes/Animation 5/position" = Vector2( -740, -40 )
-"nodes/Animation 6/node" = SubResource( 12 )
+"nodes/Animation 6/node" = SubResource( 6 )
 "nodes/Animation 6/position" = Vector2( -380, 280 )
-"nodes/Animation 7/node" = SubResource( 14 )
+"nodes/Animation 7/node" = SubResource( 7 )
 "nodes/Animation 7/position" = Vector2( 100, 440 )
-nodes/crouch_sneak_transition/node = SubResource( 6 )
+nodes/crouch_sneak_transition/node = SubResource( 9 )
 nodes/crouch_sneak_transition/position = Vector2( -520, -60 )
-nodes/crouch_stand_transition/node = SubResource( 7 )
+nodes/crouch_stand_transition/node = SubResource( 10 )
 nodes/crouch_stand_transition/position = Vector2( -260, 40 )
-nodes/hurt_anim_seek/node = SubResource( 19 )
+nodes/hurt_anim_seek/node = SubResource( 11 )
 nodes/hurt_anim_seek/position = Vector2( 340, 340 )
-nodes/hurt_oneshot/node = SubResource( 15 )
+nodes/hurt_oneshot/node = SubResource( 12 )
 nodes/hurt_oneshot/position = Vector2( 560, 260 )
-nodes/idle_move_transition/node = SubResource( 8 )
+nodes/idle_move_transition/node = SubResource( 13 )
 nodes/idle_move_transition/position = Vector2( -520, 100 )
-nodes/kick_anim_seek/node = SubResource( 17 )
+nodes/kick_anim_seek/node = SubResource( 14 )
 nodes/kick_anim_seek/position = Vector2( -180, 220 )
-nodes/kick_oneshot/node = SubResource( 5 )
+nodes/kick_oneshot/node = SubResource( 15 )
 nodes/kick_oneshot/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 820, 240 )
 nodes/stand_jump_transition/node = SubResource( 16 )
@@ -118,7 +118,7 @@ shape = SubResource( 1 )
 [node name="AnimationPlayer" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 9 )
+tree_root = SubResource( 17 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/crouch_sneak_transition/current = 0
