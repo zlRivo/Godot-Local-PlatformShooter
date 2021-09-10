@@ -3,6 +3,7 @@ extends KinematicBody2D
 # References
 onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
+onready var player_label = $PlayerIndicator/PlayerLabel
 
 const JUMP_HEIGHT = 300
 const MAX_FALLSPEED = 400
@@ -17,12 +18,36 @@ var kick_anim_seek = "parameters/kick_anim_seek/seek_position"
 var hurt_oneshot = "parameters/hurt_oneshot/active"
 var hurt_anim_seek = "parameters/hurt_anim_seek/seek_position"
 
+# Sprite Textures
+var sprite_textures = {
+	"doux" : preload("res://Assets/Sprites/Player/doux.png"),
+	"mort" : preload("res://Assets/Sprites/Player/mort.png"),
+	"tard" : preload("res://Assets/Sprites/Player/tard.png"),
+	"vita" : preload("res://Assets/Sprites/Player/vita.png")
+}
+
 const MAXSPEED = 160
 const ACCEL = 6
 
 var is_kicking = false
 
 var motion = Vector2.ZERO
+export var owner_id = 0
+export var sprite_name = "mort"
+
+func _ready():
+	init_player(owner_id, sprite_name)
+
+# Initialize a player
+func init_player(_owner_id, _sprite_name):
+	if sprite_textures[_sprite_name] == null:
+		return false
+	sprite_name = _sprite_name
+		
+	owner_id = _owner_id
+	player_label.text = "P" + str(owner_id + 1)
+	sprite.texture = sprite_textures[sprite_name]
+	return true
 
 func _physics_process(delta):
 	
@@ -37,8 +62,9 @@ func play_hurt_anim():
 	animation_tree.set(hurt_oneshot, true)
 
 func play_kick_anim():
-	animation_tree.set(kick_anim_seek, -1)
-	animation_tree.set(kick_oneshot, true)
+	if not is_kicking:
+		animation_tree.set(kick_anim_seek, -1)
+		animation_tree.set(kick_oneshot, true)
 
 func stop_kicking():
 	animation_tree.set(kick_oneshot, false)
@@ -50,19 +76,19 @@ func _manage_gravity():
 	if motion.y > MAX_FALLSPEED:
 		motion.y = MAX_FALLSPEED
 func _manage_movement_inputs():
-	if Input.is_action_just_pressed("jump_0"):
+	if Input.is_action_just_pressed("jump_" + str(owner_id)):
 		if is_on_floor() and not is_kicking():
 			motion.y = -JUMP_HEIGHT
 	
-	if Input.is_action_pressed("right_0") and not Input.is_action_pressed("left_0"):
+	if Input.is_action_pressed("right_" + str(owner_id)) and not Input.is_action_pressed("left_" + str(owner_id)):
 		motion.x += ACCEL
 		
-	elif Input.is_action_pressed("left_0") and not Input.is_action_pressed("right_0"):
+	elif Input.is_action_pressed("left_" + str(owner_id)) and not Input.is_action_pressed("right_" + str(owner_id)):
 		motion.x -= ACCEL
 	else:
 		motion.x = lerp(motion.x, 0, 0.03)
 func _manage_combat_inputs():
-	if Input.is_action_just_pressed("kick_0"):
+	if Input.is_action_just_pressed("kick_" + str(owner_id)):
 		play_kick_anim()
 func _manage_movement():
 	motion.x = clamp(motion.x, -MAXSPEED, MAXSPEED)
@@ -72,9 +98,9 @@ func _manage_animations():
 	
 	if not is_kicking():
 		# Sprite flip
-		if Input.is_action_pressed("right_0") and not Input.is_action_pressed("left_0"):
+		if Input.is_action_pressed("right_" + str(owner_id)) and not Input.is_action_pressed("left_" + str(owner_id)):
 			sprite.scale.x = 1
-		elif Input.is_action_pressed("left_0") and not Input.is_action_pressed("right_0"):
+		elif Input.is_action_pressed("left_" + str(owner_id)) and not Input.is_action_pressed("right_" + str(owner_id)):
 			sprite.scale.x = -1
 	
 	# Standing and jumping state animations
@@ -85,7 +111,7 @@ func _manage_animations():
 		# Stop kick oneshot
 		stop_kicking()
 	
-	if (Input.is_action_pressed("right_0") or Input.is_action_pressed("left_0")) and not (Input.is_action_pressed("left_0") and Input.is_action_pressed("right_0")):
+	if (Input.is_action_pressed("right_" + str(owner_id)) or Input.is_action_pressed("left_" + str(owner_id))) and not (Input.is_action_pressed("left_" + str(owner_id)) and Input.is_action_pressed("right_" + str(owner_id))):
 		# Play the walk animation
 		animation_tree.set(idle_move_transition, 1)
 		animation_tree.set(crouch_sneak_transition, 1)

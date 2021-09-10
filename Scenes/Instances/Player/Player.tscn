@@ -1,8 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Assets/Sprites/Player/doux.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Instances/Player/AnimationPlayer/AnimationPlayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Instances/Player/Player.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Sprites/Player/Indicator/player_indicator.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -102,7 +104,12 @@ nodes/kick_oneshot/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 820, 240 )
 nodes/stand_jump_transition/node = SubResource( 16 )
 nodes/stand_jump_transition/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "hurt_oneshot", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "kick_anim_seek", 0, "Animation 6", "hurt_anim_seek", 0, "Animation 7" ]
+node_connections = [ "output", 0, "hurt_oneshot", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "kick_anim_seek", 0, "Animation 6", "hurt_anim_seek", 0, "Animation 7", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
+
+[sub_resource type="DynamicFont" id=18]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 3 )
@@ -129,3 +136,33 @@ parameters/idle_move_transition/current = 0
 parameters/kick_anim_seek/seek_position = -1.0
 parameters/kick_oneshot/active = false
 parameters/stand_jump_transition/current = 1
+
+[node name="PlayerIndicator" type="Control" parent="."]
+margin_left = -5.0
+margin_top = -20.0
+margin_right = 5.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Indicator" type="TextureRect" parent="PlayerIndicator"]
+margin_right = 10.0
+margin_bottom = 10.0
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerLabel" type="Label" parent="PlayerIndicator"]
+margin_left = -2.68179
+margin_top = -11.5767
+margin_right = 13.3182
+margin_bottom = 4.42332
+custom_fonts/font = SubResource( 18 )
+text = "P?"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
