@@ -10,7 +10,7 @@
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
-height = 10.0
+height = 9.0
 
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 4, 1 )
@@ -127,12 +127,13 @@ hframes = 24
 frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 0.5 )
 shape = SubResource( 1 )
 
 [node name="StompDetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StompDetector"]
-position = Vector2( 0, -10 )
+position = Vector2( 0, -9 )
 shape = SubResource( 19 )
 
 [node name="AnimationPlayer" parent="." instance=ExtResource( 2 )]
