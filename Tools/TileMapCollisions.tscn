@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0000.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[node name="Collisions" type="Node2D"]
+
+[node name="Collision" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Collision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/StaticBody2D"]
+shape = SubResource( 3 )
+
+[node name="OneWayCollision" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -100, 0 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="OneWayCollision"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayCollision/StaticBody2D"]
+shape = SubResource( 2 )
+one_way_collision = true

@@ -4,6 +4,9 @@ extends KinematicBody2D
 onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
+# Sounds
+onready var jump_sound = $Sounds/JumpSound
+onready var hurt_sound = $Sounds/HurtSound
 
 const JUMP_HEIGHT = 300
 const MAX_FALLSPEED = 400
@@ -26,7 +29,9 @@ var sprite_textures = {
 	"vita" : preload("res://Assets/Sprites/Player/vita.png")
 }
 
-const MAXSPEED = 160
+const MIN_STOMP_SPEED = 10
+
+const MAXSPEED = 110
 const ACCEL = 6
 
 var is_kicking = false
@@ -57,7 +62,8 @@ func _physics_process(delta):
 	_manage_movement()
 	_manage_animations()
 
-func play_hurt_anim():
+func die():
+	hurt_sound.play()
 	animation_tree.set(hurt_anim_seek, -1)
 	animation_tree.set(hurt_oneshot, true)
 
@@ -79,6 +85,7 @@ func _manage_movement_inputs():
 	if Input.is_action_just_pressed("jump_" + str(owner_id)):
 		if is_on_floor() and not is_kicking():
 			motion.y = -JUMP_HEIGHT
+			jump_sound.play()
 	
 	if Input.is_action_pressed("right_" + str(owner_id)) and not Input.is_action_pressed("left_" + str(owner_id)):
 		motion.x += ACCEL
@@ -120,3 +127,16 @@ func _manage_animations():
 		# Play the idle animation
 		animation_tree.set(idle_move_transition, 0)
 		animation_tree.set(crouch_sneak_transition, 0)
+
+func get_velocity():
+	return motion
+
+func _on_StompDetector_body_entered(body):
+	# If the collision is with another body
+	if body != self:
+		print(body.name)
+		# Check if we got stomped by a player
+		if body.is_in_group("Player"):
+			# If so, check if the Y velocity is high enough
+			if body.get_velocity().y >= MIN_STOMP_SPEED:
+				die()
