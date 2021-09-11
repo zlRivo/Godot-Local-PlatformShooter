@@ -8,10 +8,20 @@ onready var player_indicator = $PlayerIndicator
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
 onready var hurt_sound = $Sounds/HurtSound
+onready var footstep_sound_player = $Sounds/FootstepSound
+
+# Footstep sound list
+var footstep_sounds = [
+	preload("res://Assets/SFX/Sounds/footstep_0.wav"),
+	preload("res://Assets/SFX/Sounds/footstep_1.wav")
+]
 
 const JUMP_HEIGHT = 300
 const MAX_FALLSPEED = 400
 const GRAVITY = 2
+
+# Force of player against RigidBodies
+const PUSH = 100
 
 # Animation names
 var stand_jump_transition = "parameters/stand_jump_transition/current"
@@ -64,6 +74,7 @@ func _physics_process(delta):
 	_manage_movement_inputs()
 	_manage_combat_inputs()
 	_manage_movement()
+	_manage_rigidbody_interactions()
 	_manage_animations()
 
 func jump(height):
@@ -74,6 +85,11 @@ func die():
 	# player_indicator.visible = false
 	animation_tree.set(hurt_anim_seek, -1)
 	animation_tree.set(hurt_oneshot, true)
+
+# Play a random footstep sound
+func play_footstep_sound():
+	footstep_sound_player.stream = footstep_sounds[randi() % footstep_sounds.size()]
+	footstep_sound_player.play()
 
 func play_kick_anim():
 	if not is_kicking:
@@ -102,13 +118,21 @@ func _manage_movement_inputs():
 		motion.x -= ACCEL
 	else:
 		motion.x = lerp(motion.x, 0, 0.03)
+
 func _manage_combat_inputs():
 	if Input.is_action_just_pressed("kick_" + str(owner_id)):
 		play_kick_anim()
 func _manage_movement():
 	motion.x = clamp(motion.x, -MAXSPEED, MAXSPEED)
 		
-	motion = move_and_slide(motion, Vector2.UP)
+	motion = move_and_slide(motion, Vector2.UP, false, 4, PI/4, false)
+func _manage_rigidbody_interactions():
+	# Collisions with rigidbodies
+	for index in get_slide_count():
+		var collision = get_slide_collision(index)
+		if collision.collider is RigidBody2D:
+			collision.collider.apply_central_impulse(-collision.normal * PUSH)
+
 func _manage_animations():
 	
 	if not is_kicking():

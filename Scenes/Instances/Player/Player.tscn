@@ -189,4 +189,6 @@ stream = ExtResource( 6 )
 [node name="HurtSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 7 )
 
+[node name="FootstepSound" type="AudioStreamPlayer" parent="Sounds"]
+
 [connection signal="body_entered" from="StompDetector" to="." method="_on_StompDetector_body_entered"]
