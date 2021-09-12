@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/UI/PlayerHUD/PlayerHUD.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sprites/Player/Icons/icon_doux.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scenes/UI/HealthBar/HealthBar.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[node name="PlayerHUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="."]
+margin_right = 128.0
+margin_bottom = 128.0
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="Label" parent="."]
+margin_left = -16.0
+margin_top = 80.0
+margin_right = 48.0
+margin_bottom = 144.0
+custom_fonts/font = SubResource( 1 )
+text = "P?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" parent="." instance=ExtResource( 4 )]
+margin_left = 40.0
+margin_top = 110.0
+margin_right = 94.0
+margin_bottom = 128.0
+rect_scale = Vector2( 2, 2 )
