@@ -6,7 +6,7 @@ func set_camera(new_cam : Camera2D):
 	new_cam.current = true
 	active_camera = new_cam
 
-func shake_camera(new_shake_amount, shake_time = 0.4, shake_limit = 300):
+func shake_camera(new_shake_amount, shake_time = 0.4):
 	if active_camera == null:
 		return
 		

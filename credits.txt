@@ -1,4 +1,5 @@
 Tree Parallax: Blackwolfdave
+GothicDania Parallax: ansimuz
 Dino Sprites: Arks
 TileSet: KenneyNL
 Background Music: Eric Skiff

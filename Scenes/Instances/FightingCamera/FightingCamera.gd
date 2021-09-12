@@ -10,6 +10,7 @@ onready var shake_timer = $ShakeTimer
 
 # Used for camera shake
 var shake_amount = 0
+var shake_limit = 300
 var default_offset = offset # Save default offset before shake
 var shaking = false
 
@@ -60,7 +61,7 @@ func _process(delta):
 	if shaking:
 		offset = Vector2(rand_range(-shake_amount, shake_amount), rand_range(-shake_amount, shake_amount)) * delta + default_offset
 
-func shake(new_shake_amount, shake_time = 0.4, shake_limit = 300):
+func shake(new_shake_amount, shake_time = 0.4):
 	shake_amount += new_shake_amount
 	if shake_amount > shake_limit:
 		shake_amount = shake_limit
