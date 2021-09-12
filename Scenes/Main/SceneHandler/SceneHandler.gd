@@ -7,11 +7,11 @@ var world_scenes = {
 	"SnowyTown": preload("res://Scenes/Maps/SnowyTownMap/SnowyTownMap.tscn")
 }
 
-onready var map = $Map
+onready var map_handler = $MapHandler
 
 func _ready():
 	# Set a random map on start
-	map.set_map(get_random_map())
+	map_handler.set_map(world_scenes["SnowyTown"])
 	
 # Returns a random map from the dictionary
 func get_random_map() -> PackedScene:

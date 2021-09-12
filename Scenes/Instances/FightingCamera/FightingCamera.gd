@@ -4,6 +4,15 @@ extends Camera2D
 export (NodePath) var player_container_node_path
 onready var player_container_node = get_node(player_container_node_path)
 
+# Other references
+onready var shake_tween = $ShakeTween
+onready var shake_timer = $ShakeTimer
+
+# Used for camera shake
+var shake_amount = 0
+var default_offset = offset # Save default offset before shake
+var shaking = false
+
 var CAMERA_MARGIN = 64 # Number of pixels to expand the rectangle
 var MIN_ZOOM = 0.2 # Minimum zoom, so if players are close, it wont zoom in too much
 
@@ -46,3 +55,26 @@ func _process(delta):
 	# Set zoom and position
 	zoom = Vector2(scale, scale)
 	position = camera_rect.position + (camera_rect.size * 0.5)
+	
+	# Camera shake
+	if shaking:
+		offset = Vector2(rand_range(-shake_amount, shake_amount), rand_range(-shake_amount, shake_amount)) * delta + default_offset
+
+func shake(new_shake_amount, shake_time = 0.4, shake_limit = 300):
+	shake_amount += new_shake_amount
+	if shake_amount > shake_limit:
+		shake_amount = shake_limit
+	
+	shake_timer.wait_time = shake_time
+	
+	shake_tween.stop_all()
+	shaking = true
+	shake_timer.start()
+
+func _on_ShakeTimer_timeout():
+	shake_amount = 0
+	shaking = false
+	
+	shake_tween.interpolate_property(self, "offset", offset, default_offset,
+	0.25, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
+	shake_tween.start()

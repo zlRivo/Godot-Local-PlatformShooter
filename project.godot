@@ -8,8 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Map",
+"language": "GDScript",
+"path": "res://Classes/Map.gd"
+} ]
 _global_script_class_icons={
+"Map": ""
 }
 
 [application]

@@ -40,6 +40,8 @@ var sprite_textures = {
 	"vita" : preload("res://Assets/Sprites/Player/vita.png")
 }
 
+var death_shake_amount = 200
+
 const MIN_STOMP_SPEED = 50
 
 const MAXSPEED = 110
@@ -85,6 +87,9 @@ func die():
 	# player_indicator.visible = false
 	animation_tree.set(hurt_anim_seek, -1)
 	animation_tree.set(hurt_oneshot, true)
+	
+	# Camera shake
+	Globals.shake_camera(death_shake_amount)
 
 # Play a random footstep sound
 func play_footstep_sound():
