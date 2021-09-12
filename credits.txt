@@ -1,0 +1,4 @@
+Tree Parallax: Blackwolfdave
+Dino Sprites: Arks
+TileSet: KenneyNL
+Background Music: Eric Skiff

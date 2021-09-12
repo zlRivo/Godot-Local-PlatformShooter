@@ -5,6 +5,7 @@
 [ext_resource path="res://Assets/SFX/Sounds/jump_spring.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9, 4.5 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "bounce"
@@ -33,6 +34,7 @@ vframes = 9
 frame = 107
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3.5 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
