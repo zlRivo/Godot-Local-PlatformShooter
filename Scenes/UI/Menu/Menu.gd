@@ -4,16 +4,13 @@ onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 
 # References
 onready var main_title = $MainMenuNode/MainTitle
+onready var character_selection = $CharacterSelection
 onready var main_menu_node = $MainMenuNode
 onready var options_container = $MainMenuNode/OptionsContainer
-"""
-onready var label_play = $VBoxContainer/LabelPlay
-onready var label_random_map = $VBoxContainer/LabelRandomMap
-onready var label_how_to_play = $VBoxContainer/LabelHowToPlay
-onready var label_credits = $VBoxContainer/LabelCredits
-onready var label_quit = $VBoxContainer/LabelQuit
-"""
 onready var selector = $MainMenuNode/Selector
+
+# Current menu reference
+onready var current_menu = main_menu_node
 
 export (Vector2) var selector_offset = Vector2(-40, 0)
 onready var menu_options_count = options_container.get_child_count()
@@ -34,7 +31,7 @@ func _input(event):
 			# Do actions based on label name
 			match selected_node_name:
 				"LabelPlay":
-					print("Play")
+					switch_menu(character_selection)
 				"LabelRandomMap":
 					map_handler.set_map(map_handler.get_random_map())
 				"LabelHowToPlay":
@@ -59,3 +56,9 @@ func set_current_selection(_new_selection):
 		target_label = target
 		# Set new selection index
 		current_selection = _new_selection
+
+func switch_menu(new_menu : Control):
+	if current_menu != null:
+		current_menu.visible = false
+	new_menu.visible = true
+	current_menu = new_menu

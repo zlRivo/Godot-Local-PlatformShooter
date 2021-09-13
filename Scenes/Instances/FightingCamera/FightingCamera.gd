@@ -1,8 +1,7 @@
 extends Camera2D
 
 # Player container reference
-export (NodePath) var player_container_node_path
-onready var player_container_node = get_node(player_container_node_path)
+onready var player_container_node = get_node("/root/SceneHandler/Players")
 
 # Other references
 onready var shake_tween = $ShakeTween
