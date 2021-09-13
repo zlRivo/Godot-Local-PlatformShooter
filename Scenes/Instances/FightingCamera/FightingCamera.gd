@@ -23,12 +23,13 @@ var camera_rect = null
 func _ready():
 	set_process(false)
 	
-	# Get players
-	players = player_container_node.get_children()
-	# Start updating the camera if there is at least one player
-	# in the container
-	if players.size() > 0:
-		set_process(true)
+	if player_container_node != null:
+		# Get players
+		players = player_container_node.get_children()
+		# Start updating the camera if there is at least one player
+		# in the container
+		if players.size() > 0:
+			set_process(true)
 
 func _process(delta):
 	

@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/SFX/Music/underclocked.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=2]
-[ext_resource path="res://Scenes/Instances/Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Terrain/JumpSpring.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Terrain/Box.tscn" type="PackedScene" id=6]
@@ -24,7 +23,8 @@ extents = Vector2( 9, 9 )
 
 [node name="SnowyTownMap" type="Node2D"]
 script = ExtResource( 7 )
-camera_path = NodePath("FightingCamera")
+game_camera_path = NodePath("FightingCamera")
+preview_camera_path = NodePath("PreviewCamera")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -49,7 +49,10 @@ texture = ExtResource( 9 )
 [node name="FightingCamera" parent="." instance=ExtResource( 4 )]
 limit_left = -394
 limit_right = 394
-player_container_node_path = NodePath("../Players")
+
+[node name="PreviewCamera" type="Camera2D" parent="."]
+position = Vector2( 0, -150 )
+zoom = Vector2( 0.6, 0.6 )
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
@@ -1090,13 +1093,3 @@ position = Vector2( 252, -189 )
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
-
-[node name="Players" type="Node" parent="."]
-
-[node name="Player" parent="Players" instance=ExtResource( 3 )]
-position = Vector2( 189, -54 )
-
-[node name="Player2" parent="Players" instance=ExtResource( 3 )]
-position = Vector2( 243, -54 )
-owner_id = 1
-sprite_name = "tard"

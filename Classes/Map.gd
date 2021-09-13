@@ -1,14 +1,16 @@
 extends Node2D
 class_name Map
 
-"""
-export (NodePath) var terrain_items_path
-onready var terrain_items = get_node(terrain_items_path)
-"""
+export (NodePath) var game_camera_path
+onready var game_camera = get_node(game_camera_path)
 
-export (NodePath) var camera_path
-onready var camera = get_node(camera_path)
+export (NodePath) var preview_camera_path
+onready var preview_camera = get_node(preview_camera_path)
 
-func set_to_active_camera():
-	if camera != null:
-		Globals.set_camera(camera)
+func set_to_preview_camera():
+	if preview_camera != null:
+		Globals.set_camera(preview_camera)
+		
+func set_to_game_camera():
+	if game_camera != null:
+		Globals.set_camera(game_camera)

@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+
 # References
 onready var main_title = $MainMenuNode/MainTitle
 onready var main_menu_node = $MainMenuNode
@@ -25,6 +27,22 @@ func _input(event):
 			set_current_selection(current_selection + 1)
 		if event.is_action_pressed("ui_up"):
 			set_current_selection(current_selection - 1)
+		if event.is_action_pressed("ui_accept"):
+			# Get node name from current selection reference
+			var selected_node_name = target_label.name
+			
+			# Do actions based on label name
+			match selected_node_name:
+				"LabelPlay":
+					print("Play")
+				"LabelRandomMap":
+					map_handler.set_map(map_handler.get_random_map())
+				"LabelHowToPlay":
+					print("HowToPlay")
+				"LabelCredits":
+					print("Credits")
+				"LabelQuit":
+					get_tree().quit()
 
 func _ready():
 	# Set the first element of the container as selected
