@@ -55,16 +55,6 @@ func _input(event):
 				"LabelQuit":
 					get_tree().quit()
 
-	# Character selection
-	if character_selection.visible:
-		if event.is_action_pressed("ui_cancel"):
-			# Play UI Sound
-			ui_action_sound.play()
-			# Switch to main menu
-			switch_menu(main_menu_node)
-			# Reset camera zoom
-			reset_camera_zoom()
-
 func _ready():
 	# Set the first element of the container as selected
 	set_current_selection(0)
@@ -101,6 +91,12 @@ func switch_menu(new_menu : Control):
 		current_menu.visible = false
 	new_menu.visible = true
 	current_menu = new_menu
+
+func get_main_menu_node():
+	return main_menu_node
+
+func play_ui_action_sound():
+	ui_action_sound.play()
 
 func set_camera_zoom(new_zoom):
 	var camera_to_set = map_handler.get_preview_camera()

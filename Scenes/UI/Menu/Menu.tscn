@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/SFX/Sounds/ui_select.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/SFX/Sounds/ui_confirm.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/UI/Selector/Selector.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/UI/Menu/ContainerPlayerSelector.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -149,7 +150,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CharacterSelection"]
+[node name="ContainerPlayerSelector" type="HBoxContainer" parent="CharacterSelection"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -159,18 +160,24 @@ margin_top = -124.0
 margin_bottom = -84.0
 rect_scale = Vector2( 2, 2 )
 custom_constants/separation = 140
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CharacterSelector" parent="CharacterSelection/HBoxContainer" instance=ExtResource( 3 )]
+[node name="CharacterSelector" parent="CharacterSelection/ContainerPlayerSelector" instance=ExtResource( 3 )]
 margin_right = 0.0
 margin_bottom = 40.0
+character_selec_menu_path = NodePath("../..")
+main_menu_path = NodePath("../../..")
 
-[node name="CharacterSelector2" parent="CharacterSelection/HBoxContainer" instance=ExtResource( 3 )]
+[node name="CharacterSelector2" parent="CharacterSelection/ContainerPlayerSelector" instance=ExtResource( 3 )]
 margin_left = 140.0
 margin_right = 140.0
 margin_bottom = 40.0
+character_selec_menu_path = NodePath("../..")
+main_menu_path = NodePath("../../..")
+owner_id = 1
 
 [node name="UIActionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
