@@ -25,6 +25,7 @@ extents = Vector2( 333, 9 )
 
 [node name="PlainGroundMap" type="Node2D"]
 script = ExtResource( 10 )
+camera_path = NodePath("FightingCamera")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -378,6 +379,7 @@ position = Vector2( -153, -9 )
 
 [node name="Player" parent="Players" instance=ExtResource( 1 )]
 position = Vector2( -11.7597, -40.545 )
+sprite_name = "tard"
 
 [node name="Player2" parent="Players" instance=ExtResource( 1 )]
 position = Vector2( 11.6021, -41.2493 )

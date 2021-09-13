@@ -11,7 +11,7 @@ onready var map_handler = $MapHandler
 
 func _ready():
 	# Set a random map on start
-	map_handler.set_map(world_scenes["SnowyTown"])
+	map_handler.set_map(world_scenes["PlainGround"])
 	
 # Returns a random map from the dictionary
 func get_random_map() -> PackedScene:
