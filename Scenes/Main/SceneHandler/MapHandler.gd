@@ -28,5 +28,26 @@ func get_random_map() -> PackedScene:
 	# Return random map
 	return world_scenes[world_keys[randi() % world_keys.size()]]
 
+# Get current world preview camera reference
+func get_preview_camera():
+	if map == null:
+		return null
+		
+	return map.get_preview_camera()
+
+# Get current world game camera reference
+func get_game_camera():
+	if map == null:
+		return null
+		
+	return map.get_game_camera()
+
+# Get default zoom
+func get_preview_camera_default_zoom():
+	if map == null:
+		return Vector2(-1, -1)
+		
+	return map.get_preview_camera_default_zoom()
+
 func quit_match():
 	pass

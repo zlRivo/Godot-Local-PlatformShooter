@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/SFX/Music/underclocked.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=2]
+[ext_resource path="res://Scenes/Instances/PreviewCamera/PreviewCamera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Terrain/JumpSpring.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Terrain/Box.tscn" type="PackedScene" id=6]
@@ -50,7 +51,7 @@ texture = ExtResource( 9 )
 limit_left = -394
 limit_right = 394
 
-[node name="PreviewCamera" type="Camera2D" parent="."]
+[node name="PreviewCamera" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -150 )
 zoom = Vector2( 0.6, 0.6 )
 

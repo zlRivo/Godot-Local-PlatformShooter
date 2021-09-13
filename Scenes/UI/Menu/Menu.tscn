@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/UI/CharacterSelector/CharacterSelector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/SFX/Sounds/ui_select.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/SFX/Sounds/ui_confirm.wav" type="AudioStream" id=5]
+[ext_resource path="res://Scenes/UI/Selector/Selector.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -10,13 +13,36 @@ outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=2]
-size = 64
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
+[sub_resource type="Animation" id=3]
+resource_name = "highlighting"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( -2, -2, -2 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.4, 1.4 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( -2, -2, -2 ),
+"update": 0,
+"values": [ Vector2( 288, 96 ), Vector2( 148, 58 ), Vector2( 288, 96 ) ]
+}
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 64
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -37,15 +63,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -352.0
-margin_top = -264.0
-margin_right = 352.0
-margin_bottom = -136.0
+margin_left = -406.057
+margin_top = -278.673
+margin_right = 297.943
+margin_bottom = -150.672
+rect_scale = Vector2( 1.15445, 1.15445 )
 custom_fonts/font = SubResource( 1 )
 text = "DINO CHARGE"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MainMenuNode/MainTitle"]
+anims/highlighting = SubResource( 3 )
 
 [node name="OptionsContainer" type="VBoxContainer" parent="MainMenuNode"]
 anchor_left = 0.5
@@ -94,16 +124,7 @@ margin_bottom = 336.0
 custom_fonts/font = SubResource( 2 )
 text = "QUIT"
 
-[node name="Selector" type="Label" parent="MainMenuNode"]
-margin_left = 424.0
-margin_top = 242.0
-margin_right = 464.0
-margin_bottom = 306.0
-custom_fonts/font = SubResource( 3 )
-text = ">"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Selector" parent="MainMenuNode" instance=ExtResource( 6 )]
 
 [node name="CharacterSelection" type="Control" parent="."]
 visible = false
@@ -133,12 +154,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -240.0
-margin_top = -90.0
-margin_right = -200.0
-margin_bottom = -50.0
-rect_scale = Vector2( 7, 7 )
-custom_constants/separation = 40
+margin_left = -248.0
+margin_top = -124.0
+margin_bottom = -84.0
+rect_scale = Vector2( 2, 2 )
+custom_constants/separation = 140
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -148,6 +168,12 @@ margin_right = 0.0
 margin_bottom = 40.0
 
 [node name="CharacterSelector2" parent="CharacterSelection/HBoxContainer" instance=ExtResource( 3 )]
-margin_left = 40.0
-margin_right = 40.0
+margin_left = 140.0
+margin_right = 140.0
 margin_bottom = 40.0
+
+[node name="UIActionSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="UIConfirmSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
