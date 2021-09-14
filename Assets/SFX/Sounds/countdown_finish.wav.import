@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/countdown_finish.wav-cbf27540d7ecef4b44be785ecee7c867.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/Sounds/countdown_finish.wav"
+dest_files=[ "res://.import/countdown_finish.wav-cbf27540d7ecef4b44be785ecee7c867.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

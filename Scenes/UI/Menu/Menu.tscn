@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/SFX/Sounds/ui_confirm.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/UI/Selector/Selector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/UI/Menu/ContainerPlayerSelector.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/UI/CountDown/CountDown.tscn" type="PackedScene" id=8]
 
 [sub_resource type="DynamicFont" id=3]
 size = 128
@@ -193,6 +194,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+countdown_path = NodePath("../CountDown")
 
 [node name="CharacterSelector" parent="CharacterSelection/ContainerPlayerSelector" instance=ExtResource( 3 )]
 margin_right = 0.0
@@ -207,6 +209,8 @@ margin_bottom = 40.0
 character_selec_menu_path = NodePath("../..")
 main_menu_path = NodePath("../../..")
 owner_id = 1
+
+[node name="CountDown" parent="CharacterSelection" instance=ExtResource( 8 )]
 
 [node name="UIActionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
