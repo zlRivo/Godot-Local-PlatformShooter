@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
@@ -8,13 +8,13 @@
 [ext_resource path="res://Scenes/UI/Selector/Selector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/UI/Menu/ContainerPlayerSelector.gd" type="Script" id=7]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=3]
 size = 128
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 resource_name = "highlighting"
 length = 3.0
 loop = true
@@ -43,9 +43,21 @@ tracks/1/keys = {
 "values": [ Vector2( 288, 96 ), Vector2( 148, 58 ), Vector2( 288, 96 ) ]
 }
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=5]
 size = 64
 outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 48
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 128
+outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
@@ -59,24 +71,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MainTitle" type="Label" parent="MainMenuNode"]
+[node name="MainTitle" type="RichTextLabel" parent="MainMenuNode"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -406.057
-margin_top = -278.673
-margin_right = 297.943
-margin_bottom = -150.672
-rect_scale = Vector2( 1.15445, 1.15445 )
-custom_fonts/font = SubResource( 1 )
+margin_left = -352.0
+margin_top = -264.0
+margin_right = 364.0
+margin_bottom = -136.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "[wave amp=30
+
+ freq=4
+]DINO CHARGE[/wave]"
 text = "DINO CHARGE"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MainMenuNode/MainTitle"]
-anims/highlighting = SubResource( 3 )
+anims/highlighting = SubResource( 4 )
 
 [node name="OptionsContainer" type="VBoxContainer" parent="MainMenuNode"]
 anchor_left = 0.5
@@ -94,38 +110,51 @@ __meta__ = {
 [node name="LabelPlay" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_right = 352.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "PLAY"
 
 [node name="LabelRandomMap" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 68.0
 margin_right = 352.0
 margin_bottom = 132.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "RANDOM MAP"
 
 [node name="LabelHowToPlay" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 136.0
 margin_right = 352.0
 margin_bottom = 200.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "HOW TO PLAY"
 
 [node name="LabelCredits" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 204.0
 margin_right = 352.0
 margin_bottom = 268.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "CREDITS"
 
 [node name="LabelQuit" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 272.0
 margin_right = 352.0
 margin_bottom = 336.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 5 )
 text = "QUIT"
 
 [node name="Selector" parent="MainMenuNode" instance=ExtResource( 6 )]
+
+[node name="LabelDescription" type="RichTextLabel" parent="MainMenuNode"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = -68.0
+margin_right = 1046.0
+margin_bottom = -20.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CharacterSelection" type="Control" parent="."]
 visible = false

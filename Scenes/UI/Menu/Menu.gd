@@ -9,6 +9,7 @@ onready var character_selection = $CharacterSelection
 onready var main_menu_node = $MainMenuNode
 onready var options_container = $MainMenuNode/OptionsContainer
 onready var selector = $MainMenuNode/Selector
+onready var main_menu_selection_description = $MainMenuNode/LabelDescription
 
 # UI Action sound
 onready var ui_action_sound = $UIActionSound
@@ -56,6 +57,10 @@ func _input(event):
 					get_tree().quit()
 
 func _ready():
+	# Remove main title scrollbar
+	main_title.get_child(0).modulate.a = 0
+	# Remove description scrollbar
+	main_menu_selection_description.get_child(0).modulate.a = 0
 	# Set the first element of the container as selected
 	set_current_selection(0)
 	# Play main title animation
@@ -85,12 +90,35 @@ func set_current_selection(_new_selection):
 		selector.play_highlight_anim()
 		# Set new selection index
 		current_selection = new_selection
+		# Update description
+		update_current_selection_description()
+
+func update_current_selection_description():
+	# Get node name from current selection reference
+	var selected_node_name = target_label.name
+	
+	if selected_node_name != null:
+		# Do actions based on label name
+		match selected_node_name:
+			"LabelPlay":
+				set_selection_description("Assert your dominance in this FFA showdown")
+			"LabelRandomMap":
+				set_selection_description("Choose a random map")
+			"LabelHowToPlay":
+				set_selection_description("How do I play ????")
+			"LabelCredits":
+				set_selection_description("People who contributed to this game")
+			"LabelQuit":
+				set_selection_description("Quit ?")
 
 func switch_menu(new_menu : Control):
 	if current_menu != null:
 		current_menu.visible = false
 	new_menu.visible = true
 	current_menu = new_menu
+
+func set_selection_description(description : String):
+	main_menu_selection_description.bbcode_text = "[tornado radius=2 freq=8]" + description + "[/tornado]"
 
 func get_main_menu_node():
 	return main_menu_node
