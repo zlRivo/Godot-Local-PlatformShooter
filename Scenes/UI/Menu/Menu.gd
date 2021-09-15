@@ -10,6 +10,7 @@ onready var main_menu_node = $MainMenuNode
 onready var options_container = $MainMenuNode/OptionsContainer
 onready var selector = $MainMenuNode/Selector
 onready var main_menu_selection_description = $MainMenuNode/LabelDescription
+onready var players_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD")
 
 # UI Action sound
 onready var ui_action_sound = $UIActionSound
@@ -117,6 +118,23 @@ func switch_menu(new_menu : Control):
 	new_menu.visible = true
 	current_menu = new_menu
 
+func start_game():
+	# Switch to main menu
+	switch_menu(main_menu_node)
+	# Hide main menu
+	main_menu_node.visible = false
+	# Switch camera
+	
+	# Get game camera
+	var game_camera = map_handler.get_game_camera()
+	if game_camera != null:
+		# Refresh player container on the camera
+		game_camera.refresh_player_container()
+		# Switch camera
+		Globals.set_camera(game_camera)
+	# Show HUD
+	players_hud.visible = true
+
 func set_selection_description(description : String):
 	main_menu_selection_description.bbcode_text = "[tornado radius=2 freq=8]" + description + "[/tornado]"
 
@@ -125,6 +143,9 @@ func get_main_menu_node():
 
 func play_ui_action_sound():
 	ui_action_sound.play()
+
+func get_character_selection_menu():
+	return character_selection
 
 func set_camera_zoom(new_zoom):
 	var camera_to_set = map_handler.get_preview_camera()

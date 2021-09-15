@@ -26,6 +26,7 @@ extents = Vector2( 9, 9 )
 script = ExtResource( 7 )
 game_camera_path = NodePath("FightingCamera")
 preview_camera_path = NodePath("PreviewCamera")
+player_spawns_path = NodePath("PlayerSpawns")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -1094,3 +1095,35 @@ position = Vector2( 252, -189 )
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
 autoplay = true
+
+[node name="PlayerSpawns" type="Node" parent="."]
+
+[node name="Pos1" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( -324.477, -7.45111 )
+
+[node name="Pos2" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( 22.5282, -64.9141 )
+
+[node name="Pos3" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( 311.354, -190.921 )
+
+[node name="Pos4" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( 70.3538, -246.921 )
+
+[node name="Pos5" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( 156.222, -66.7661 )
+
+[node name="Pos6" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( 288.673, -117.277 )
+
+[node name="Pos7" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( -101.944, -116.716 )
+
+[node name="Pos8" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( -264.701, -156.563 )
+
+[node name="Pos9" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( -303.426, -229.523 )
+
+[node name="Pos10" type="Node2D" parent="PlayerSpawns"]
+position = Vector2( -46.9435, -168.349 )

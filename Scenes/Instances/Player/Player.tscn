@@ -109,7 +109,7 @@ nodes/kick_oneshot/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 820, 240 )
 nodes/stand_jump_transition/node = SubResource( 17 )
 nodes/stand_jump_transition/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "hurt_oneshot", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "hurt_anim_seek", 0, "Animation 7", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "kick_anim_seek", 0, "Animation 6", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
+node_connections = [ "output", 0, "hurt_oneshot", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "hurt_anim_seek", 0, "Animation 7", "kick_anim_seek", 0, "Animation 6", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
 
 [sub_resource type="DynamicFont" id=19]
 outline_size = 1

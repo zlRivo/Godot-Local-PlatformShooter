@@ -5,10 +5,16 @@ onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
 onready var player_indicator = $PlayerIndicator
+onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
 onready var hurt_sound = $Sounds/HurtSound
 onready var footstep_sound_player = $Sounds/FootstepSound
+
+# Player spawns reference
+var player_spawns_container = null
+# HUD reference
+var hud = null
 
 # Footstep sound list
 var footstep_sounds = [
@@ -57,13 +63,31 @@ export var owner_id = 0
 export var sprite_name = "mort"
 
 func _ready():
-	init_player(owner_id, sprite_name)
+	pass
 
 # Initialize a player
-func init_player(_owner_id, _sprite_name):
-	if sprite_textures[_sprite_name] == null:
+func init_player(_owner_id, _sprite_index, _player_spawns, _player_hud = null):
+	# If we didn't pass player spawns, return false
+	if _player_spawns == null:
 		return false
-	sprite_name = _sprite_name
+	var sprite_count = sprite_textures.size()
+	# If the index is not valid
+	if _sprite_index < 0 or _sprite_index > sprite_count - 1:
+		return false
+	
+	# HUD reference
+	if _player_hud != null:
+		hud = _player_hud
+	
+	# Set player spawn reference
+	player_spawns_container = _player_spawns
+	# Get a random spawn for the player
+	var new_spawn = map_handler.get_random_spawn()
+	if new_spawn != null:
+		position = new_spawn
+	
+	var sprite_keys = sprite_textures.keys()
+	sprite_name = sprite_keys[_sprite_index]
 		
 	owner_id = _owner_id
 	player_label.text = "P" + str(owner_id + 1)

@@ -8,6 +8,17 @@ var world_scenes = {
 
 var map = null
 
+func get_player_spawns():
+	if map != null:
+		return map.get_player_spawns()
+	return null
+
+# Return a random element from the spawn container
+func get_random_spawn():
+	if map != null:
+		return map.get_random_spawn()
+	return null
+
 func set_map(_map : PackedScene):
 	# If there is an existing map delete it
 	if map != null:

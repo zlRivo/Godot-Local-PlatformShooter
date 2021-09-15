@@ -20,6 +20,9 @@ var players = null
 var camera_rect = null
 
 func _ready():
+	refresh_player_container()
+
+func refresh_player_container():
 	set_process(false)
 	
 	if player_container_node != null:
