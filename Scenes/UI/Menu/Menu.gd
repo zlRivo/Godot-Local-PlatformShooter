@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+onready var player_container = get_node("/root/SceneHandler/Players")
 
 # References
 onready var main_title = $MainMenuNode/MainTitle
@@ -26,36 +27,42 @@ var current_selection = -1
 var target_label = null
 
 func _input(event):
-	# Main menu
-	if main_menu_node.visible:
-		if event.is_action_pressed("ui_down"):
-			set_current_selection(current_selection + 1)
-		if event.is_action_pressed("ui_up"):
-			set_current_selection(current_selection - 1)
-		if event.is_action_pressed("ui_accept"):
-			# Get node name from current selection reference
-			var selected_node_name = target_label.name
-			
-			# Play UI Confirm sound
-			ui_confirm_sound.play()
-			
-			# Do actions based on label name
-			match selected_node_name:
-				"LabelPlay":
-					switch_menu(character_selection)
-					# Change camera zoom
-					var default_zoom = get_preview_camera_default_zoom()
-					# If we didn't get an error
-					if default_zoom != Vector2(-1, -1):
-						set_camera_zoom(default_zoom * 0.7)
-				"LabelRandomMap":
-					map_handler.set_map(map_handler.get_random_map())
-				"LabelHowToPlay":
-					print("HowToPlay")
-				"LabelCredits":
-					print("Credits")
-				"LabelQuit":
-					get_tree().quit()
+	# If we are not in game
+	if not Globals.is_in_game():
+		# Main menu
+		if main_menu_node.visible:
+			if event.is_action_pressed("ui_down"):
+				set_current_selection(current_selection + 1)
+			if event.is_action_pressed("ui_up"):
+				set_current_selection(current_selection - 1)
+			if event.is_action_pressed("ui_accept"):
+				# Get node name from current selection reference
+				var selected_node_name = target_label.name
+				
+				# Play UI Confirm sound
+				ui_confirm_sound.play()
+				
+				# Do actions based on label name
+				match selected_node_name:
+					"LabelPlay":
+						switch_menu(character_selection)
+						# Change camera zoom
+						var default_zoom = get_preview_camera_default_zoom()
+						# If we didn't get an error
+						if default_zoom != Vector2(-1, -1):
+							set_camera_zoom(default_zoom * 0.7)
+					"LabelRandomMap":
+						map_handler.set_map(map_handler.get_random_map())
+					"LabelHowToPlay":
+						print("HowToPlay")
+					"LabelCredits":
+						print("Credits")
+					"LabelQuit":
+						get_tree().quit()
+	# If we are in game
+	else:
+		if event.is_action_pressed("ui_cancel"):
+			quit_match()
 
 func _ready():
 	# Remove main title scrollbar
@@ -123,7 +130,6 @@ func start_game():
 	switch_menu(main_menu_node)
 	# Hide main menu
 	main_menu_node.visible = false
-	# Switch camera
 	
 	# Get game camera
 	var game_camera = map_handler.get_game_camera()
@@ -134,6 +140,25 @@ func start_game():
 		Globals.set_camera(game_camera)
 	# Show HUD
 	players_hud.visible = true
+	# Change in game state
+	Globals.set_in_game_state(true)
+
+func quit_match():
+	Globals.set_camera_process(false)
+	# Delete all players
+	player_container.vanish_players()
+	# Refresh camera player container
+	Globals.refresh_player_container()
+	# Get preview camera
+	var preview_camera = map_handler.get_preview_camera()
+	if preview_camera != null:
+		# Switch camera
+		Globals.set_camera(preview_camera)
+		
+	# Show menu
+	main_menu_node.visible = true
+	# Set in game state
+	Globals.set_in_game_state(true)
 
 func set_selection_description(description : String):
 	main_menu_selection_description.bbcode_text = "[tornado radius=2 freq=8]" + description + "[/tornado]"

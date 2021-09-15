@@ -5,6 +5,8 @@ onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
 onready var player_indicator = $PlayerIndicator
+onready var vanish_particles = $VanishParticles
+onready var delete_timer = $DeleteTimer
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
@@ -114,6 +116,20 @@ func die():
 	
 	# Camera shake
 	Globals.shake_camera(death_shake_amount)
+
+func vanish():
+	# Emit particles
+	vanish_particles.emitting = true
+	# Start delete timer
+	delete_timer.start()
+	queue_free()
+	print(get_node("/root/SceneHandler/Players").get_child_count())
+	# Refresh players in containers
+	Globals.refresh_player_container()
+
+func _on_DeleteTimer_timeout():
+	pass
+	
 
 # Play a random footstep sound
 func play_footstep_sound():

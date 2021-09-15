@@ -59,6 +59,3 @@ func get_preview_camera_default_zoom():
 		return Vector2(-1, -1)
 		
 	return map.get_preview_camera_default_zoom()
-
-func quit_match():
-	pass

@@ -28,6 +28,7 @@ func refresh_player_container():
 	if player_container_node != null:
 		# Get players
 		players = player_container_node.get_children()
+		# print(players.size())
 		# Start updating the camera if there is at least one player
 		# in the container
 		if players.size() > 0:
