@@ -71,7 +71,7 @@ func _input(event):
 				# Play anim
 				play_left_selection_anim()
 			if event.is_action_pressed("ui_right_" + str(owner_id)):
-				switch_character_selection(get_selection_index() - 1)
+				switch_character_selection(get_selection_index() + 1)
 				# Play sound
 				cancel_sound.play()
 				# Play anim

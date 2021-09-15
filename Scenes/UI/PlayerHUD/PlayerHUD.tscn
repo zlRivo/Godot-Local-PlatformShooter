@@ -45,3 +45,5 @@ margin_top = 110.0
 margin_right = 94.0
 margin_bottom = 128.0
 rect_scale = Vector2( 2, 2 )
+
+[node name="HurtTween" type="Tween" parent="."]

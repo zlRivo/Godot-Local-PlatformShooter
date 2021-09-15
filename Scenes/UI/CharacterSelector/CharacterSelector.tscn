@@ -151,7 +151,7 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=11]
 resource_name = "tick"
 length = 0.5
 tracks/0/type = "value"
@@ -164,22 +164,22 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 85, 64 ), Vector2( 75, 64 ) ]
+"values": [ Vector2( 95, 64 ), Vector2( 75, 64 ) ]
 }
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=12]
 size = 64
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 size = 32
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=14]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
 tracks/0/interp = 1
@@ -249,7 +249,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RightArrow"]
-anims/tick = SubResource( 14 )
+anims/tick = SubResource( 11 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 52, 96 )
@@ -283,7 +283,7 @@ margin_left = -2.68179
 margin_top = -11.5767
 margin_right = 13.3182
 margin_bottom = 4.42332
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 text = "P?"
 uppercase = true
 __meta__ = {
@@ -296,7 +296,7 @@ margin_left = -7.0
 margin_top = 138.0
 margin_right = 109.0
 margin_bottom = 170.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "ready?"
 align = 1
 __meta__ = {
@@ -304,7 +304,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LabelReady"]
-anims/highlighting = SubResource( 13 )
+anims/highlighting = SubResource( 14 )
 
 [node name="CancelSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )

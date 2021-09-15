@@ -5,12 +5,21 @@ onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
 onready var player_indicator = $PlayerIndicator
+onready var collision_shape = $CollisionShape2D
+onready var stomp_detector = $StompDetector
+onready var visible_timer = $VisibleTimer
+onready var respawn_timer = $RespawnTimer
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
 onready var hurt_sound = $Sounds/HurtSound
 onready var footstep_sound_player = $Sounds/FootstepSound
+onready var death_sound = $Sounds/DeathSound
+onready var respawn_sound = $Sounds/RespawnSound
+
+# Hold stomp detector shape
+onready var stomp_detector_shape = stomp_detector.get_node("CollisionShape2D").get_shape()
 
 # Player spawns reference
 var player_spawns_container = null
@@ -59,6 +68,7 @@ var icon_textures = {
 }
 
 var death_shake_amount = 200
+var hurt_shake_amount = 80
 
 const MIN_STOMP_SPEED = 50
 
@@ -68,7 +78,8 @@ const ACCEL = 6
 var is_kicking = false
 
 # Determine if the player is currently dead
-var is_dead = false
+var dead = false
+const MAX_HEALTH = 3
 var health = 3
 
 var motion = Vector2.ZERO
@@ -119,30 +130,93 @@ func init_player(_owner_id, _sprite_index, _player_spawns, _player_hud = null):
 
 func _physics_process(delta):
 	
-	_manage_gravity()
-	_manage_movement_inputs()
-	_manage_combat_inputs()
-	_manage_movement()
-	_manage_rigidbody_interactions()
+	if not dead:
+		_manage_gravity()
+		_manage_movement_inputs()
+		_manage_combat_inputs()
+		_manage_movement()
+		_manage_rigidbody_interactions()
 	_manage_animations()
 
 func jump(height):
 	motion.y = -height
 
+func get_stomped_on():
+	# Remove health
+	set_health(health - 1)
+	
+	if not dead:
+		# Camera shake
+		Globals.shake_camera(hurt_shake_amount)
+		
+		hurt_sound.play()
+
 func die():
-	hurt_sound.play()
-	# player_indicator.visible = false
+	# Disable stomp detector
+	stomp_detector.shape_owner_clear_shapes(0)
+	# Play death sound
+	death_sound.play()
+	# Disable player indicator
+	player_indicator.visible = false
+	# Play hurt anim
 	animation_tree.set(hurt_anim_seek, -1)
 	animation_tree.set(hurt_oneshot, true)
+	# Switch alive state
+	dead = true
+	# Disable collision shape
+	collision_shape.set_deferred("disabled", true)
+	# Start visible timer
+	visible_timer.start()
+	# Start respawn timer
+	respawn_timer.start()
 	
 	# Camera shake
 	Globals.shake_camera(death_shake_amount)
 
-func vanish():
-	# Spawn particles
+func respawn():
+	# Reset player health
+	set_health(MAX_HEALTH)
+	# Enable stomp detector
+	stomp_detector.shape_owner_add_shape(0, stomp_detector_shape)
+	# Set player to a random spawn location
+	var new_spawn = map_handler.get_random_spawn()
+	if new_spawn != null:
+		position = new_spawn
+	# Set to (0, 0) if there was an error
+	else:
+		position = Vector2(0, 0)
+	
+	# Show player indicator
+	player_indicator.visible = true
+	# Enable collision shape
+	collision_shape.set_deferred("disabled", false)
+	# Show back player
+	visible = true
+	# Switch alive state
+	dead = false
+	
+	# Play sound
+	respawn_sound.play()
+
+func is_dead():
+	return dead
+
+func _on_VisibleTimer_timeout():
+	visible = false
+	# Spawn smoke particles
+	spawn_smoke_particles()
+
+func _on_RespawnTimer_timeout():
+	respawn()
+
+func spawn_smoke_particles():
 	var particles = smoke_particles_scene.instance()
 	particles.position = position
 	map_handler.add_node(particles)
+
+func vanish():
+	# Spawn particles
+	spawn_smoke_particles()
 	# Remove from player container
 	player_container.remove_child(self)
 	# Get game camera
@@ -150,6 +224,17 @@ func vanish():
 	if game_camera != null:
 		# Refresh player container on the camera
 		game_camera.refresh_player_container()
+
+func set_health(new_value):
+	health = new_value
+	refresh_hud()
+	if health <= 0:
+		die()
+
+# Update the hud
+func refresh_hud():
+	if hud != null:
+		hud.update_health(health)
 
 # Play a random footstep sound
 func play_footstep_sound():
@@ -240,5 +325,4 @@ func _on_StompDetector_body_entered(body):
 			if body.get_velocity().y + -get_velocity().y >= MIN_STOMP_SPEED:
 				# Make other player jump
 				body.jump(JUMP_HEIGHT / 2)
-				# Perish
-				die()
+				get_stomped_on()
