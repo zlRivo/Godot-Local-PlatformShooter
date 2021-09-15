@@ -144,21 +144,20 @@ func start_game():
 	Globals.set_in_game_state(true)
 
 func quit_match():
-	Globals.set_camera_process(false)
 	# Delete all players
 	player_container.vanish_players()
-	# Refresh camera player container
-	Globals.refresh_player_container()
 	# Get preview camera
 	var preview_camera = map_handler.get_preview_camera()
 	if preview_camera != null:
 		# Switch camera
 		Globals.set_camera(preview_camera)
-		
+	
+	# Hide HUD
+	players_hud.visible = false
 	# Show menu
 	main_menu_node.visible = true
 	# Set in game state
-	Globals.set_in_game_state(true)
+	Globals.set_in_game_state(false)
 
 func set_selection_description(description : String):
 	main_menu_selection_description.bbcode_text = "[tornado radius=2 freq=8]" + description + "[/tornado]"

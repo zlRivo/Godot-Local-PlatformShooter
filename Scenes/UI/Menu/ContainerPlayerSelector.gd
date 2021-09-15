@@ -82,7 +82,7 @@ func start_game():
 			0:
 				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player1HUD")
 			1:
-				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player1HUD")
+				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player2HUD")
 		
 		var new_player = player_scene.instance()
 		# Add player to scene
@@ -94,7 +94,7 @@ func start_game():
 		
 		# If the player has had an error while initializing
 		if init_result == false:
-			# remove the player from the scene
+			# Remove the player from the scene
 			players_container.remove_child(new_player)
 	
 	# Reset players' ready states

@@ -29,7 +29,13 @@ func set_map(_map : PackedScene):
 	add_child(new_map)
 	# Set reference
 	map = new_map
-	
+
+func add_node(node_to_add : Node):
+	if map != null:
+		map.add_child(node_to_add)
+		return true
+	return false
+
 # Returns a random map from the dictionary
 func get_random_map() -> PackedScene:
 	# Better random

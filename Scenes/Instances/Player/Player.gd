@@ -5,9 +5,8 @@ onready var sprite = $Sprite
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
 onready var player_indicator = $PlayerIndicator
-onready var vanish_particles = $VanishParticles
-onready var delete_timer = $DeleteTimer
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
 onready var hurt_sound = $Sounds/HurtSound
@@ -40,12 +39,23 @@ var kick_anim_seek = "parameters/kick_anim_seek/seek_position"
 var hurt_oneshot = "parameters/hurt_oneshot/active"
 var hurt_anim_seek = "parameters/hurt_anim_seek/seek_position"
 
+# Smoke particles
+var smoke_particles_scene = preload("res://Scenes/Instances/Particles/SmokeParticles/SmokeParticles.tscn")
+
 # Sprite Textures
 var sprite_textures = {
 	"doux" : preload("res://Assets/Sprites/Player/doux.png"),
 	"mort" : preload("res://Assets/Sprites/Player/mort.png"),
 	"tard" : preload("res://Assets/Sprites/Player/tard.png"),
 	"vita" : preload("res://Assets/Sprites/Player/vita.png")
+}
+
+# Icon Textures
+var icon_textures = {
+	"doux" : preload("res://Assets/Sprites/Player/Icons/icon_doux.png"),
+	"mort" : preload("res://Assets/Sprites/Player/Icons/icon_mort.png"),
+	"tard" : preload("res://Assets/Sprites/Player/Icons/icon_tard.png"),
+	"vita" : preload("res://Assets/Sprites/Player/Icons/icon_vita.png")
 }
 
 var death_shake_amount = 200
@@ -59,6 +69,7 @@ var is_kicking = false
 
 # Determine if the player is currently dead
 var is_dead = false
+var health = 3
 
 var motion = Vector2.ZERO
 export var owner_id = 0
@@ -80,6 +91,16 @@ func init_player(_owner_id, _sprite_index, _player_spawns, _player_hud = null):
 	# HUD reference
 	if _player_hud != null:
 		hud = _player_hud
+		
+		# Gets all keys
+		var icon_keys = icon_textures.keys()
+		# Get key from the icon we want to set
+		var icon_to_set_key = icon_keys[_sprite_index]
+		# Get the icon
+		var icon_to_set = icon_textures[icon_to_set_key]
+		
+		# Finally, initialize the hud
+		hud.init_hud("P" + str(_owner_id + 1), icon_to_set, health)
 	
 	# Set player spawn reference
 	player_spawns_container = _player_spawns
@@ -118,18 +139,17 @@ func die():
 	Globals.shake_camera(death_shake_amount)
 
 func vanish():
-	# Emit particles
-	vanish_particles.emitting = true
-	# Start delete timer
-	delete_timer.start()
-	queue_free()
-	print(get_node("/root/SceneHandler/Players").get_child_count())
-	# Refresh players in containers
-	Globals.refresh_player_container()
-
-func _on_DeleteTimer_timeout():
-	pass
-	
+	# Spawn particles
+	var particles = smoke_particles_scene.instance()
+	particles.position = position
+	map_handler.add_node(particles)
+	# Remove from player container
+	player_container.remove_child(self)
+	# Get game camera
+	var game_camera = map_handler.get_game_camera()
+	if game_camera != null:
+		# Refresh player container on the camera
+		game_camera.refresh_player_container()
 
 # Play a random footstep sound
 func play_footstep_sound():
