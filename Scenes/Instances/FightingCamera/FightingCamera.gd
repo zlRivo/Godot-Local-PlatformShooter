@@ -13,7 +13,7 @@ var shake_limit = 300
 var default_offset = offset # Save default offset before shake
 var shaking = false
 
-var CAMERA_MARGIN = 64 # Number of pixels to expand the rectangle
+var CAMERA_MARGIN = 128 # Number of pixels to expand the rectangle
 var MIN_ZOOM = 0.2 # Minimum zoom, so if players are close, it wont zoom in too much
 
 var players = null
