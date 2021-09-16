@@ -11,6 +11,9 @@ onready var main_menu_node = $MainMenuNode
 onready var options_container = $MainMenuNode/OptionsContainer
 onready var selector = $MainMenuNode/Selector
 onready var main_menu_selection_description = $MainMenuNode/LabelDescription
+onready var how_to_play_menu = $HowToPlayMenu
+onready var credits_menu = $CreditsMenu
+onready var credits_label_anim_player = $CreditsMenu/CreditsLabel/AnimationPlayer
 onready var players_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD")
 
 # UI Action sound
@@ -54,11 +57,28 @@ func _input(event):
 					"LabelRandomMap":
 						map_handler.set_map(map_handler.get_random_map())
 					"LabelHowToPlay":
-						print("HowToPlay")
+						switch_menu(how_to_play_menu)
 					"LabelCredits":
-						print("Credits")
+						# Play credits anim
+						if credits_label_anim_player.is_playing():
+							credits_label_anim_player.stop()
+						credits_label_anim_player.play("scroll_down")
+						# Switch menu
+						switch_menu(credits_menu)
 					"LabelQuit":
 						get_tree().quit()
+		# If we are in the credits menu
+		if credits_menu.visible:
+			if event.is_action_pressed("ui_cancel"):
+				# Switch menu
+				switch_menu(main_menu_node)
+				
+		# If we are in the how to play menu
+		if how_to_play_menu.visible:
+			if event.is_action_pressed("ui_cancel"):
+				# Switch menu
+				switch_menu(main_menu_node)
+		
 	# If we are in game
 	else:
 		if event.is_action_pressed("ui_cancel"):

@@ -17,8 +17,6 @@ script = ExtResource( 2 )
 [node name="Players" type="Node" parent="."]
 script = ExtResource( 5 )
 
-[node name="Menu" parent="." instance=ExtResource( 4 )]
-
 [node name="CanvasPlayerHUD" type="CanvasLayer" parent="."]
 
 [node name="ContainerPlayerHUD" type="HBoxContainer" parent="CanvasPlayerHUD"]
@@ -72,3 +70,5 @@ margin_bottom = 512.0
 size_flags_vertical = 3
 texture = ExtResource( 7 )
 expand = true
+
+[node name="Menu" parent="." instance=ExtResource( 4 )]

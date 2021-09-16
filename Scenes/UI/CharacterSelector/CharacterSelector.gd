@@ -7,6 +7,9 @@ onready var sprite = $Sprite
 onready var ready_label = $LabelReady
 onready var ready_label_animation_player = $LabelReady/AnimationPlayer
 onready var player_selector_container = get_parent()
+# Arrows
+onready var left_arrow = $LeftArrow
+onready var right_arrow = $RightArrow
 # Arrows animation players
 onready var left_arrow_anim_player = $LeftArrow/AnimationPlayer
 onready var right_arrow_anim_player = $RightArrow/AnimationPlayer
@@ -152,6 +155,14 @@ func play_right_selection_anim():
 		right_arrow_anim_player.stop()
 	right_arrow_anim_player.play("tick")
 
+func hide_arrows():
+	left_arrow.visible = false
+	right_arrow.visible = false
+
+func show_arrows():
+	left_arrow.visible = true
+	right_arrow.visible = true
+
 func set_ready_state(new_ready_state : bool):
 	# If we change it to the same state, exit func
 	if new_ready_state == ready_state:
@@ -159,6 +170,8 @@ func set_ready_state(new_ready_state : bool):
 	
 	# If ready
 	if new_ready_state:
+		# Hide arrows
+		hide_arrows()
 		# Change ready label
 		ready_label.text = ready_text
 		ready_label.modulate = Color(0, 255, 0, 255)
@@ -168,6 +181,8 @@ func set_ready_state(new_ready_state : bool):
 		Globals.shake_camera(100, 0.4)
 	# If not
 	if not new_ready_state:
+		# Show arrows
+		show_arrows()
 		# Change ready label
 		ready_label.text = not_ready_text
 		ready_label.modulate = Color(255, 0, 0, 255)

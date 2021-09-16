@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://Scenes/UI/Selector/Selector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/UI/Menu/ContainerPlayerSelector.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/UI/CountDown/CountDown.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/HowToPlay/how_to_play_illus_1.png" type="Texture" id=9]
+[ext_resource path="res://Assets/HowToPlay/how_to_play_illus_2.png" type="Texture" id=10]
+[ext_resource path="res://Assets/HowToPlay/how_to_play_illus_3.png" type="Texture" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -59,6 +62,35 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=5]
 size = 128
 outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 96
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "scroll_down"
+length = 12.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 160, -1284 ), Vector2( 160, 720 ) ]
+}
+
+[sub_resource type="DynamicFont" id=9]
+size = 48
+outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
@@ -211,6 +243,116 @@ main_menu_path = NodePath("../../..")
 owner_id = 1
 
 [node name="CountDown" parent="CharacterSelection" instance=ExtResource( 8 )]
+
+[node name="CreditsMenu" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditsLabel" type="Label" parent="CreditsMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -480.0
+margin_top = 360.0
+margin_right = 480.0
+margin_bottom = 1644.0
+custom_fonts/font = SubResource( 7 )
+text = "Thanks for playing !
+
+DEVELOPER:
+KilyLC / zlRivo
+
+ART:
+Blackwolfdave
+ansimuz
+Arks
+KenneyNL
+
+MUSIC:
+Eric Skiff"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CreditsMenu/CreditsLabel"]
+anims/scroll_down = SubResource( 8 )
+
+[node name="HowToPlayMenu" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HowToPlayMenu"]
+margin_left = 58.0
+margin_top = 373.0
+margin_right = 409.0
+margin_bottom = 472.0
+custom_fonts/font = SubResource( 9 )
+text = "Stomp on other players' head"
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="HowToPlayMenu"]
+margin_left = 137.488
+margin_top = 14.6832
+margin_right = 392.488
+margin_bottom = 360.683
+texture = ExtResource( 9 )
+expand = true
+
+[node name="Label2" type="Label" parent="HowToPlayMenu"]
+margin_left = 428.527
+margin_top = 460.164
+margin_right = 779.527
+margin_bottom = 610.164
+custom_fonts/font = SubResource( 9 )
+text = "Avoid getting stomped on by other players"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="HowToPlayMenu"]
+margin_left = 465.341
+margin_top = 85.4089
+margin_right = 679.341
+margin_bottom = 431.409
+texture = ExtResource( 10 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="HowToPlayMenu"]
+margin_left = 818.818
+margin_top = 384.546
+margin_right = 1189.82
+margin_bottom = 585.546
+custom_fonts/font = SubResource( 9 )
+text = "Getting stomped on will result  in scoring for other players"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect3" type="TextureRect" parent="HowToPlayMenu"]
+margin_left = 870.007
+margin_top = 22.5017
+margin_right = 1114.01
+margin_bottom = 368.502
+texture = ExtResource( 11 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="UIActionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
