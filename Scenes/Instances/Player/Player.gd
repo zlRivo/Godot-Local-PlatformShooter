@@ -81,6 +81,7 @@ var is_kicking = false
 var dead = false
 const MAX_HEALTH = 3
 var health = 3
+var score = 0
 
 var motion = Vector2.ZERO
 export var owner_id = 0
@@ -141,9 +142,9 @@ func _physics_process(delta):
 func jump(height):
 	motion.y = -height
 
-func get_stomped_on():
+func get_stomped_on(stomper):
 	# Remove health
-	set_health(health - 1)
+	set_health(health - 1, stomper)
 	
 	if not dead:
 		# Camera shake
@@ -151,9 +152,16 @@ func get_stomped_on():
 		
 		hurt_sound.play()
 
-func die():
+func die(killer):
 	# Disable stomp detector
 	stomp_detector.shape_owner_clear_shapes(0)
+	
+	if killer != null:
+		# Check if we didn't die by ourself
+		if killer != self:
+			if killer.is_in_group("Player"):
+				# Increment the other player's score
+				killer.increment_score()
 	# Play death sound
 	death_sound.play()
 	# Disable player indicator
@@ -175,7 +183,7 @@ func die():
 
 func respawn():
 	# Reset player health
-	set_health(MAX_HEALTH)
+	set_health(MAX_HEALTH, self)
 	# Enable stomp detector
 	stomp_detector.shape_owner_add_shape(0, stomp_detector_shape)
 	# Set player to a random spawn location
@@ -225,16 +233,22 @@ func vanish():
 		# Refresh player container on the camera
 		game_camera.refresh_player_container()
 
-func set_health(new_value):
+func set_health(new_value, setter):
 	health = new_value
 	refresh_hud()
 	if health <= 0:
-		die()
+		die(setter)
+
+func increment_score():
+	score += 1
+	if hud != null:
+		hud.update_score(score)
 
 # Update the hud
 func refresh_hud():
 	if hud != null:
 		hud.update_health(health)
+		hud.update_score(score)
 
 # Play a random footstep sound
 func play_footstep_sound():
@@ -325,4 +339,4 @@ func _on_StompDetector_body_entered(body):
 			if body.get_velocity().y + -get_velocity().y >= MIN_STOMP_SPEED:
 				# Make other player jump
 				body.jump(JUMP_HEIGHT / 2)
-				get_stomped_on()
+				get_stomped_on(body)

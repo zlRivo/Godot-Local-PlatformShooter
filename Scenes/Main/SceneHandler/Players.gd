@@ -7,8 +7,6 @@ func vanish_players():
 		if p.has_method("vanish"):
 			p.vanish()
 		else:
-			# Prevent error
-			Globals.set_camera_process(false)
 			# Delete it anyway
 			player_container.remove_child(p)
 			# Refresh players in containers
