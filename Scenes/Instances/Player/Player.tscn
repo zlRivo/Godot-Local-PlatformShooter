@@ -79,7 +79,7 @@ input_1/name = "jump"
 input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeBlendTree" id=18]
-graph_offset = Vector2( -233, 203 )
+graph_offset = Vector2( -1126, -281.5 )
 nodes/Animation/node = SubResource( 9 )
 nodes/Animation/position = Vector2( -740, 100 )
 "nodes/Animation 2/node" = SubResource( 3 )
