@@ -9,6 +9,7 @@ onready var collision_shape = $CollisionShape2D
 onready var stomp_detector = $StompDetector
 onready var visible_timer = $VisibleTimer
 onready var respawn_timer = $RespawnTimer
+onready var health_bar = $PlayerIndicator/HealthBar
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
@@ -139,6 +140,9 @@ func _physics_process(delta):
 		_manage_rigidbody_interactions()
 	_manage_animations()
 
+func update_health_bar():
+	health_bar.update_empty(health)
+
 func jump(height):
 	motion.y = -height
 
@@ -235,6 +239,8 @@ func vanish():
 
 func set_health(new_value, setter):
 	health = new_value
+	# Update displayed health bar and HUD
+	update_health_bar()
 	refresh_hud()
 	if health <= 0:
 		die(setter)
