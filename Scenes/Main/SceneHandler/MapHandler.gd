@@ -8,6 +8,11 @@ var world_scenes = {
 
 var map = null
 
+func get_items_container():
+	if map != null:
+		return map.get_items_container()
+	return null
+
 func get_player_spawns():
 	if map != null:
 		return map.get_player_spawns()

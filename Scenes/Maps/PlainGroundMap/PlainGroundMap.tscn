@@ -29,6 +29,7 @@ script = ExtResource( 10 )
 game_camera_path = NodePath("FightingCamera")
 preview_camera_path = NodePath("PreviewCamera")
 player_spawns_path = NodePath("PlayerSpawns")
+items_container_path = NodePath("TerrainItems/Items")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -381,9 +382,9 @@ jump_height = 1.5
 [node name="JumpSpring2" parent="TerrainItems/JumpSpring" instance=ExtResource( 4 )]
 position = Vector2( -153, -9 )
 
-[node name="Weapons" type="Node" parent="TerrainItems"]
+[node name="Items" type="Node" parent="TerrainItems"]
 
-[node name="M1911Pickup" parent="TerrainItems/Weapons" instance=ExtResource( 11 )]
+[node name="M1911Pickup" parent="TerrainItems/Items" instance=ExtResource( 11 )]
 position = Vector2( 80, 8 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]

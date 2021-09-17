@@ -22,7 +22,7 @@ func _ready():
 	# Add to scene
 	add_child(attack_timer)
 
-func attack():
+func fire():
 	# Start attack cooldown if not active
 	if attack_timer.wait_time <= 0:
 		# Attack players

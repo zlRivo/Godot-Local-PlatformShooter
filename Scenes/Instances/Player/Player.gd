@@ -9,7 +9,9 @@ onready var collision_shape = $CollisionShape2D
 onready var stomp_detector = $StompDetector
 onready var visible_timer = $VisibleTimer
 onready var respawn_timer = $RespawnTimer
+onready var hand = $Sprite/Hand
 onready var health_bar = $PlayerIndicator/HealthBar
+onready var pickup_area = $PickupArea
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
@@ -18,6 +20,7 @@ onready var hurt_sound = $Sounds/HurtSound
 onready var footstep_sound_player = $Sounds/FootstepSound
 onready var death_sound = $Sounds/DeathSound
 onready var respawn_sound = $Sounds/RespawnSound
+onready var pickup_sound = $Sounds/PickupSound
 
 # Hold stomp detector shape
 onready var stomp_detector_shape = stomp_detector.get_node("CollisionShape2D").get_shape()
@@ -51,6 +54,16 @@ var hurt_anim_seek = "parameters/hurt_anim_seek/seek_position"
 
 # Smoke particles
 var smoke_particles_scene = preload("res://Scenes/Instances/Particles/SmokeParticles/SmokeParticles.tscn")
+
+# Holds all the weapons scenes
+const ALL_ITEMS = {
+	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911.tscn")
+}
+
+# Holds all the weapons pickups scenes
+const ALL_ITEMS_PICKUP = {
+	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn")
+}
 
 # Sprite Textures
 var sprite_textures = {
@@ -141,6 +154,7 @@ func _physics_process(delta):
 		_manage_combat_inputs()
 		_manage_movement()
 		_manage_rigidbody_interactions()
+		_manage_interactions()
 	_manage_animations()
 
 func update_health_bar():
@@ -153,11 +167,12 @@ func get_stomped_on(stomper):
 	# Remove health
 	set_health(health - 1, stomper)
 	
+	# Set Y velocity
+	motion.y = 0
+	
 	if not dead:
 		# Camera shake
 		Globals.shake_camera(hurt_shake_amount)
-		
-		hurt_sound.play()
 
 func get_health():
 	return health
@@ -244,6 +259,9 @@ func vanish():
 		game_camera.refresh_player_container()
 
 func set_health(new_value, setter):
+	# If we lost health
+	if new_value > 0 and new_value < health:
+		hurt_sound.play()
 	health = new_value
 	# Update displayed health bar and HUD
 	update_health_bar()
@@ -262,6 +280,81 @@ func refresh_hud():
 		hud.update_health(health)
 		hud.update_score(score)
 
+func drop_pickup_item():
+	if current_item != null:
+		
+		# Get current item data
+		var current_item_data = current_item.get_item_data()
+		# If there is a pickup item scene for the weapon to drop
+		if ALL_ITEMS_PICKUP.has(current_item_data["name"]):
+			# Get item pickup scene
+			var item_to_spawn = ALL_ITEMS_PICKUP[current_item_data["name"]].instance()
+			# Set its position relative to the player
+			item_to_spawn.global_position = global_position
+			
+			# If the current weapon is a HitscanWeapon
+			if current_item is HitscanWeapon:
+				# Set its new item ammo
+				item_to_spawn.ammo_in_mag = current_item.ammo_in_mag
+				
+			# Spawn in game world
+			var items_container = map_handler.get_items_container()
+			if items_container != null:
+				items_container.add_child(item_to_spawn)
+		
+		# Play pickup sound
+		pickup_sound.play()
+		
+		# Delete weapon of head
+		hand.remove_child(current_item)
+		
+		# Remove reference
+		current_item = null
+
+func pick_item_up():
+	if current_item != null:
+		drop_pickup_item()
+	
+	# Get all colliding bodies with the area
+	var bodies = pickup_area.get_overlapping_bodies()
+	# Loop through every element
+	for b in bodies:
+		# If we can pickup the item
+		if b is ItemPickup:
+			# Read weapon data
+			var item_data = b.get_item_pickup_data()
+			# Check if the weapon exists in the dictionary
+			if ALL_ITEMS.has(item_data["name"]):
+				# Create instance of the item
+				var new_item = ALL_ITEMS[item_data["name"]].instance()
+				# Initialize it
+				new_item.owner_player = self
+				new_item.position = new_item.equip_pos
+				
+				# If the item is a HitscanWeapon
+				if new_item is HitscanWeapon:
+					# Set its ammo
+					new_item.ammo_in_mag = item_data["ammo_in_mag"]
+				
+				# Delete pickup of game world
+				var items_container = map_handler.get_items_container()
+				if items_container != null:
+					items_container.remove_child(b)
+				else:
+					b.queue_free()
+				
+				# Play pickup sound
+				pickup_sound.play()
+				
+				# Add as a child of the player's hand
+				hand.add_child(new_item)
+				
+				# Set current item reference
+				current_item = new_item
+				
+				# Exit the function
+				return
+
 # Play a random footstep sound
 func play_footstep_sound():
 	footstep_sound_player.stream = footstep_sounds[randi() % footstep_sounds.size()]
@@ -274,6 +367,7 @@ func play_kick_anim():
 
 func stop_kicking():
 	animation_tree.set(kick_oneshot, false)
+
 func is_kicking():
 	return animation_tree.get(kick_oneshot)
 
@@ -298,6 +392,15 @@ func _manage_movement_inputs():
 func _manage_combat_inputs():
 	if Input.is_action_just_pressed("kick_" + str(owner_id)):
 		play_kick_anim()
+	if Input.is_action_just_pressed("fire_" + str(owner_id)):
+		if current_item != null:
+			if current_item.has_method("fire"):
+				current_item.fire()
+		
+func _manage_interactions():
+	if Input.is_action_just_pressed("pickup_" + str(owner_id)):
+		pick_item_up()
+
 func _manage_movement():
 	motion.x = clamp(motion.x, -MAXSPEED, MAXSPEED)
 		

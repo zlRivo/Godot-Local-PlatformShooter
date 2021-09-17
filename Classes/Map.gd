@@ -11,6 +11,13 @@ onready var preview_camera = get_node_or_null(preview_camera_path)
 export (NodePath) var player_spawns_path
 onready var player_spawns = get_node_or_null(player_spawns_path)
 
+# Items container
+export (NodePath) var items_container_path
+onready var items_container = get_node_or_null(items_container_path)
+
+func get_items_container():
+	return items_container
+
 func get_player_spawns():
 	if player_spawns != null:
 		return player_spawns
