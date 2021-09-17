@@ -9,13 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Weapon",
+"class": "HitscanWeapon",
+"language": "GDScript",
+"path": "res://Classes/HitscanWeapon.gd"
+}, {
+"base": "RigidBody2D",
+"class": "ItemPickup",
+"language": "GDScript",
+"path": "res://Classes/ItemPickup.gd"
+}, {
 "base": "Node2D",
 "class": "Map",
 "language": "GDScript",
 "path": "res://Classes/Map.gd"
+}, {
+"base": "Node2D",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://Classes/Weapon.gd"
 } ]
 _global_script_class_icons={
-"Map": ""
+"HitscanWeapon": "",
+"ItemPickup": "",
+"Map": "",
+"Weapon": ""
 }
 
 [application]

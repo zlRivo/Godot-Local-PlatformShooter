@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/SFX/Music/underclocked.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/Maps/SnowyTownMap/SnowyTownMap.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Sprites/Background/Parallax/SnowyTown/background.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Sprites/Background/Parallax/SnowyTown/middleground.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 9 )
@@ -1091,6 +1092,11 @@ position = Vector2( 261, -171 )
 
 [node name="Box20" parent="TerrainItems/Boxes" instance=ExtResource( 6 )]
 position = Vector2( 252, -189 )
+
+[node name="Weapons" type="Node" parent="TerrainItems"]
+
+[node name="M1911Pickup" parent="TerrainItems/Weapons" instance=ExtResource( 10 )]
+position = Vector2( -120, -104 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )

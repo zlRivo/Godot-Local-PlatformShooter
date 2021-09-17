@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Classes/WeaponPickup.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/US.png" type="Texture" id=2]
+
+[node name="M1911Pickup" type="RigidBody2D"]
+collision_layer = 2
+script = ExtResource( 1 )
+weapon_name = "M1911"
+ammo_in_mag = 7
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+hframes = 3
+vframes = 6
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -0.0925102, -0.0878811, -2.10051, 4.55808, -4.9747, 3.14067, -2.61235, -3.23768, 4.86843, -3.27706, 4.86843, -0.67847 )

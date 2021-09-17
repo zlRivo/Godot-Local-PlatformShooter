@@ -84,6 +84,9 @@ const MAX_HEALTH = 3
 var health = 3
 var score = 0
 
+# Current picked up item reference
+var current_item = null
+
 var motion = Vector2.ZERO
 export var owner_id = 0
 export var sprite_name = "mort"
@@ -155,6 +158,9 @@ func get_stomped_on(stomper):
 		Globals.shake_camera(hurt_shake_amount)
 		
 		hurt_sound.play()
+
+func get_health():
+	return health
 
 func die(killer):
 	# Disable stomp detector

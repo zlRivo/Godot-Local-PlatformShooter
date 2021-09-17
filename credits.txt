@@ -2,4 +2,5 @@ Tree Parallax: Blackwolfdave
 GothicDania Parallax: ansimuz
 Dino Sprites: Arks
 TileSet: KenneyNL
+Weapons: Mack
 Background Music: Eric Skiff
