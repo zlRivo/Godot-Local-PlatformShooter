@@ -15,6 +15,13 @@ onready var player_spawns = get_node_or_null(player_spawns_path)
 export (NodePath) var items_container_path
 onready var items_container = get_node_or_null(items_container_path)
 
+# Decal container
+export (NodePath) var decal_container_path
+onready var decal_container = get_node_or_null(decal_container_path)
+
+func get_decal_container():
+	return decal_container
+
 func get_items_container():
 	return items_container
 

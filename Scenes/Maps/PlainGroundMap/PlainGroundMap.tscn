@@ -30,6 +30,7 @@ game_camera_path = NodePath("FightingCamera")
 preview_camera_path = NodePath("PreviewCamera")
 player_spawns_path = NodePath("PlayerSpawns")
 items_container_path = NodePath("TerrainItems/Items")
+decal_container_path = NodePath("Decals")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -79,6 +80,8 @@ limit_right = 412
 [node name="PreviewCamera" parent="." instance=ExtResource( 1 )]
 position = Vector2( 81, -72 )
 zoom = Vector2( 0.5, 0.5 )
+
+[node name="Decals" type="Node" parent="."]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
@@ -386,6 +389,15 @@ position = Vector2( -153, -9 )
 
 [node name="M1911Pickup" parent="TerrainItems/Items" instance=ExtResource( 11 )]
 position = Vector2( 80, 8 )
+
+[node name="M1911Pickup2" parent="TerrainItems/Items" instance=ExtResource( 11 )]
+position = Vector2( 288, -48 )
+
+[node name="M1911Pickup3" parent="TerrainItems/Items" instance=ExtResource( 11 )]
+position = Vector2( 200, -136 )
+
+[node name="M1911Pickup4" parent="TerrainItems/Items" instance=ExtResource( 11 )]
+position = Vector2( -64, -48 )
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )

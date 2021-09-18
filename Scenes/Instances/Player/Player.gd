@@ -165,7 +165,7 @@ func jump(height):
 
 func get_stomped_on(stomper):
 	# Remove health
-	set_health(health - 1, stomper)
+	set_health(health - 3, stomper)
 	
 	# Set Y velocity
 	motion.y = 0
@@ -250,6 +250,8 @@ func spawn_smoke_particles():
 func vanish():
 	# Spawn particles
 	spawn_smoke_particles()
+	# Drop item if existing
+	drop_pickup_item()
 	# Remove from player container
 	player_container.remove_child(self)
 	# Get game camera
@@ -355,6 +357,9 @@ func pick_item_up():
 				# Exit the function
 				return
 
+func get_x_scale():
+	return sprite.scale.x
+
 # Play a random footstep sound
 func play_footstep_sound():
 	footstep_sound_player.stream = footstep_sounds[randi() % footstep_sounds.size()]
@@ -392,7 +397,7 @@ func _manage_movement_inputs():
 func _manage_combat_inputs():
 	if Input.is_action_just_pressed("kick_" + str(owner_id)):
 		play_kick_anim()
-	if Input.is_action_just_pressed("fire_" + str(owner_id)):
+	if Input.is_action_pressed("fire_" + str(owner_id)):
 		if current_item != null:
 			if current_item.has_method("fire"):
 				current_item.fire()
