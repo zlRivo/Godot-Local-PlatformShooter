@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Assets/Sprites/Player/doux.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Instances/Player/AnimationPlayer/AnimationPlayer.tscn" type="PackedScene" id=2]
@@ -9,9 +9,10 @@
 [ext_resource path="res://Assets/SFX/Sounds/hurt.wav" type="AudioStream" id=7]
 [ext_resource path="res://Assets/SFX/Sounds/death.wav" type="AudioStream" id=8]
 [ext_resource path="res://Assets/SFX/Sounds/respawn.wav" type="AudioStream" id=9]
-[ext_resource path="res://Scenes/UI/HealthBar/HealthBar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/UI/HealthBar/HealthBar.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Instances/Player/Hand.gd" type="Script" id=11]
 [ext_resource path="res://Assets/SFX/Sounds/pickup.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Sprites/HUD/full_heart.png" type="Texture" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -116,12 +117,29 @@ nodes/kick_oneshot/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 820, 240 )
 nodes/stand_jump_transition/node = SubResource( 18 )
 nodes/stand_jump_transition/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "hurt_oneshot", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "kick_anim_seek", 0, "Animation 6", "hurt_anim_seek", 0, "Animation 7", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5" ]
+node_connections = [ "output", 0, "hurt_oneshot", "kick_anim_seek", 0, "Animation 6", "hurt_anim_seek", 0, "Animation 7", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
 
 [sub_resource type="DynamicFont" id=20]
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
+
+[sub_resource type="Animation" id=21]
+resource_name = "hurt"
+length = 0.2
+step = 0.005
+tracks/0/type = "value"
+tracks/0/path = NodePath("HeartContainer/3:material:shader_param/white_progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2 ),
+"transitions": PoolRealArray( 0, 0, 0, 0 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 0.0 ]
+}
 
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
@@ -199,12 +217,50 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthBar" parent="PlayerIndicator" instance=ExtResource( 10 )]
+[node name="HealthBar" type="Control" parent="PlayerIndicator"]
 margin_left = -8.5
 margin_top = -6.0
 margin_right = 45.5
 margin_bottom = 12.0
 rect_scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeartContainer" type="HBoxContainer" parent="PlayerIndicator/HealthBar"]
+margin_right = 54.0
+margin_bottom = 18.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="1" type="TextureRect" parent="PlayerIndicator/HealthBar/HeartContainer"]
+margin_right = 18.0
+margin_bottom = 18.0
+texture = ExtResource( 13 )
+
+[node name="2" type="TextureRect" parent="PlayerIndicator/HealthBar/HeartContainer"]
+margin_left = 18.0
+margin_right = 36.0
+margin_bottom = 18.0
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="3" type="TextureRect" parent="PlayerIndicator/HealthBar/HeartContainer"]
+margin_left = 36.0
+margin_right = 54.0
+margin_bottom = 18.0
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerIndicator/HealthBar"]
+anims/hurt = SubResource( 21 )
 
 [node name="Sounds" type="Node" parent="."]
 

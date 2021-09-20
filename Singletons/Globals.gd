@@ -7,6 +7,14 @@ onready var target_camera_zoom = default_camera_zoom
 # Know if the player is in game
 var in_game = false
 
+var collisions_shown = false
+
+# Debug collisions
+func _input(event):
+	if event is InputEventKey:
+		if event.scancode == KEY_TAB:
+			pass
+
 func set_camera_process(new_state):
 	if active_camera != null:
 		active_camera.set_process(new_state)

@@ -57,12 +57,14 @@ var smoke_particles_scene = preload("res://Scenes/Instances/Particles/SmokeParti
 
 # Holds all the weapons scenes
 const ALL_ITEMS = {
-	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911.tscn")
+	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911.tscn"),
+	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41.tscn")
 }
 
 # Holds all the weapons pickups scenes
 const ALL_ITEMS_PICKUP = {
-	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn")
+	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn"),
+	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41Pickup.tscn")
 }
 
 # Sprite Textures
@@ -264,6 +266,9 @@ func set_health(new_value, setter):
 	# If we lost health
 	if new_value > 0 and new_value < health:
 		hurt_sound.play()
+		# Play health bar hurt anim
+		health_bar.play_hurt_anim()
+	
 	health = new_value
 	# Update displayed health bar and HUD
 	update_health_bar()
@@ -350,6 +355,10 @@ func pick_item_up():
 				
 				# Add as a child of the player's hand
 				hand.add_child(new_item)
+				
+				if new_item is HitscanWeapon:
+					# Add raycast exception to the owner player
+					new_item.add_raycast_exception(self)
 				
 				# Set current item reference
 				current_item = new_item

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR.png" type="Texture" id=1]
+[ext_resource path="res://Classes/WeaponPickup.gd" type="Script" id=2]
+
+[node name="PPSH-41" type="RigidBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+item_name = "PPSH-41"
+ammo_in_mag = 71
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+vframes = 3
+frame = 8
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -1.19698, 4.41734, -8.72304, 2.46623, -10.2178, -2.72964, -2.42673, -4.79469, 9.4077, -4.69395, 9.4819, -1.35715, 2.08066, -1.44485, 1.19432, 4.37792 )

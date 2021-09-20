@@ -5,13 +5,13 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1, 1 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="QuadMesh" id=2]
+[sub_resource type="QuadMesh" id=3]
 size = Vector2( 2, 2 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 1, 1 )
 
 [node name="BulletTrail" type="KinematicBody2D"]
@@ -24,15 +24,15 @@ disabled = true
 
 [node name="Trail" type="Line2D" parent="."]
 width = 2.0
-width_curve = SubResource( 4 )
+width_curve = SubResource( 2 )
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="Bullet" type="MeshInstance2D" parent="."]
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 
 [node name="CollisionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]

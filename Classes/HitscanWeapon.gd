@@ -49,7 +49,7 @@ func fire():
 				# Create bullet trail
 				var bullet_trail = bullet_trail_scene.instance()
 				# Set the position
-				bullet_trail.global_position = global_position
+				bullet_trail.global_position = raycast.global_position
 				# Bullet movement vector
 				var bullet_trail_direction = Vector2.ZERO
 				# If there is an owner of the gun
@@ -60,7 +60,7 @@ func fire():
 						bullet_trail_direction.x = owner_player.get_x_scale()
 				
 				# Initialize the bullet trail
-				bullet_trail.init_trail(bullet_trail_direction, 2, owner_player)
+				bullet_trail.init_trail(bullet_trail_direction, bullet_trail_lifetime, owner_player)
 			
 				# Spawn it
 				decal_container.add_child(bullet_trail)
@@ -79,14 +79,21 @@ func fire():
 			if raycast.is_colliding():
 				# Get the collider
 				var first_collider = raycast.get_collider()
-				# If we collided with a player make him take damage
-				if first_collider.is_in_group("Player"):
-					var player_health = first_collider.get_health()
-					first_collider.set_health(player_health - damage, owner_player)
+				# If we didn't collide with ourself
+				if first_collider != owner_player:
+					# If we collided with a player make him take damage
+					if first_collider.is_in_group("Player"):
+						var player_health = first_collider.get_health()
+						first_collider.set_health(player_health - damage, owner_player)
 			
 			# Start cooldown
 			fire_cooldown_timer.start()
 			fire_cooldown_timer_finished = false
+
+func add_raycast_exception(node : Node):
+	# Do nothing if there is no raycast
+	if raycast != null:
+		raycast.add_exception(node)
 
 func _on_fire_cooldown_timer_finished():
 	fire_cooldown_timer_finished = true

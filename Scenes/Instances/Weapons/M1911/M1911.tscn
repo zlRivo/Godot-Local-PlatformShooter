@@ -44,6 +44,7 @@ ammo_in_mag = 7
 unlimited_ammo = true
 camera_shake = 50.0
 raycast_path = NodePath("RayCast2D")
+bullet_trail_lifetime = 0.15
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

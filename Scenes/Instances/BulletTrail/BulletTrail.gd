@@ -25,7 +25,7 @@ func init_trail(_direction : Vector2, _lifetime : float, _owner_entity = null):
 		queue_free()
 	direction = _direction
 	owner_entity = _owner_entity
-	#lifetime = _lifetime
+	lifetime = _lifetime
 
 func _physics_process(delta):
 	# Delete after lifetime
@@ -41,7 +41,6 @@ func _physics_process(delta):
 	if not collision_detected:
 		# Move in the provided direction
 		move_and_slide(direction.normalized() * delta * bullet_speed)
-		#move_and_slide(Vector2(1200, 0))
 	
 	# Constantly add point to the current position
 	trail.add_point(global_position)
