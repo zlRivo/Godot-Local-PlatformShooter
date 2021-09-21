@@ -8,6 +8,7 @@ collision_layer = 2
 script = ExtResource( 2 )
 item_name = "PPSH-41"
 ammo_in_mag = 71
+sprite_path = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

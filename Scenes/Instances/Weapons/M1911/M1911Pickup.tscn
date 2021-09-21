@@ -9,6 +9,7 @@ mass = 3.0
 script = ExtResource( 1 )
 item_name = "M1911"
 ammo_in_mag = 7
+sprite_path = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )

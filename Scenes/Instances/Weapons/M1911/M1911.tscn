@@ -41,7 +41,6 @@ attack_sound_path = NodePath("ShootSound")
 fire_rate = 0.33
 damage = 1.0
 ammo_in_mag = 7
-unlimited_ammo = true
 camera_shake = 50.0
 raycast_path = NodePath("RayCast2D")
 bullet_trail_lifetime = 0.15
@@ -52,6 +51,7 @@ hframes = 3
 vframes = 6
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 4.04096, -1.5043 )
 enabled = true
 cast_to = Vector2( 200, 0 )
 collision_mask = 5
@@ -61,4 +61,4 @@ anims/fire = SubResource( 1 )
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = 10.0
+volume_db = 15.0

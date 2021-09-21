@@ -55,18 +55,6 @@ var hurt_anim_seek = "parameters/hurt_anim_seek/seek_position"
 # Smoke particles
 var smoke_particles_scene = preload("res://Scenes/Instances/Particles/SmokeParticles/SmokeParticles.tscn")
 
-# Holds all the weapons scenes
-const ALL_ITEMS = {
-	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911.tscn"),
-	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41.tscn")
-}
-
-# Holds all the weapons pickups scenes
-const ALL_ITEMS_PICKUP = {
-	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn"),
-	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41Pickup.tscn")
-}
-
 # Sprite Textures
 var sprite_textures = {
 	"doux" : preload("res://Assets/Sprites/Player/doux.png"),
@@ -267,7 +255,7 @@ func set_health(new_value, setter):
 	if new_value > 0 and new_value < health:
 		hurt_sound.play()
 		# Play health bar hurt anim
-		health_bar.play_hurt_anim()
+		# health_bar.play_hurt_anim()
 	
 	health = new_value
 	# Update displayed health bar and HUD
@@ -293,9 +281,9 @@ func drop_pickup_item():
 		# Get current item data
 		var current_item_data = current_item.get_item_data()
 		# If there is a pickup item scene for the weapon to drop
-		if ALL_ITEMS_PICKUP.has(current_item_data["name"]):
+		if Items.ALL_ITEMS_PICKUP.has(current_item_data["name"]):
 			# Get item pickup scene
-			var item_to_spawn = ALL_ITEMS_PICKUP[current_item_data["name"]].instance()
+			var item_to_spawn = Items.ALL_ITEMS_PICKUP[current_item_data["name"]].instance()
 			# Set its position relative to the player
 			item_to_spawn.global_position = global_position
 			
@@ -331,9 +319,9 @@ func pick_item_up():
 			# Read weapon data
 			var item_data = b.get_item_pickup_data()
 			# Check if the weapon exists in the dictionary
-			if ALL_ITEMS.has(item_data["name"]):
+			if Items.ALL_ITEMS.has(item_data["name"]):
 				# Create instance of the item
-				var new_item = ALL_ITEMS[item_data["name"]].instance()
+				var new_item = Items.ALL_ITEMS[item_data["name"]].instance()
 				# Initialize it
 				new_item.owner_player = self
 				new_item.position = new_item.equip_pos

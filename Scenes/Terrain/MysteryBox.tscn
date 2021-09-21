@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/Sprites/Tilemap/Spritesheet/no_collisions.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Terrain/MysteryBox.gd" type="Script" id=2]
+[ext_resource path="res://Assets/SFX/Sounds/mysterybox_recover.wav" type="AudioStream" id=3]
+[ext_resource path="res://Assets/SFX/Sounds/mysterybox.wav" type="AudioStream" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9, 9 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9, 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "hit"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionShape2D/Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -8 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CollisionShape2D/Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+
+[node name="MysteryBox" type="StaticBody2D"]
+script = ExtResource( 2 )
+recover_time = 20.0
+
+[node name="SpawnLocation" type="Node2D" parent="."]
+position = Vector2( 0, -16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="CollisionShape2D"]
+texture = ExtResource( 1 )
+hframes = 20
+vframes = 9
+frame = 9
+
+[node name="HitDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetector"]
+position = Vector2( 0, 10 )
+shape = SubResource( 2 )
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 4 )
+
+[node name="RecoverSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/hit = SubResource( 3 )
+
+[connection signal="body_entered" from="HitDetector" to="." method="_on_HitDetector_body_entered"]

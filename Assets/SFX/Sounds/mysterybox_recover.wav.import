@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mysterybox_recover.wav-1c69e88f83b538c663bc6e881033e703.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/Sounds/mysterybox_recover.wav"
+dest_files=[ "res://.import/mysterybox_recover.wav-1c69e88f83b538c663bc6e881033e703.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
