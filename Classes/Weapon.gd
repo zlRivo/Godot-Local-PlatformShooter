@@ -2,8 +2,6 @@ extends Item
 class_name Weapon
 
 #### References #####
-# Map handler
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 
 # Animation player
 export (NodePath) var animation_player_path

@@ -30,6 +30,7 @@ preview_camera_path = NodePath("PreviewCamera")
 player_spawns_path = NodePath("PlayerSpawns")
 items_container_path = NodePath("TerrainItems/Items")
 decal_container_path = NodePath("Decals")
+projectile_container_path = NodePath("Projectiles")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -1109,6 +1110,8 @@ position = Vector2( -352, -248 )
 position = Vector2( 80, -272 )
 
 [node name="Decals" type="Node" parent="."]
+
+[node name="Projectiles" type="Node" parent="."]
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )

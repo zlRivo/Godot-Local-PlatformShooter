@@ -10,21 +10,6 @@ export (float) var bullet_trail_lifetime = 1
 
 var bullet_trail_scene = preload("res://Scenes/Instances/BulletTrail/BulletTrail.tscn")
 
-# Timer used for attack speed
-var fire_cooldown_timer = Timer.new()
-
-# Know if the firing cooldown is finished
-var fire_cooldown_timer_finished = true
-
-func _ready():
-	# Initialize timer
-	fire_cooldown_timer.one_shot = true
-	fire_cooldown_timer.wait_time = fire_rate
-	# Connect timer signal
-	fire_cooldown_timer.connect("timeout", self, "_on_fire_cooldown_timer_finished")
-	# Add to scene
-	add_child(fire_cooldown_timer)
-
 func fire():
 	# Start firing cooldown if not active
 	if fire_cooldown_timer_finished:
@@ -94,13 +79,3 @@ func add_raycast_exception(node : Node):
 	# Do nothing if there is no raycast
 	if raycast != null:
 		raycast.add_exception(node)
-
-func _on_fire_cooldown_timer_finished():
-	fire_cooldown_timer_finished = true
-
-func get_item_data():
-	return {
-		"name": item_name,
-		"equip_pos": equip_pos,
-		"ammo_in_mag": ammo_in_mag
-	}

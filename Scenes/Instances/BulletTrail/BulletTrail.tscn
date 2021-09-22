@@ -8,7 +8,7 @@ extents = Vector2( 1, 1 )
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.244444, 0.845455 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 0.363636 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 1, 1 )
 
 [node name="BulletTrail" type="KinematicBody2D"]
@@ -38,6 +38,6 @@ __meta__ = {
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
-shape = SubResource( 5 )
+shape = SubResource( 3 )
 
 [connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]

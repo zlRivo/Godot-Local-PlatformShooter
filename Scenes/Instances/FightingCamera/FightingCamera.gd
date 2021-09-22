@@ -9,7 +9,7 @@ onready var shake_timer = $ShakeTimer
 
 # Used for camera shake
 var shake_amount = 0
-var shake_limit = 300
+var shake_limit = 200
 var default_offset = offset # Save default offset before shake
 var shaking = false
 

@@ -19,6 +19,13 @@ onready var items_container = get_node_or_null(items_container_path)
 export (NodePath) var decal_container_path
 onready var decal_container = get_node_or_null(decal_container_path)
 
+# Projectile container
+export (NodePath) var projectile_container_path
+onready var projectile_container = get_node_or_null(projectile_container_path)
+
+func get_projectile_container():
+	return projectile_container
+
 func get_decal_container():
 	return decal_container
 

@@ -3,4 +3,5 @@ GothicDania Parallax: ansimuz
 Dino Sprites: Arks
 TileSet: KenneyNL
 Weapons: Mack
+ppeldo: Pixel art effects
 Background Music: Eric Skiff

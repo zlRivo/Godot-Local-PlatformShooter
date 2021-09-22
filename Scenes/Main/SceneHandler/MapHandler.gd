@@ -8,6 +8,11 @@ var world_scenes = {
 
 var map = null
 
+func get_projectile_container():
+	if map != null:
+		return map.get_projectile_container()
+	return null
+
 func get_decal_container():
 	if map != null:
 		return map.get_decal_container()

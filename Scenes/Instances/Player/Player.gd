@@ -290,15 +290,15 @@ func drop_pickup_item():
 			# Set its position relative to the player
 			item_to_spawn.global_position = global_position
 			
-			# If the current weapon is a HitscanWeapon
-			if current_item is HitscanWeapon:
+			# If the current weapon is a range weapon
+			if current_item is RangeWeapon:
 				# Set its new item ammo
 				item_to_spawn.ammo_in_mag = current_item.ammo_in_mag
 				
 			# Spawn in game world
 			var items_container = map_handler.get_items_container()
 			if items_container != null:
-				items_container.add_child(item_to_spawn)
+				items_container.call_deferred("add_child", item_to_spawn)
 		
 		# Play pickup sound
 		pickup_sound.play()
@@ -329,8 +329,8 @@ func pick_item_up():
 				new_item.owner_player = self
 				new_item.position = new_item.equip_pos
 				
-				# If the item is a HitscanWeapon
-				if new_item is HitscanWeapon:
+				# If the item is a range weapon
+				if new_item is RangeWeapon:
 					# Set its ammo
 					new_item.ammo_in_mag = item_data["ammo_in_mag"]
 				
@@ -443,6 +443,9 @@ func _manage_animations():
 		# Play the idle animation
 		animation_tree.set(idle_move_transition, 0)
 		animation_tree.set(crouch_sneak_transition, 0)
+
+func get_owner_id():
+	return owner_id
 
 func get_velocity():
 	return motion

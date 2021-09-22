@@ -3,13 +3,15 @@ extends Node
 # Holds all the weapons scenes
 const ALL_ITEMS = {
 	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911.tscn"),
-	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41.tscn")
+	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41.tscn"),
+	"SQLCanon": preload("res://Scenes/Instances/Weapons/SQLCanon/SQLCanon.tscn")
 }
 
 # Holds all the weapons pickups scenes
 const ALL_ITEMS_PICKUP = {
 	"M1911": preload("res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn"),
-	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41Pickup.tscn")
+	"PPSH-41": preload("res://Scenes/Instances/Weapons/PPSH-41/PPSH-41Pickup.tscn"),
+	"SQLCanon": preload("res://Scenes/Instances/Weapons/SQLCanon/SQLCanonPickup.tscn")
 }
 
 func get_random_pickup_item():
