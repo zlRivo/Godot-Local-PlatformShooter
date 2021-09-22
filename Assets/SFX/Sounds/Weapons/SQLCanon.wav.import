@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/SQLCanon.wav-a350181d00b1a47e2bbf0824a9fac991.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/Sounds/Weapons/SQLCanon.wav"
+dest_files=[ "res://.import/SQLCanon.wav-a350181d00b1a47e2bbf0824a9fac991.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

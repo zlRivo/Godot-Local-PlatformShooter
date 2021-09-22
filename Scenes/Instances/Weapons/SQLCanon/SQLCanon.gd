@@ -1,5 +1,7 @@
 extends ProjectileWeapon
 
+export (int) var explosion_damage = 3
+
 func fire():
 	# Call fire on parent class
 	.fire()
@@ -27,7 +29,7 @@ func fire():
 							projectile_trail_direction.x = owner_player.get_x_scale()
 							
 					# Initialize the projectile
-					last_shot_projectile.init_projectile(projectile_trail_direction, damage, owner_player)
+					last_shot_projectile.init_projectile(projectile_trail_direction, damage, explosion_damage, owner_player)
 		
 					# Spawn in the game world
 					projectile_container.add_child(last_shot_projectile)

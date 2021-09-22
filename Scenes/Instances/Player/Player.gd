@@ -200,6 +200,8 @@ func die(killer):
 	Globals.shake_camera(death_shake_amount)
 
 func respawn():
+	# Switch alive state
+	dead = false
 	# Reset player health
 	set_health(MAX_HEALTH, self)
 	# Enable stomp detector
@@ -218,8 +220,6 @@ func respawn():
 	collision_shape.set_deferred("disabled", false)
 	# Show back player
 	visible = true
-	# Switch alive state
-	dead = false
 	
 	# Play sound
 	respawn_sound.play()
@@ -254,6 +254,10 @@ func vanish():
 		game_camera.refresh_player_container()
 
 func set_health(new_value, setter):
+	# Do nothing if we are already dead
+	if is_dead():
+		return
+	
 	# If we lost health
 	if new_value > 0 and new_value < health:
 		hurt_sound.play()

@@ -8,14 +8,16 @@ onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 
 onready var label = $Label
 onready var animation_player = $AnimationPlayer
+onready var move_sound = $Sound
 
 # Explosion scene
 var explosion_scene = preload("res://Scenes/Instances/Projectiles/SQLDelete/SQLDeleteExplosion.tscn")
 
 # X velocity
-var projectile_speed = 5000
+var projectile_speed = 10000
 
 var damage : float = 0
+var explosion_damage = 0
 
 # Direction of the projectile
 var direction = Vector2.ZERO
@@ -24,12 +26,13 @@ func _ready():
 	# Play spawn animation
 	animation_player.play("spawn")
 
-func init_projectile(_direction : Vector2, _damage : float, _owner_entity = null):
+func init_projectile(_direction : Vector2, _damage : float, _explosion_damage : int, _owner_entity = null):
 	# Delete if velocity if zero
 	if _direction == Vector2.ZERO:
 		queue_free()
 	direction = _direction.normalized()
 	owner_entity = _owner_entity
+	explosion_damage = _explosion_damage
 	
 	# Owner ID text
 	var owner_id = -1
@@ -58,6 +61,8 @@ func delete_projectile():
 	explosion.global_position = global_position
 	# Set the owner
 	explosion.explosion_owner = owner_entity
+	# Set explosion damage
+	explosion.explosion_damage = explosion_damage
 	# Get the projectile container
 	var projectile_container = map_handler.get_projectile_container()
 	# If we have a container to spawn the projectile in
@@ -86,3 +91,5 @@ func _on_CollisionDetection_body_entered(body):
 func _on_ShakeTimer_timeout():
 	# Shake camera
 	Globals.shake_camera(30, 0.1)
+	# Play move sound
+	move_sound.play()
