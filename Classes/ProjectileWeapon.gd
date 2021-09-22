@@ -43,6 +43,13 @@ func fire():
 				
 			# Set last shot projectile reference
 			last_shot_projectile = new_projectile
+			
+		# No ammo
+		else:
+			# Start fire cooldown
+			start_fire_cooldown()
+			# Play empty sound
+			empty_sound_player.play()
 
 func decrement_ammo():
 	if not unlimited_ammo:
@@ -50,6 +57,4 @@ func decrement_ammo():
 		ammo_in_mag -= 1
 
 func start_fire_cooldown():
-	# Start cooldown
-	fire_cooldown_timer.start()
-	fire_cooldown_timer_finished = false
+	.start_fire_cooldown()

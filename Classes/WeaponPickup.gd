@@ -13,6 +13,9 @@ var elapsed_time = 0
 # Fade out animation player
 var fade_out_anim_player = null
 
+# Know if the fire cooldown is finished
+var fire_cooldown_timer_finished = true
+
 func _ready():
 	set_process(false)
 	# Create animation player
@@ -77,5 +80,6 @@ func _process(delta):
 func get_item_pickup_data():
 	return {
 		"name": item_name,
-		"ammo_in_mag": ammo_in_mag
+		"ammo_in_mag": ammo_in_mag,
+		"fire_cooldown_timer_finished": fire_cooldown_timer_finished
 	}

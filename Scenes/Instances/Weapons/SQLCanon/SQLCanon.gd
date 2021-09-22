@@ -1,6 +1,7 @@
 extends ProjectileWeapon
 
-export (int) var explosion_damage = 3
+var explosion_damage = 3
+var knockback_force = 100
 
 func fire():
 	# Call fire on parent class
@@ -27,6 +28,11 @@ func fire():
 						if owner_player.is_in_group("Player"):
 							# Set the velocity of the projectile based on his x scale
 							projectile_trail_direction.x = owner_player.get_x_scale()
+							# Apply knockback to the player
+							owner_player.apply_knockback(Vector2(
+								-projectile_trail_direction.x * knockback_force * 2,
+								-knockback_force
+							))
 							
 					# Initialize the projectile
 					last_shot_projectile.init_projectile(projectile_trail_direction, damage, explosion_damage, owner_player)

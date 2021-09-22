@@ -79,7 +79,6 @@ animation_player_path = NodePath("AnimationPlayer")
 attack_sound_path = NodePath("ShootSound")
 fire_rate = 2.0
 ammo_in_mag = 4
-unlimited_ammo = true
 camera_shake = 150.0
 projectile_to_spawn = ExtResource( 3 )
 spawn_position_path = NodePath("SpawnPosition")

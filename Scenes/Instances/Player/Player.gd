@@ -77,7 +77,7 @@ var hurt_shake_amount = 80
 const MIN_STOMP_SPEED = 50
 
 const MAXSPEED = 110
-const ACCEL = 6
+const ACCEL = 12
 
 var is_kicking = false
 
@@ -90,7 +90,15 @@ var score = 0
 # Current picked up item reference
 var current_item = null
 
-var motion = Vector2.ZERO
+# Player movement calculation
+var movement = Vector2.ZERO
+# Hold movement input
+var direction = Vector2.ZERO
+# Horizontal velocity
+var h_velocity = Vector2.ZERO
+# Gravity vector
+var gravity_vec = Vector2.ZERO
+
 export var owner_id = 0
 export var sprite_name = "mort"
 
@@ -142,7 +150,7 @@ func _physics_process(delta):
 		_manage_gravity()
 		_manage_movement_inputs()
 		_manage_combat_inputs()
-		_manage_movement()
+		_manage_movement(delta)
 		_manage_rigidbody_interactions()
 		_manage_interactions()
 	_manage_animations()
@@ -151,18 +159,22 @@ func update_health_bar():
 	health_bar.update_empty(health)
 
 func jump(height):
-	motion.y = -height
+	gravity_vec.y = -height
 
 func get_stomped_on(stomper):
 	# Remove health
 	set_health(health - 3, stomper)
 	
 	# Set Y velocity
-	motion.y = 0
+	gravity_vec.y = 0
 	
 	if not dead:
 		# Camera shake
 		Globals.shake_camera(hurt_shake_amount)
+
+func apply_knockback(vec : Vector2):
+	gravity_vec.x += vec.x
+	gravity_vec.y += vec.y
 
 func get_health():
 	return health
@@ -297,7 +309,9 @@ func drop_pickup_item():
 			# If the current weapon is a range weapon
 			if current_item is RangeWeapon:
 				# Set its new item ammo
-				item_to_spawn.ammo_in_mag = current_item.ammo_in_mag
+				item_to_spawn.ammo_in_mag = current_item_data["ammo_in_mag"]
+				# Set whether the fire cooldown is finished
+				item_to_spawn.fire_cooldown_timer_finished = current_item_data["fire_cooldown_timer_finished"]
 				
 			# Spawn in game world
 			var items_container = map_handler.get_items_container()
@@ -337,6 +351,8 @@ func pick_item_up():
 				if new_item is RangeWeapon:
 					# Set its ammo
 					new_item.ammo_in_mag = item_data["ammo_in_mag"]
+					# Set whether the fire cooldown is finished
+					new_item.fire_cooldown_timer_finished = item_data["fire_cooldown_timer_finished"]
 				
 				# Delete pickup of game world
 				var items_container = map_handler.get_items_container()
@@ -381,22 +397,25 @@ func is_kicking():
 	return animation_tree.get(kick_oneshot)
 
 func _manage_gravity():
-	motion.y = motion.y + GRAVITY
-	if motion.y > MAX_FALLSPEED:
-		motion.y = MAX_FALLSPEED
+	gravity_vec.y = gravity_vec.y + GRAVITY
+	if gravity_vec.y > MAX_FALLSPEED:
+		gravity_vec.y = MAX_FALLSPEED
+
 func _manage_movement_inputs():
+	direction = Vector2.ZERO
+	
 	if Input.is_action_just_pressed("jump_" + str(owner_id)):
 		if is_on_floor() and not is_kicking():
 			jump(JUMP_HEIGHT)
 			jump_sound.play()
 	
 	if Input.is_action_pressed("right_" + str(owner_id)) and not Input.is_action_pressed("left_" + str(owner_id)):
-		motion.x += ACCEL
+		direction.x += 1
 		
 	elif Input.is_action_pressed("left_" + str(owner_id)) and not Input.is_action_pressed("right_" + str(owner_id)):
-		motion.x -= ACCEL
-	else:
-		motion.x = lerp(motion.x, 0, 0.03)
+		direction.x -= 1
+	#else:
+	#	direction.x = lerp(motion.x, 0, 0.03)
 
 func _manage_combat_inputs():
 	if Input.is_action_just_pressed("kick_" + str(owner_id)):
@@ -410,10 +429,22 @@ func _manage_interactions():
 	if Input.is_action_just_pressed("pickup_" + str(owner_id)):
 		pick_item_up()
 
-func _manage_movement():
-	motion.x = clamp(motion.x, -MAXSPEED, MAXSPEED)
+func _manage_movement(delta):
+	# Calculate total movement
+	h_velocity = h_velocity.linear_interpolate(direction * MAXSPEED, ACCEL * delta)
+	movement.x = h_velocity.x + gravity_vec.x
+	movement.y = gravity_vec.y
+	
+	movement.x = clamp(movement.x, -MAXSPEED, MAXSPEED)
 		
-	motion = move_and_slide(motion, Vector2.UP, false, 4, PI/4, false)
+	var collision_vec = move_and_slide(movement, Vector2.UP, false, 4, PI/4, false)
+	h_velocity.x = collision_vec.x
+	gravity_vec.y = collision_vec.y
+	
+	if is_on_floor():
+		# Reset x velocity
+		gravity_vec.x = -get_floor_normal().x
+	
 func _manage_rigidbody_interactions():
 	# Collisions with rigidbodies
 	for index in get_slide_count():
@@ -452,7 +483,8 @@ func get_owner_id():
 	return owner_id
 
 func get_velocity():
-	return motion
+	var velocity = Vector2(h_velocity.x, gravity_vec.y)
+	return velocity
 
 func get_jump_height():
 	return JUMP_HEIGHT

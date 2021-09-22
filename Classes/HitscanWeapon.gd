@@ -74,6 +74,16 @@ func fire():
 			# Start cooldown
 			fire_cooldown_timer.start()
 			fire_cooldown_timer_finished = false
+		
+		# No ammo
+		else:
+			# Start fire cooldown
+			start_fire_cooldown()
+			# Play empty sound
+			empty_sound_player.play()
+
+func start_fire_cooldown():
+	.start_fire_cooldown()
 
 func add_raycast_exception(node : Node):
 	# Do nothing if there is no raycast

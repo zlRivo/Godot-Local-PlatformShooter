@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Instances/PreviewCamera/PreviewCamera.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Assets/Sprites/Background/Parallax/PlainGround/layer1.png" type="Texture" id=8]
 [ext_resource path="res://Assets/SFX/Music/a_night_of_dizzy_spells.wav" type="AudioStream" id=9]
 [ext_resource path="res://Scenes/Maps/PlainGroundMap/PlainGroundMap.gd" type="Script" id=10]
-[ext_resource path="res://Scenes/Instances/Weapons/SQLCanon/SQLCanonPickup.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Terrain/MysteryBox.tscn" type="PackedScene" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -386,9 +385,6 @@ jump_height = 1.5
 position = Vector2( -153, -9 )
 
 [node name="Items" type="Node" parent="TerrainItems"]
-
-[node name="SQLCanon" parent="TerrainItems/Items" instance=ExtResource( 11 )]
-position = Vector2( -24, 8 )
 
 [node name="MysteryBoxes" type="Node" parent="TerrainItems"]
 
