@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR2.png" type="Texture" id=1]
 [ext_resource path="res://Classes/WeaponPickup.gd" type="Script" id=2]
 
 [node name="PPSH-41" type="RigidBody2D"]

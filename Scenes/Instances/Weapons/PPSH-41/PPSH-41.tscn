@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR2.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Instances/Weapons/PPSH-41/PPSH-41.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Sprites/Weapons/Guns/MuzzleFlash/MuzzleFlash.png" type="Texture" id=3]
-[ext_resource path="res://Assets/SFX/Sounds/Weapons/AK47.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/SFX/Sounds/Weapons/watergun.wav" type="AudioStream" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "fire"
@@ -51,10 +51,9 @@ item_name = "PPSH-41"
 equip_pos = Vector2( 5, 2 )
 animation_player_path = NodePath("AnimationPlayer")
 attack_sound_path = NodePath("ShootSound")
-fire_rate = 0.05
+fire_rate = 0.1
 damage = 1.0
 ammo_in_mag = 71
-camera_shake = 30.0
 raycast_path = NodePath("RayCast2D")
 bullet_trail_lifetime = 0.09
 
@@ -65,6 +64,7 @@ vframes = 3
 frame = 8
 
 [node name="MuzzleFlash" type="Sprite" parent="Sprite"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 11.3959, -3.4544 )
 texture = ExtResource( 3 )
@@ -80,4 +80,3 @@ anims/fire = SubResource( 1 )
 
 [node name="ShootSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-volume_db = -10.0

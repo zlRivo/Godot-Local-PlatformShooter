@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Instances/BulletTrail/BulletTrail.gd" type="Script" id=1]
 
@@ -6,12 +6,9 @@
 extents = Vector2( 1, 1 )
 
 [sub_resource type="Curve" id=2]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.244444, 0.845455 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 0.363636 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="QuadMesh" id=3]
-size = Vector2( 2, 2 )
-
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 1, 1 )
 
 [node name="BulletTrail" type="KinematicBody2D"]
@@ -25,14 +22,22 @@ disabled = true
 [node name="Trail" type="Line2D" parent="."]
 width = 2.0
 width_curve = SubResource( 2 )
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color( 0, 0.87451, 0.835294, 1 )
 
-[node name="Bullet" type="MeshInstance2D" parent="."]
-mesh = SubResource( 3 )
+[node name="Bullet" type="ColorRect" parent="."]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 1.0
+margin_bottom = 1.0
+color = Color( 0, 0.87451, 0.835294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CollisionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]

@@ -2,7 +2,7 @@ extends RigidBody2D
 
 onready var collision_sound = $CollisionSound
 
-var camera_shake_amount = 5
+var camera_shake_amount = 2
 
 # When the box hits something
 func handle_collision(body):

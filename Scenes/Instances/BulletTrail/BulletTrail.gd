@@ -3,7 +3,7 @@ extends KinematicBody2D
 # References
 onready var trail = $Trail
 onready var collision_area = $CollisionArea
-onready var mesh = $Bullet
+onready var bullet_rect = $Bullet
 
 # To prevent detecting collision from the one who instanciated this node
 var owner_entity = null
@@ -54,4 +54,4 @@ func _on_CollisionArea_body_entered(body):
 	if body != owner_entity:
 		collision_detected = true
 		# Hide bullet mesh
-		mesh.visible = false
+		bullet_rect.visible = false

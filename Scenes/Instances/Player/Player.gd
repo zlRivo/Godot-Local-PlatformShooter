@@ -177,6 +177,9 @@ func die(killer):
 			if killer.is_in_group("Player"):
 				# Increment the other player's score
 				killer.increment_score()
+				
+	# Drop item if existing
+	drop_pickup_item()
 	# Play death sound
 	death_sound.play()
 	# Disable player indicator

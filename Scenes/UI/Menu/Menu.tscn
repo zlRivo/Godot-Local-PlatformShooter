@@ -65,13 +65,13 @@ outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 96
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "scroll_down"
 length = 12.0
 loop = true
@@ -85,10 +85,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 12 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 160, -1284 ), Vector2( 160, 720 ) ]
+"values": [ Vector2( 160, -1383 ), Vector2( 160, 720 ) ]
 }
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=8]
 size = 48
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -245,7 +245,6 @@ owner_id = 1
 [node name="CountDown" parent="CharacterSelection" instance=ExtResource( 8 )]
 
 [node name="CreditsMenu" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -260,8 +259,8 @@ anchor_bottom = 0.5
 margin_left = -480.0
 margin_top = 360.0
 margin_right = 480.0
-margin_bottom = 1644.0
-custom_fonts/font = SubResource( 7 )
+margin_bottom = 1743.0
+custom_fonts/font = SubResource( 6 )
 text = "Thanks for playing !
 
 DEVELOPER:
@@ -269,6 +268,7 @@ KilyLC / zlRivo
 
 ART:
 Blackwolfdave
+Mack
 ansimuz
 Arks
 KenneyNL
@@ -281,7 +281,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CreditsMenu/CreditsLabel"]
-anims/scroll_down = SubResource( 8 )
+anims/scroll_down = SubResource( 7 )
 
 [node name="HowToPlayMenu" type="Control" parent="."]
 visible = false
@@ -296,7 +296,7 @@ margin_left = 58.0
 margin_top = 373.0
 margin_right = 409.0
 margin_bottom = 472.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Stomp on other players' head"
 autowrap = true
 
@@ -313,7 +313,7 @@ margin_left = 428.527
 margin_top = 460.164
 margin_right = 779.527
 margin_bottom = 610.164
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Avoid getting stomped on by other players"
 autowrap = true
 __meta__ = {
@@ -336,7 +336,7 @@ margin_left = 818.818
 margin_top = 384.546
 margin_right = 1189.82
 margin_bottom = 585.546
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 8 )
 text = "Getting stomped on will result  in scoring for other players"
 autowrap = true
 __meta__ = {

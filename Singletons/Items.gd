@@ -15,6 +15,8 @@ const ALL_ITEMS_PICKUP = {
 func get_random_pickup_item():
 	# Get the keys of the pickup items
 	var item_keys = ALL_ITEMS_PICKUP.keys()
+	# Randomize for better random
+	randomize()
 	# Get a random key
 	var random_element = item_keys[randi() % item_keys.size()]
 	# Return it

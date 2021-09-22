@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/AK47.wav-0ea4939c1bff3a9556322e0219c5432b.sample"
+path="res://.import/PPSH-41.wav-8620a1a86c0b34f9115a78a99f872801.sample"
 
 [deps]
 
-source_file="res://Assets/SFX/Sounds/Weapons/AK47.wav"
-dest_files=[ "res://.import/AK47.wav-0ea4939c1bff3a9556322e0219c5432b.sample" ]
+source_file="res://Assets/SFX/Sounds/Weapons/PPSH-41.wav"
+dest_files=[ "res://.import/PPSH-41.wav-8620a1a86c0b34f9115a78a99f872801.sample" ]
 
 [params]
 
