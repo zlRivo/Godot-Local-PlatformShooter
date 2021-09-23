@@ -35,9 +35,7 @@ func explode():
 		# Apply force to rigidbodies
 		if b is RigidBody2D:
 			# Get the vector between the explosion and the target
-			var distance_vector = b.global_position - global_position
-			# Normalize the vector
-			distance_vector = distance_vector.normalized()
+			var distance_vector = ((b.global_position - global_position).normalized() * max_vector_size) - (b.global_position - global_position).normalized()
 			# Add force to the rigidbody
 			b.apply_central_impulse(distance_vector * rigidbody_force)
 		
