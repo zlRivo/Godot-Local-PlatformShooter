@@ -1,4 +1,5 @@
 extends Weapon
+class_name MeleeWeapon
 
 export (float) var attack_speed = 0
 export (float) var damage = 3
@@ -24,8 +25,13 @@ func _ready():
 
 func fire():
 	# Start attack cooldown if not active
-	if attack_timer.wait_time <= 0:
-		# Attack players
+	if attack_timer_finished:
+		# Play attack animation
+		if animation_player != null:
+			if animation_player.has_animation("fire"):
+				if animation_player.is_playing():
+					animation_player.stop()
+				animation_player.play("fire")
 		
 		# Start cooldown
 		attack_timer.start()
@@ -33,3 +39,23 @@ func fire():
 
 func _on_attack_cooldown_finished():
 	attack_timer_finished = true
+
+func kill_players_within_hitbox():
+	# Do nothing if no hitbox
+	if hitbox == null:
+		return
+	
+	# Get all the bodies colliding with the hitbox
+	var colliding_bodies = hitbox.get_overlapping_bodies()
+	for b in colliding_bodies:
+		# Go to next iteration if we are colliding with ourself
+		if b == owner_player:
+			continue
+			
+		print(b.name)
+			
+		# If the body is a player
+		if b.is_in_group("Player"):
+			# Apply damage to the player
+			b.set_health(b.get_health() - damage, owner_player)
+	

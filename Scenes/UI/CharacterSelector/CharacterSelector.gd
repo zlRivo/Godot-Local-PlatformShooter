@@ -95,7 +95,8 @@ func _ready():
 func switch_menu(new_menu : Control):
 	if main_menu == null:
 		return
-		
+	
+	# Switch menu
 	main_menu.switch_menu(new_menu)
 	# If we switch to another menu
 	if new_menu != self:
