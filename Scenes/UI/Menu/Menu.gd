@@ -33,7 +33,7 @@ func _input(event):
 	# If we are not in game
 	if not Globals.is_in_game():
 		# Main menu
-		if main_menu_node.visible:
+		if current_menu == main_menu_node:
 			if event.is_action_pressed("ui_down"):
 				set_current_selection(current_selection + 1)
 			if event.is_action_pressed("ui_up"):
@@ -68,13 +68,13 @@ func _input(event):
 					"LabelQuit":
 						get_tree().quit()
 		# If we are in the credits menu
-		if credits_menu.visible:
+		if current_menu == credits_menu:
 			if event.is_action_pressed("ui_cancel"):
 				# Switch menu
 				switch_menu(main_menu_node)
 				
 		# If we are in the how to play menu
-		if how_to_play_menu.visible:
+		if current_menu == how_to_play_menu:
 			if event.is_action_pressed("ui_cancel"):
 				# Switch menu
 				switch_menu(main_menu_node)

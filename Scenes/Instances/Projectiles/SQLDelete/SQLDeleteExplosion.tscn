@@ -55,7 +55,6 @@ shape = SubResource( 2 )
 
 [node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-
 [connection signal="body_entered" from="." to="." method="_on_SQLDeleteExplosion_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_SQLDeleteExplosion_body_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

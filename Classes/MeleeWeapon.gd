@@ -23,6 +23,10 @@ func _ready():
 	# Add to scene
 	add_child(attack_timer)
 
+func play_attack_sound():
+	if attack_sound != null:
+		attack_sound.play()
+
 func fire():
 	# Start attack cooldown if not active
 	if attack_timer_finished:

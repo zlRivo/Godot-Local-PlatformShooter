@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 # References
 onready var sprite = $Sprite
+onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var player_label = $PlayerIndicator/PlayerLabel
 onready var player_indicator = $PlayerIndicator
@@ -12,6 +13,7 @@ onready var respawn_timer = $RespawnTimer
 onready var hand = $Sprite/Hand
 onready var health_bar = $PlayerIndicator/HealthBar
 onready var pickup_area = $PickupArea
+onready var kick_area = $Sprite/KickArea
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
@@ -21,6 +23,7 @@ onready var footstep_sound_player = $Sounds/FootstepSound
 onready var death_sound = $Sounds/DeathSound
 onready var respawn_sound = $Sounds/RespawnSound
 onready var pickup_sound = $Sounds/PickupSound
+onready var kick_sound = $Sounds/KickSound
 
 # Hold stomp detector shape
 onready var stomp_detector_shape = stomp_detector.get_node("CollisionShape2D").get_shape()
@@ -79,13 +82,14 @@ const MIN_STOMP_SPEED = 50
 const MAXSPEED = 110
 const ACCEL = 12
 
-var is_kicking = false
-
 # Determine if the player is currently dead
 var dead = false
 const MAX_HEALTH = 3
 var health = 3
 var score = 0
+
+var kick_damage = 1
+var kick_force = 50
 
 # Current picked up item reference
 var current_item = null
@@ -216,6 +220,11 @@ func respawn():
 	dead = false
 	# Reset player health
 	set_health(MAX_HEALTH, self)
+	
+	# Reset velocity
+	gravity_vec = Vector2.ZERO
+	h_velocity = Vector2.ZERO
+	
 	# Enable stomp detector
 	stomp_detector.shape_owner_add_shape(0, stomp_detector_shape)
 	# Set player to a random spawn location
@@ -385,10 +394,28 @@ func play_footstep_sound():
 	footstep_sound_player.stream = footstep_sounds[randi() % footstep_sounds.size()]
 	footstep_sound_player.play()
 
-func play_kick_anim():
-	if not is_kicking:
+func kick():
+	if not is_kicking() and is_on_floor():
 		animation_tree.set(kick_anim_seek, -1)
 		animation_tree.set(kick_oneshot, true)
+		
+		# Get all bodies within the area
+		var colliding_bodies = kick_area.get_overlapping_bodies()
+		# Loop through them
+		for b in colliding_bodies:
+			# Do nothing if self
+			if b == self:
+				continue
+				
+			if b.is_in_group("Player"):
+				# Apply damage
+				b.set_health(b.get_health() - kick_damage, self)
+				# Apply knockback
+				var facing_side = get_x_scale()
+				b.apply_knockback(Vector2(kick_force * facing_side, -kick_force * 2))
+				
+		# Play sound
+		kick_sound.play()
 
 func stop_kicking():
 	animation_tree.set(kick_oneshot, false)
@@ -418,12 +445,13 @@ func _manage_movement_inputs():
 	#	direction.x = lerp(motion.x, 0, 0.03)
 
 func _manage_combat_inputs():
-	if Input.is_action_just_pressed("kick_" + str(owner_id)):
-		play_kick_anim()
 	if Input.is_action_pressed("fire_" + str(owner_id)):
 		if current_item != null:
 			if current_item.has_method("fire"):
 				current_item.fire()
+		# If we have no item
+		else:
+			kick()
 		
 func _manage_interactions():
 	if Input.is_action_just_pressed("pickup_" + str(owner_id)):

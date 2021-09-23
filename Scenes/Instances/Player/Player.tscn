@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Assets/Sprites/Player/doux.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Instances/Player/AnimationPlayer/AnimationPlayer.tscn" type="PackedScene" id=2]
@@ -13,119 +13,121 @@
 [ext_resource path="res://Scenes/Instances/Player/Hand.gd" type="Script" id=11]
 [ext_resource path="res://Assets/SFX/Sounds/pickup.wav" type="AudioStream" id=12]
 [ext_resource path="res://Assets/Sprites/HUD/full_heart.png" type="Texture" id=13]
+[ext_resource path="res://Assets/SFX/Sounds/kick.wav" type="AudioStream" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 4.0
 height = 9.0
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 4, 1 )
 
-[sub_resource type="AnimationNodeAnimation" id=4]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "jump"
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "move"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "crouch"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "sneak"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "kick"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "hurt"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "idle"
 
-[sub_resource type="AnimationNodeTransition" id=11]
+[sub_resource type="AnimationNodeTransition" id=12]
 input_count = 2
 input_0/name = "crouch"
 input_0/auto_advance = false
 input_1/name = "sneak"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTransition" id=12]
+[sub_resource type="AnimationNodeTransition" id=13]
 input_count = 2
 input_0/name = "crouch"
 input_0/auto_advance = false
 input_1/name = "stand"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTimeSeek" id=13]
+[sub_resource type="AnimationNodeTimeSeek" id=14]
 
-[sub_resource type="AnimationNodeOneShot" id=14]
+[sub_resource type="AnimationNodeOneShot" id=15]
 fadein_time = 0.0
 fadeout_time = 0.0
 
-[sub_resource type="AnimationNodeTransition" id=15]
+[sub_resource type="AnimationNodeTransition" id=16]
 input_count = 2
 input_0/name = "idle"
 input_0/auto_advance = false
 input_1/name = "move"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeTimeSeek" id=16]
+[sub_resource type="AnimationNodeTimeSeek" id=17]
 
-[sub_resource type="AnimationNodeOneShot" id=17]
+[sub_resource type="AnimationNodeOneShot" id=18]
 fadein_time = 0.0
 fadeout_time = 0.0
 
-[sub_resource type="AnimationNodeTransition" id=18]
+[sub_resource type="AnimationNodeTransition" id=19]
 input_count = 2
 input_0/name = "stand"
 input_0/auto_advance = false
 input_1/name = "jump"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeBlendTree" id=19]
+[sub_resource type="AnimationNodeBlendTree" id=20]
 graph_offset = Vector2( -1126, -281.5 )
-nodes/Animation/node = SubResource( 10 )
+nodes/Animation/node = SubResource( 11 )
 nodes/Animation/position = Vector2( -740, 100 )
-"nodes/Animation 2/node" = SubResource( 4 )
+"nodes/Animation 2/node" = SubResource( 5 )
 "nodes/Animation 2/position" = Vector2( 60, 300 )
-"nodes/Animation 3/node" = SubResource( 5 )
+"nodes/Animation 3/node" = SubResource( 6 )
 "nodes/Animation 3/position" = Vector2( -740, 260 )
-"nodes/Animation 4/node" = SubResource( 6 )
+"nodes/Animation 4/node" = SubResource( 7 )
 "nodes/Animation 4/position" = Vector2( -720, -175 )
-"nodes/Animation 5/node" = SubResource( 7 )
+"nodes/Animation 5/node" = SubResource( 8 )
 "nodes/Animation 5/position" = Vector2( -740, -40 )
-"nodes/Animation 6/node" = SubResource( 8 )
+"nodes/Animation 6/node" = SubResource( 9 )
 "nodes/Animation 6/position" = Vector2( -380, 280 )
-"nodes/Animation 7/node" = SubResource( 9 )
+"nodes/Animation 7/node" = SubResource( 10 )
 "nodes/Animation 7/position" = Vector2( 100, 440 )
-nodes/crouch_sneak_transition/node = SubResource( 11 )
+nodes/crouch_sneak_transition/node = SubResource( 12 )
 nodes/crouch_sneak_transition/position = Vector2( -520, -60 )
-nodes/crouch_stand_transition/node = SubResource( 12 )
+nodes/crouch_stand_transition/node = SubResource( 13 )
 nodes/crouch_stand_transition/position = Vector2( -260, 40 )
-nodes/hurt_anim_seek/node = SubResource( 13 )
+nodes/hurt_anim_seek/node = SubResource( 14 )
 nodes/hurt_anim_seek/position = Vector2( 340, 340 )
-nodes/hurt_oneshot/node = SubResource( 14 )
+nodes/hurt_oneshot/node = SubResource( 15 )
 nodes/hurt_oneshot/position = Vector2( 560, 260 )
-nodes/idle_move_transition/node = SubResource( 15 )
+nodes/idle_move_transition/node = SubResource( 16 )
 nodes/idle_move_transition/position = Vector2( -520, 100 )
-nodes/kick_anim_seek/node = SubResource( 16 )
+nodes/kick_anim_seek/node = SubResource( 17 )
 nodes/kick_anim_seek/position = Vector2( -180, 220 )
-nodes/kick_oneshot/node = SubResource( 17 )
+nodes/kick_oneshot/node = SubResource( 18 )
 nodes/kick_oneshot/position = Vector2( 40, 100 )
 nodes/output/position = Vector2( 820, 240 )
-nodes/stand_jump_transition/node = SubResource( 18 )
+nodes/stand_jump_transition/node = SubResource( 19 )
 nodes/stand_jump_transition/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "hurt_oneshot", "kick_anim_seek", 0, "Animation 6", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "hurt_anim_seek", 0, "Animation 7", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
+node_connections = [ "output", 0, "hurt_oneshot", "idle_move_transition", 0, "Animation", "idle_move_transition", 1, "Animation 3", "hurt_oneshot", 0, "stand_jump_transition", "hurt_oneshot", 1, "hurt_anim_seek", "kick_anim_seek", 0, "Animation 6", "kick_oneshot", 0, "crouch_stand_transition", "kick_oneshot", 1, "kick_anim_seek", "crouch_sneak_transition", 0, "Animation 4", "crouch_sneak_transition", 1, "Animation 5", "hurt_anim_seek", 0, "Animation 7", "stand_jump_transition", 0, "kick_oneshot", "stand_jump_transition", 1, "Animation 2", "crouch_stand_transition", 0, "crouch_sneak_transition", "crouch_stand_transition", 1, "idle_move_transition" ]
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=21]
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="Animation" id=21]
-resource_name = "hurt"
+[sub_resource type="Animation" id=22]
 length = 0.2
 step = 0.005
 tracks/0/type = "value"
@@ -148,6 +150,7 @@ collision_layer = 4
 script = ExtResource( 3 )
 
 [node name="PickupArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -162,20 +165,28 @@ frame = 6
 [node name="Hand" type="Node2D" parent="Sprite"]
 script = ExtResource( 11 )
 
+[node name="KickArea" type="Area2D" parent="Sprite"]
+visible = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/KickArea"]
+shape = SubResource( 2 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 0.5 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="StompDetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StompDetector"]
 position = Vector2( 0, -9 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="AnimationPlayer" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 19 )
+tree_root = SubResource( 20 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/crouch_sneak_transition/current = 0
@@ -210,7 +221,7 @@ margin_left = -3.0
 margin_top = -20.0
 margin_right = 13.0
 margin_bottom = -3.99998
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 text = "P?"
 uppercase = true
 __meta__ = {
@@ -260,7 +271,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerIndicator/HealthBar"]
-anims/hurt = SubResource( 21 )
+anims/hurt = SubResource( 22 )
 
 [node name="Sounds" type="Node" parent="."]
 
@@ -281,6 +292,9 @@ stream = ExtResource( 9 )
 [node name="PickupSound" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 12 )
 volume_db = 15.0
+
+[node name="KickSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 14 )
 
 [node name="VisibleTimer" type="Timer" parent="."]
 wait_time = 0.3
