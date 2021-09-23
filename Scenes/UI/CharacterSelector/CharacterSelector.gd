@@ -7,6 +7,7 @@ onready var sprite = $Sprite
 onready var ready_label = $LabelReady
 onready var ready_label_animation_player = $LabelReady/AnimationPlayer
 onready var player_selector_container = get_parent()
+onready var player_indicator = $PlayerIndicator
 # Arrows
 onready var left_arrow = $LeftArrow
 onready var right_arrow = $RightArrow
@@ -38,19 +39,38 @@ export var owner_id = 0
 signal ready_state_changed(owner_id)
 signal selection_changed(owner_id)
 
+onready var sprite_default_modulate = sprite.modulate
+
 # Text for ready states
 var ready_text = "ready!"
 onready var not_ready_text = ready_label.text
 var ready_state = false
 
+var active_state = false
+
 func _input(event):
 	# If the menu is visible
 	if character_selec_menu != null and character_selec_menu.visible:
 		if event.is_action_pressed("ui_accept_" + str(owner_id)):
-			set_ready_state(!ready_state)
+			# If the player isn't currently active, set him to active
+			if get_active_state() == false:
+				set_active_state(true)
+			else:
+				set_ready_state(!ready_state)
 		
 		if event.is_action_pressed("ui_cancel_" + str(owner_id)):
-			if get_ready_state() == false:
+			if get_active_state() == true:
+				# If player isn't ready
+				if get_ready_state() == false:
+					# Set player slot to inactive
+					set_active_state(false)
+					
+				else:
+					# Set player to not ready
+					set_ready_state(false)
+					
+			# If the player slot is not active
+			else:
 				if main_menu != null:
 					# Play UI Sound
 					play_ui_action_sound()
@@ -58,15 +78,14 @@ func _input(event):
 					switch_menu(main_menu.get_main_menu_node())
 					# Switch ready state to false for all players
 					set_all_players_ready_state(false)
+					# Reset active state for all players
+					set_all_players_active_state(false)
 					# Reset camera zoom
 					reset_camera_zoom()
-			else:
-				# Set player to not ready
-				set_ready_state(false)
 				
 		# Selection
 		# If the player isn't currently ready
-		if get_ready_state() == false:
+		if get_ready_state() == false and get_active_state() == true:
 			if event.is_action_pressed("ui_left_" + str(owner_id)):
 				switch_character_selection(get_selection_index() - 1)
 				# Play sound
@@ -91,6 +110,8 @@ func _ready():
 	animation_player.play("move")
 	# Select default character
 	switch_character_selection(1)
+	# Set default active state
+	set_active_state(false)
 
 func switch_menu(new_menu : Control):
 	if main_menu == null:
@@ -201,13 +222,49 @@ func set_ready_state(new_ready_state : bool):
 	emit_signal("ready_state_changed", owner_id, ready_state)
 
 func set_all_players_ready_state(new_ready_state : bool):
-	if player_selector_container == null:
-		return
-		
-	player_selector_container.set_all_players_ready_state(new_ready_state)
+	if player_selector_container != null:
+		player_selector_container.set_all_players_ready_state(new_ready_state)
+
+func set_all_players_active_state(new_active_state : bool):
+	if player_selector_container != null:
+		player_selector_container.set_all_players_active_state(new_active_state)
 
 func get_owner_id():
 	return owner_id
 
 func get_ready_state():
 	return ready_state
+
+func get_active_state():
+	return active_state
+	
+func set_active_state(_new_state):
+	
+	# If the player switched to active state
+	if _new_state:
+		# Change sprite modulate
+		sprite.modulate = sprite_default_modulate
+		# Show arrows
+		show_arrows()
+		# Show player indicator
+		player_indicator.visible = true
+		# Show ready label
+		ready_label.visible = true
+		
+	# If the player switched to inactive state
+	else:
+		# Change sprite modulate
+		sprite.modulate = Color(
+			sprite_default_modulate.r / 2,
+			sprite_default_modulate.g / 2,
+			sprite_default_modulate.b / 2,
+			255
+		)
+		# Hide arrows
+		hide_arrows()
+		# Hide player indicator
+		player_indicator.visible = false
+		# Hide ready label
+		ready_label.visible = false
+	
+	active_state = _new_state

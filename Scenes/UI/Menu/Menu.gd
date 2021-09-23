@@ -16,6 +16,18 @@ onready var credits_menu = $CreditsMenu
 onready var credits_label_anim_player = $CreditsMenu/CreditsLabel/AnimationPlayer
 onready var players_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD")
 
+onready var player1_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player1HUD")
+onready var player2_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player2HUD")
+onready var player3_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player3HUD")
+onready var player4_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player4HUD")
+
+onready var player_hud_list = [
+	get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player1HUD"),
+	get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player2HUD"),
+	get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player3HUD"),
+	get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player4HUD")
+]
+
 # UI Action sound
 onready var ui_action_sound = $UIActionSound
 # Confirm sound
@@ -145,6 +157,14 @@ func switch_menu(new_menu : Control):
 	new_menu.visible = true
 	current_menu = new_menu
 
+func hide_all_player_hud():
+	for hud in player_hud_list:
+		hud.visible = false
+		
+func show_all_player_hud():
+	for hud in player_hud_list:
+		hud.visible = true
+
 func start_game():
 	# Switch to main menu
 	switch_menu(main_menu_node)
@@ -158,8 +178,10 @@ func start_game():
 		game_camera.refresh_player_container()
 		# Switch camera
 		Globals.set_camera(game_camera)
+	
 	# Show HUD
 	players_hud.visible = true
+	
 	# Change in game state
 	Globals.set_in_game_state(true)
 

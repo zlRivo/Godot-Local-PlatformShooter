@@ -256,7 +256,7 @@ position = Vector2( 52, 96 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 hframes = 24
-frame = 5
+frame = 4
 
 [node name="PlayerIndicator" type="Control" parent="."]
 margin_left = 21.0

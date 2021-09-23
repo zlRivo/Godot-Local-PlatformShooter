@@ -33,6 +33,24 @@ func set_all_players_ready_state(new_ready_state : bool):
 	for p in get_children():
 		p.set_ready_state(new_ready_state)
 
+func set_all_players_active_state(new_active_state : bool):
+	for p in get_children():
+		p.set_active_state(new_active_state)
+
+func all_active_players_ready():
+	for p in get_children():
+		if p.get_active_state() == true:
+			if p.get_ready_state() == false:
+				return false
+	return true
+
+func get_active_player_count():
+	var counter = 0
+	for p in get_children():
+		if p.get_active_state() == true:
+			counter += 1
+	return counter
+
 func get_player_selection_index(owner_id) -> int:
 	# Look for owner id
 	for p in get_children():
@@ -54,7 +72,7 @@ func _on_ready_state_changed(owner_id : int, new_state : bool):
 		1:
 			player2_ready_state = new_state
 
-	if player1_ready_state == true and player2_ready_state == true:
+	if all_active_players_ready() and get_active_player_count() > 1:
 		# Start countdown
 		if countdown != null:
 			countdown.start_countdown(3)
@@ -73,6 +91,7 @@ func _on_countdown_finished():
 func start_game():
 	# Get selection of players
 	for p in get_children():
+		
 		# Get ID of iterated player
 		var player_owner_id = p.get_owner_id()
 		
@@ -83,19 +102,31 @@ func start_game():
 				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player1HUD")
 			1:
 				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player2HUD")
+			2:
+				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player3HUD")
+			3:
+				player_hud = get_node("/root/SceneHandler/CanvasPlayerHUD/ContainerPlayerHUD/Player4HUD")
 		
-		var new_player = player_scene.instance()
-		# Add player to scene
-		players_container.add_child(new_player)
-		# Get maps' player spawns
-		var player_spawns = map_handler
-		
-		var init_result = new_player.init_player(player_owner_id, p.get_selection_index(), player_spawns, player_hud)
-		
-		# If the player has had an error while initializing
-		if init_result == false:
-			# Remove the player from the scene
-			players_container.remove_child(new_player)
+		# If player is active
+		if p.get_active_state() == true:
+			
+			var new_player = player_scene.instance()
+			# Add player to scene
+			players_container.add_child(new_player)
+			# Get maps' player spawns
+			var player_spawns = map_handler
+			
+			var init_result = new_player.init_player(player_owner_id, p.get_selection_index(), player_spawns, player_hud)
+			
+			# If the player has had an error while initializing
+			if init_result == false:
+				# Remove the player from the scene
+				players_container.remove_child(new_player)
+				
+		# If the player is not active hide it's hud
+		else:
+			if player_hud != null:
+				player_hud.visible = false
 	
 	# Reset players' ready states
 	set_all_players_ready_state(false)

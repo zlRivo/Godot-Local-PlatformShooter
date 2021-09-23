@@ -23,6 +23,9 @@ func init_hud(new_name, new_icon, starting_health, starting_score = 0):
 	update_score(starting_score)
 	set_player_name(new_name)
 	set_player_icon(new_icon)
+	
+	# Show the hud once initialized
+	visible = true
 
 func show_score_increment():
 	score_increment_label.visible = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Fonts/PixelOperatorMonoHB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/Menu/Menu.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Assets/HowToPlay/how_to_play_illus_1.png" type="Texture" id=9]
 [ext_resource path="res://Assets/HowToPlay/how_to_play_illus_2.png" type="Texture" id=10]
 [ext_resource path="res://Assets/HowToPlay/how_to_play_illus_3.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/UI/Menu/CharacterSelection.gd" type="Script" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -193,6 +194,7 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -217,9 +219,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -248.0
-margin_top = -124.0
-margin_bottom = -84.0
+margin_left = -512.0
+margin_top = -100.0
+margin_right = -92.0
+margin_bottom = -60.0
 rect_scale = Vector2( 2, 2 )
 custom_constants/separation = 140
 script = ExtResource( 7 )
@@ -242,9 +245,26 @@ character_selec_menu_path = NodePath("../..")
 main_menu_path = NodePath("../../..")
 owner_id = 1
 
+[node name="CharacterSelector3" parent="CharacterSelection/ContainerPlayerSelector" instance=ExtResource( 3 )]
+margin_left = 280.0
+margin_right = 280.0
+margin_bottom = 40.0
+character_selec_menu_path = NodePath("../..")
+main_menu_path = NodePath("../../..")
+owner_id = 2
+
+[node name="CharacterSelector4" parent="CharacterSelection/ContainerPlayerSelector" instance=ExtResource( 3 )]
+margin_left = 420.0
+margin_right = 420.0
+margin_bottom = 40.0
+character_selec_menu_path = NodePath("../..")
+main_menu_path = NodePath("../../..")
+owner_id = 3
+
 [node name="CountDown" parent="CharacterSelection" instance=ExtResource( 8 )]
 
 [node name="CreditsMenu" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {

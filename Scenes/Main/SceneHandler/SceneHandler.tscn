@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/Main/SceneHandler/SceneHandler.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Main/SceneHandler/MapHandler.gd" type="Script" id=2]
@@ -7,6 +7,282 @@
 [ext_resource path="res://Scenes/Main/SceneHandler/Players.gd" type="Script" id=5]
 [ext_resource path="res://Assets/LogoCFPT/logocfpt.png" type="Texture" id=6]
 [ext_resource path="res://Assets/LogoCFPT/cfpt_qrcode.png" type="Texture" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+# References
+onready var health_bar = $HealthBar
+onready var icon = $Icon
+onready var player_name = $PlayerName
+onready var hurt_tween = $HurtTween
+onready var label_player_score = $PlayerScore
+onready var score_increment_label = $ScoreIncrement
+onready var score_increment_label_anim_player = $ScoreIncrement/AnimationPlayer
+
+# Store default hud pos for tween
+onready var health_bar_default_pos = health_bar.rect_position
+
+var displayed_health = 3
+var displayed_score = 0
+
+# Initialize node
+func init_hud(new_name, new_icon, starting_health, starting_score = 0):
+	displayed_health = starting_health
+	displayed_score = starting_score
+	update_health(starting_health)
+	update_score(starting_score)
+	set_player_name(new_name)
+	set_player_icon(new_icon)
+
+func show_score_increment():
+	score_increment_label.visible = true
+	
+func hide_score_increment():
+	score_increment_label.visible = false
+
+func update_score(value : int):
+	label_player_score.text = \"SCORE: \" + str(value)
+	
+	# Determine score increment to show
+	var anim_text = \"\"
+	if value > displayed_score:
+		anim_text = \"+\" + str(value - displayed_score)
+	if value < displayed_score:
+		anim_text = \"-\" + str(displayed_score - value)
+	
+	if anim_text != \"\":
+		score_increment_label.text = anim_text
+		# Play animation
+		score_increment_label_anim_player.play(\"score_increment\")
+	
+	# Update displayed score
+	displayed_score = value
+
+func update_health(value):
+	# Call health bar method
+	health_bar.update_health(value)
+	
+	# Play hurt anim if value is lower than displayed
+	if value < displayed_health:
+		hurt_tween.interpolate_property(health_bar, \"rect_position\", health_bar.rect_position + Vector2(-30, 0), health_bar_default_pos, 0.5, Tween.TRANS_BOUNCE)
+		hurt_tween.start()
+	
+	displayed_health = value
+
+func set_player_name(name):
+	player_name.text = name
+
+func set_player_icon(new_icon : Texture):
+	icon.texture = new_icon
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+# References
+onready var health_bar = $HealthBar
+onready var icon = $Icon
+onready var player_name = $PlayerName
+onready var hurt_tween = $HurtTween
+onready var label_player_score = $PlayerScore
+onready var score_increment_label = $ScoreIncrement
+onready var score_increment_label_anim_player = $ScoreIncrement/AnimationPlayer
+
+# Store default hud pos for tween
+onready var health_bar_default_pos = health_bar.rect_position
+
+var displayed_health = 3
+var displayed_score = 0
+
+# Initialize node
+func init_hud(new_name, new_icon, starting_health, starting_score = 0):
+	displayed_health = starting_health
+	displayed_score = starting_score
+	update_health(starting_health)
+	update_score(starting_score)
+	set_player_name(new_name)
+	set_player_icon(new_icon)
+
+func show_score_increment():
+	score_increment_label.visible = true
+	
+func hide_score_increment():
+	score_increment_label.visible = false
+
+func update_score(value : int):
+	label_player_score.text = \"SCORE: \" + str(value)
+	
+	# Determine score increment to show
+	var anim_text = \"\"
+	if value > displayed_score:
+		anim_text = \"+\" + str(value - displayed_score)
+	if value < displayed_score:
+		anim_text = \"-\" + str(displayed_score - value)
+	
+	if anim_text != \"\":
+		score_increment_label.text = anim_text
+		# Play animation
+		score_increment_label_anim_player.play(\"score_increment\")
+	
+	# Update displayed score
+	displayed_score = value
+
+func update_health(value):
+	# Call health bar method
+	health_bar.update_health(value)
+	
+	# Play hurt anim if value is lower than displayed
+	if value < displayed_health:
+		hurt_tween.interpolate_property(health_bar, \"rect_position\", health_bar.rect_position + Vector2(-30, 0), health_bar_default_pos, 0.5, Tween.TRANS_BOUNCE)
+		hurt_tween.start()
+	
+	displayed_health = value
+
+func set_player_name(name):
+	player_name.text = name
+
+func set_player_icon(new_icon : Texture):
+	icon.texture = new_icon
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Control
+
+# References
+onready var health_bar = $HealthBar
+onready var icon = $Icon
+onready var player_name = $PlayerName
+onready var hurt_tween = $HurtTween
+onready var label_player_score = $PlayerScore
+onready var score_increment_label = $ScoreIncrement
+onready var score_increment_label_anim_player = $ScoreIncrement/AnimationPlayer
+
+# Store default hud pos for tween
+onready var health_bar_default_pos = health_bar.rect_position
+
+var displayed_health = 3
+var displayed_score = 0
+
+# Initialize node
+func init_hud(new_name, new_icon, starting_health, starting_score = 0):
+	displayed_health = starting_health
+	displayed_score = starting_score
+	update_health(starting_health)
+	update_score(starting_score)
+	set_player_name(new_name)
+	set_player_icon(new_icon)
+
+func show_score_increment():
+	score_increment_label.visible = true
+	
+func hide_score_increment():
+	score_increment_label.visible = false
+
+func update_score(value : int):
+	label_player_score.text = \"SCORE: \" + str(value)
+	
+	# Determine score increment to show
+	var anim_text = \"\"
+	if value > displayed_score:
+		anim_text = \"+\" + str(value - displayed_score)
+	if value < displayed_score:
+		anim_text = \"-\" + str(displayed_score - value)
+	
+	if anim_text != \"\":
+		score_increment_label.text = anim_text
+		# Play animation
+		score_increment_label_anim_player.play(\"score_increment\")
+	
+	# Update displayed score
+	displayed_score = value
+
+func update_health(value):
+	# Call health bar method
+	health_bar.update_health(value)
+	
+	# Play hurt anim if value is lower than displayed
+	if value < displayed_health:
+		hurt_tween.interpolate_property(health_bar, \"rect_position\", health_bar.rect_position + Vector2(-30, 0), health_bar_default_pos, 0.5, Tween.TRANS_BOUNCE)
+		hurt_tween.start()
+	
+	displayed_health = value
+
+func set_player_name(name):
+	player_name.text = name
+
+func set_player_icon(new_icon : Texture):
+	icon.texture = new_icon
+"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Control
+
+# References
+onready var health_bar = $HealthBar
+onready var icon = $Icon
+onready var player_name = $PlayerName
+onready var hurt_tween = $HurtTween
+onready var label_player_score = $PlayerScore
+onready var score_increment_label = $ScoreIncrement
+onready var score_increment_label_anim_player = $ScoreIncrement/AnimationPlayer
+
+# Store default hud pos for tween
+onready var health_bar_default_pos = health_bar.rect_position
+
+var displayed_health = 3
+var displayed_score = 0
+
+# Initialize node
+func init_hud(new_name, new_icon, starting_health, starting_score = 0):
+	displayed_health = starting_health
+	displayed_score = starting_score
+	update_health(starting_health)
+	update_score(starting_score)
+	set_player_name(new_name)
+	set_player_icon(new_icon)
+
+func show_score_increment():
+	score_increment_label.visible = true
+	
+func hide_score_increment():
+	score_increment_label.visible = false
+
+func update_score(value : int):
+	label_player_score.text = \"SCORE: \" + str(value)
+	
+	# Determine score increment to show
+	var anim_text = \"\"
+	if value > displayed_score:
+		anim_text = \"+\" + str(value - displayed_score)
+	if value < displayed_score:
+		anim_text = \"-\" + str(displayed_score - value)
+	
+	if anim_text != \"\":
+		score_increment_label.text = anim_text
+		# Play animation
+		score_increment_label_anim_player.play(\"score_increment\")
+	
+	# Update displayed score
+	displayed_score = value
+
+func update_health(value):
+	# Call health bar method
+	health_bar.update_health(value)
+	
+	# Play hurt anim if value is lower than displayed
+	if value < displayed_health:
+		hurt_tween.interpolate_property(health_bar, \"rect_position\", health_bar.rect_position + Vector2(-30, 0), health_bar_default_pos, 0.5, Tween.TRANS_BOUNCE)
+		hurt_tween.start()
+	
+	displayed_health = value
+
+func set_player_name(name):
+	player_name.text = name
+
+func set_player_icon(new_icon : Texture):
+	icon.texture = new_icon
+"
 
 [node name="SceneHandler" type="Node"]
 script = ExtResource( 1 )
@@ -36,12 +312,28 @@ __meta__ = {
 [node name="Player1HUD" parent="CanvasPlayerHUD/ContainerPlayerHUD" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+script = SubResource( 1 )
 
 [node name="Player2HUD" parent="CanvasPlayerHUD/ContainerPlayerHUD" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 164.0
 margin_right = 164.0
+script = SubResource( 2 )
+
+[node name="Player3HUD" parent="CanvasPlayerHUD/ContainerPlayerHUD" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 328.0
+margin_right = 328.0
+script = SubResource( 3 )
+
+[node name="Player4HUD" parent="CanvasPlayerHUD/ContainerPlayerHUD" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 492.0
+margin_right = 492.0
+script = SubResource( 4 )
 
 [node name="CanvasCFPT" type="CanvasLayer" parent="."]
 
