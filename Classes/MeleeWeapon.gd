@@ -52,8 +52,6 @@ func kill_players_within_hitbox():
 		if b == owner_player:
 			continue
 			
-		print(b.name)
-			
 		# If the body is a player
 		if b.is_in_group("Player"):
 			# Apply damage to the player

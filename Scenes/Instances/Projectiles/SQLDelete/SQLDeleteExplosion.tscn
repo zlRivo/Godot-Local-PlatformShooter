@@ -38,7 +38,7 @@ radius = 40.0
 
 [node name="SQLDeleteExplosion" type="Area2D"]
 collision_layer = 0
-collision_mask = 5
+collision_mask = 7
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -50,6 +50,7 @@ frame = 26
 anims/explosion = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.561859, 0 )
 shape = SubResource( 2 )
 
 [node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
