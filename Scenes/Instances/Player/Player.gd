@@ -14,6 +14,7 @@ onready var hand = $Sprite/Hand
 onready var health_bar = $PlayerIndicator/HealthBar
 onready var pickup_area = $PickupArea
 onready var kick_area = $Sprite/KickArea
+onready var one_way_exit_detector = $OneWayExitDetector
 onready var map_handler = get_node("/root/SceneHandler/MapHandler")
 onready var player_container = get_node("/root/SceneHandler/Players")
 # Sounds
@@ -90,6 +91,9 @@ var score = 0
 
 var kick_damage = 1
 var kick_force = 50
+
+# Contain the bitmask of the one-way collisions
+const DROP_THRU_BIT = 19
 
 # Current picked up item reference
 var current_item = null
@@ -436,13 +440,19 @@ func _manage_movement_inputs():
 			jump(JUMP_HEIGHT)
 			jump_sound.play()
 	
+	# If the player wants to go down
+	if Input.is_action_pressed("down_" + str(owner_id)):
+		# Disable collisions with one-ways
+		set_collision_mask_bit(DROP_THRU_BIT, false)
+	else:
+		# Enable collisions with one-ways
+		set_collision_mask_bit(DROP_THRU_BIT, true) 
+	
 	if Input.is_action_pressed("right_" + str(owner_id)) and not Input.is_action_pressed("left_" + str(owner_id)):
 		direction.x += 1
 		
 	elif Input.is_action_pressed("left_" + str(owner_id)) and not Input.is_action_pressed("right_" + str(owner_id)):
 		direction.x -= 1
-	#else:
-	#	direction.x = lerp(motion.x, 0, 0.03)
 
 func _manage_combat_inputs():
 	if Input.is_action_pressed("fire_" + str(owner_id)):

@@ -8,6 +8,7 @@
 extents = Vector2( 9, 9 )
 
 [node name="Box" type="RigidBody2D"]
+collision_mask = 524289
 mass = 4.0
 contacts_reported = 1
 contact_monitor = true

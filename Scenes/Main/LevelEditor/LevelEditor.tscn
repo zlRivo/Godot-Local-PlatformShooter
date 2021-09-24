@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Classes/Map.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Instances/PreviewCamera/PreviewCamera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=4]
+[ext_resource path="res://Scenes/Main/LevelEditor/LevelEditor.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.tscn" type="PackedScene" id=6]
+
+[node name="LevelEditor" type="Control"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource( 1 )
+game_camera_path = NodePath("FightingCamera")
+preview_camera_path = NodePath("PreviewCamera")
+player_spawns_path = NodePath("PlayerSpawns")
+items_container_path = NodePath("Items")
+decal_container_path = NodePath("Decals")
+projectile_container_path = NodePath("Projectiles")
+
+[node name="FightingCamera" parent="Map" instance=ExtResource( 2 )]
+position = Vector2( 0, 0 )
+
+[node name="PreviewCamera" parent="Map" instance=ExtResource( 3 )]
+
+[node name="TileMap" type="TileMap" parent="Map"]
+tile_set = ExtResource( 4 )
+cell_size = Vector2( 18, 18 )
+format = 1
+
+[node name="Decals" type="Node" parent="Map"]
+
+[node name="Projectiles" type="Node" parent="Map"]
+
+[node name="PlayerSpawns" type="Node" parent="Map"]
+
+[node name="Items" type="Node" parent="Map"]
+
+[node name="TerrainItems" type="Node" parent="Map"]
+
+[node name="Boxes" type="Node" parent="Map/TerrainItems"]
+
+[node name="JumpSprings" type="Node" parent="Map/TerrainItems"]
+
+[node name="MysteryBoxes" type="Node" parent="Map/TerrainItems"]
+
+[node name="CursorObject" type="Node2D" parent="."]
+
+[node name="EditorCamera" type="Camera2D" parent="."]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="ItemSelection" parent="GUI" instance=ExtResource( 6 )]
+
+[node name="ColorRect" type="ColorRect" parent="GUI"]
+anchor_right = 1.0
+margin_bottom = 20.0
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/ColorRect"]
+anchor_bottom = 1.0
+margin_right = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButton" type="MenuButton" parent="GUI/ColorRect/HBoxContainer"]
+margin_right = 35.0
+margin_bottom = 20.0
+text = "File"
+items = [ "Open map", null, 0, false, false, 0, 0, null, "", false, "Save map", null, 0, false, false, 1, 0, null, "", false, "Save map as...", null, 0, false, false, 2, 0, null, "", false, "Return to game", null, 0, false, false, 3, 0, null, "", false, "Quit", null, 0, false, false, 4, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonToggleItemsMenu" type="Button" parent="GUI"]
+margin_left = 979.989
+margin_top = 689.556
+margin_right = 1114.99
+margin_bottom = 709.556
+text = "Toggle items menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
