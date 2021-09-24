@@ -7,5 +7,7 @@ onready var player_hud_container = $CanvasPlayerHUD/ContainerPlayerHUD
 func _ready():
 	# Hide cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	# Set to full screen
+	OS.set_window_fullscreen(true)
 	# Set a random map on start
 	map_handler.set_map(map_handler.get_random_map())

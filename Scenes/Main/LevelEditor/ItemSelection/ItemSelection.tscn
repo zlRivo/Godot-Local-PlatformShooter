@@ -5,8 +5,8 @@
 [node name="ItemSelection" type="TabContainer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -340.0
 margin_right = 960.0
+margin_bottom = 340.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -46,3 +46,21 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="Miscellaneous/ScrollContainer"]
+
+[node name="Weapons" type="Tabs" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Weapons"]
+margin_right = 955.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="Weapons/ScrollContainer"]

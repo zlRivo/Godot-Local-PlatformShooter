@@ -3,11 +3,12 @@ extends TabContainer
 const VISIBLE_Y_POS = 380
 const INVISIBLE_Y_POS = 720
 
-onready var target_height = VISIBLE_Y_POS
+onready var target_height = INVISIBLE_Y_POS
 
-var enabled = true
+var enabled = false
 
 # References
+
 onready var terrain_items_container = $Terrain/ScrollContainer/GridContainer
 onready var miscellaneous_items_container = $Miscellaneous/ScrollContainer/GridContainer
 
@@ -32,7 +33,7 @@ func hide_node():
 func toggle_menu():
 	if enabled:
 		hide_node()
-	if not enabled:
+	else:
 		show_node()
 
 func _ready():
@@ -53,7 +54,7 @@ func _on_item_clicked(sender):
 	emit_signal("item_clicked", sender)
 
 func _process(delta):
-	rect_global_position.y = lerp(rect_global_position.y, target_height, 0.6 * delta)
+	rect_global_position.y = lerp(rect_global_position.y, target_height, 5 * delta)
 	
 	# Stop process if animation finished
 	if rect_global_position.y == target_height:
