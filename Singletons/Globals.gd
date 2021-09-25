@@ -9,6 +9,19 @@ var in_game = false
 
 var collisions_shown = false
 
+# Gets all the nodes from a parent
+func get_children_recursive(parent : Node):
+	var child_list = []
+	for c in parent.get_children():
+		child_list.append(c)
+		if c.get_child_count() > 0:
+			for c_2 in get_children_recursive(c):
+				child_list.append(c_2)
+	return child_list
+
+func round_by_step(_to_round : float, _step : float):
+	return ceil(_to_round / _step) * _step
+
 # Debug collisions
 func _input(event):
 	if event is InputEventKey:

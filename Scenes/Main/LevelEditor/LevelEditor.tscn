@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Classes/Map.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=2]
@@ -6,14 +6,23 @@
 [ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=4]
 [ext_resource path="res://Scenes/Main/LevelEditor/LevelEditor.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Main/LevelEditor/MapHolder.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Instances/Weapons/SQLCanon/SQLCanonPickup.tscn" type="PackedScene" id=8]
 
 [node name="LevelEditor" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Map" type="Node2D" parent="."]
+[node name="MapHolder" type="Node" parent="."]
+pause_mode = 1
+script = ExtResource( 7 )
+
+[node name="Map" type="Node2D" parent="MapHolder"]
 script = ExtResource( 1 )
 game_camera_path = NodePath("FightingCamera")
 preview_camera_path = NodePath("PreviewCamera")
@@ -22,37 +31,67 @@ items_container_path = NodePath("Items")
 decal_container_path = NodePath("Decals")
 projectile_container_path = NodePath("Projectiles")
 
-[node name="FightingCamera" parent="Map" instance=ExtResource( 2 )]
+[node name="FightingCamera" parent="MapHolder/Map" instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 0, 0 )
 
-[node name="PreviewCamera" parent="Map" instance=ExtResource( 3 )]
+[node name="PreviewCamera" parent="MapHolder/Map" instance=ExtResource( 3 )]
+visible = false
 
-[node name="TileMap" type="TileMap" parent="Map"]
+[node name="TileMap" type="TileMap" parent="MapHolder/Map"]
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 18, 18 )
 format = 1
 
-[node name="Decals" type="Node" parent="Map"]
+[node name="Decals" type="Node" parent="MapHolder/Map"]
 
-[node name="Projectiles" type="Node" parent="Map"]
+[node name="Projectiles" type="Node" parent="MapHolder/Map"]
 
-[node name="PlayerSpawns" type="Node" parent="Map"]
+[node name="PlayerSpawns" type="Node" parent="MapHolder/Map"]
 
-[node name="Items" type="Node" parent="Map"]
+[node name="Items" type="Node" parent="MapHolder/Map"]
 
-[node name="TerrainItems" type="Node" parent="Map"]
+[node name="SQLCanon" parent="MapHolder/Map/Items" instance=ExtResource( 8 )]
 
-[node name="Boxes" type="Node" parent="Map/TerrainItems"]
+[node name="TerrainItems" type="Node" parent="MapHolder/Map"]
 
-[node name="JumpSprings" type="Node" parent="Map/TerrainItems"]
+[node name="Boxes" type="Node" parent="MapHolder/Map/TerrainItems"]
 
-[node name="MysteryBoxes" type="Node" parent="Map/TerrainItems"]
+[node name="JumpSprings" type="Node" parent="MapHolder/Map/TerrainItems"]
 
-[node name="CursorObject" type="Node2D" parent="."]
+[node name="MysteryBoxes" type="Node" parent="MapHolder/Map/TerrainItems"]
+
+[node name="CursorObjectPreview" type="Sprite" parent="."]
 
 [node name="EditorCamera" type="Camera2D" parent="."]
 
 [node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Popups" type="Node" parent="GUI"]
+
+[node name="UnsaveQuitConfirm" type="ConfirmationDialog" parent="GUI/Popups"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.5
+margin_top = -35.0
+margin_right = 212.5
+margin_bottom = 35.0
+window_title = "Veuillez confirmer…"
+dialog_text = "Are you sure you want to quit the editor with unsaved changes ?"
+
+[node name="UnsaveReturnToGamePopup" type="ConfirmationDialog" parent="GUI/Popups"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.5
+margin_top = -35.0
+margin_right = 212.5
+margin_bottom = 35.0
+window_title = "Veuillez confirmer…"
+dialog_text = "Are you sure you want to quit the editor with unsaved changes ?"
 
 [node name="ItemSelection" parent="GUI" instance=ExtResource( 6 )]
 

@@ -15,13 +15,13 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 9 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 333, 9 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 9, 9 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 9, 9 )
 
 [sub_resource type="RectangleShape2D" id=5]
@@ -245,7 +245,7 @@ shape = SubResource( 1 )
 
 [node name="CollisionShape2D57" type="CollisionShape2D" parent="Collisions"]
 position = Vector2( 81, -297 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="OneWayCollisions" type="StaticBody2D" parent="."]
 collision_layer = 524288
@@ -253,122 +253,122 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -99, -153 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -81, -153 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -63, -153 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -135, -135 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -117, -135 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -99, -135 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -81, -135 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D8" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -99, -117 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D9" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -81, -117 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D10" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -63, -117 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D11" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -45, -117 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D12" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -27, -117 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 one_way_collision = true
 
 [node name="CollisionShape2D45" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( -9, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D46" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 9, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D47" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 27, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D48" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 45, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D49" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 63, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D50" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 171, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D53" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 135, -189 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D54" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 153, -189 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D55" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 171, -189 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D56" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 189, -189 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D51" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 189, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D52" type="CollisionShape2D" parent="OneWayCollisions"]
 position = Vector2( 207, -171 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 one_way_collision = true
 
 [node name="CollisionShape2D57" type="CollisionShape2D" parent="OneWayCollisions"]

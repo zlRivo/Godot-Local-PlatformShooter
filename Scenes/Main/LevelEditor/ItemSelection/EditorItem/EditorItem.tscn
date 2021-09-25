@@ -3,10 +3,25 @@
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/EditorItem/EditorItem.gd" type="Script" id=1]
 
 [node name="EditorItem" type="TextureRect"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
 expand = true
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NodeName" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -169.5
+margin_right = 169.5
+margin_bottom = 14.0
+text = "Insert text here"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

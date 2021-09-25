@@ -9,8 +9,9 @@ var enabled = false
 
 # References
 
-onready var terrain_items_container = $Terrain/ScrollContainer/GridContainer
+onready var tile_items_container = $Tiles/ScrollContainer/GridContainer
 onready var miscellaneous_items_container = $Miscellaneous/ScrollContainer/GridContainer
+onready var weapon_items_container = $Weapons/ScrollContainer/GridContainer
 
 signal item_clicked(sender)
 
@@ -42,10 +43,14 @@ func _ready():
 # Connect all the contained items signals to this node
 func connect_item_signals():
 	# Get all the editor items
-	var items_to_connect = terrain_items_container.get_children()
+	var items_to_connect = tile_items_container.get_children()
+	# Misc
 	for c in miscellaneous_items_container.get_children():
 		items_to_connect.append(c)
-		
+	# Weapons
+	for c in weapon_items_container.get_children():
+		items_to_connect.append(c)
+	
 	# Connect all the signals
 	for item in items_to_connect:
 		item.connect("item_clicked", self, "_on_item_clicked")

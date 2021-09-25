@@ -3,7 +3,15 @@ class_name ItemPickup
 
 export (String) var item_name = ""
 
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+var map_handler = null
+
+func _ready():
+	var current_scene_name = get_tree().current_scene.name
+	match current_scene_name:
+		"SceneHandler":
+			map_handler = get_node("/root/SceneHandler/MapHandler")
+		"LevelEditor":
+			map_handler = get_node("/root/LevelEditor/MapHolder")
 
 func throw_object(direction : Vector2):
 	apply_central_impulse(direction)

@@ -1,18 +1,22 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/EditorItem/EditorItem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/US/US1.png" type="Texture" id=4]
 
 [node name="ItemSelection" type="TabContainer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_right = 960.0
 margin_bottom = 340.0
+tab_align = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Terrain" type="Tabs" parent="."]
+[node name="Tiles" type="Tabs" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -20,14 +24,15 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Terrain"]
-margin_right = 955.0
-margin_bottom = 300.0
+[node name="ScrollContainer" type="ScrollContainer" parent="Tiles"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridContainer" type="GridContainer" parent="Terrain/ScrollContainer"]
+[node name="GridContainer" type="GridContainer" parent="Tiles/ScrollContainer"]
+columns = 5
 
 [node name="Miscellaneous" type="Tabs" parent="."]
 visible = false
@@ -35,12 +40,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
-margin_right = -930.0
-margin_bottom = -187.0
+margin_right = -4.0
+margin_bottom = -4.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Miscellaneous"]
-margin_right = 955.0
-margin_bottom = 300.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,10 +62,17 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Weapons"]
-margin_right = 955.0
-margin_bottom = 300.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GridContainer" type="GridContainer" parent="Weapons/ScrollContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+
+[node name="M1911" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+texture = ExtResource( 4 )
+scene_to_spawn = ExtResource( 3 )
+displayed_name = "M1911"
