@@ -2,6 +2,11 @@ extends Node
 
 onready var map = $Map
 
+func get_tilemap():
+	if map != null:
+		return map.get_tilemap()
+	return null
+
 func get_projectile_container():
 	if map != null:
 		return map.get_projectile_container()
@@ -30,3 +35,6 @@ func get_random_spawn():
 
 func set_map(_new_map : PackedScene):
 	map = _new_map
+
+func get_map():
+	return map

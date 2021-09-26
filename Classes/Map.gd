@@ -23,6 +23,13 @@ onready var decal_container = get_node_or_null(decal_container_path)
 export (NodePath) var projectile_container_path
 onready var projectile_container = get_node_or_null(projectile_container_path)
 
+# TileMap
+export (NodePath) var tilemap_path
+onready var tilemap = get_node_or_null(tilemap_path)
+
+func get_tilemap():
+	return tilemap
+
 func get_projectile_container():
 	return projectile_container
 

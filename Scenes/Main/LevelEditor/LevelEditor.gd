@@ -9,6 +9,7 @@ onready var cursor_object_preview = $CursorObjectPreview
 onready var gui = $GUI
 
 onready var map_holder = $MapHolder
+onready var editor_camera = $EditorCamera
 
 # Popups
 onready var popup_container = $GUI/Popups
@@ -25,8 +26,11 @@ var unsaved_changes = true
 var current_selection_scene = null
 
 var cursor_hitting_ui = false
+var panning = false
 
 const GRID_INCREMENT = 18
+const MAX_CAMERA_ZOOM = 0.05
+const MIN_CAMERA_ZOOM = 1
 
 func _ready():
 	# Pause the game
@@ -41,9 +45,32 @@ func _ready():
 	# Set to windowed
 	OS.set_window_fullscreen(false)
 
+func _unhandled_input(event):
+	# Camera panning
+	if panning:
+		if event is InputEventMouseMotion:
+			editor_camera.global_position -= event.relative * editor_camera.zoom
+			return
+
 func _input(event):
 	if event.is_action_pressed("editor_place"):
 		place_object()
+	if event.is_action_pressed("editor_remove"):
+		remove_object()
+	if event.is_action_pressed("editor_zoom_in"):
+		zoom_in()
+	if event.is_action_pressed("editor_zoom_out"):
+		zoom_out()
+
+func zoom_in():
+	var zoom_increment = (editor_camera.zoom.x - MAX_CAMERA_ZOOM) / 4
+	editor_camera.zoom.x = max(MAX_CAMERA_ZOOM, editor_camera.zoom.x - zoom_increment)
+	editor_camera.zoom.y = max(MAX_CAMERA_ZOOM, editor_camera.zoom.y - zoom_increment)
+
+func zoom_out():
+	var zoom_increment = (MIN_CAMERA_ZOOM - editor_camera.zoom.x) / 4
+	editor_camera.zoom.x = min(MIN_CAMERA_ZOOM, editor_camera.zoom.x + zoom_increment)
+	editor_camera.zoom.y = min(MIN_CAMERA_ZOOM, editor_camera.zoom.y + zoom_increment)
 
 # Loops through all the control nodes in the gui and connect the mouse entered/exit signals
 func connect_all_mouse_entered_exit():
@@ -60,11 +87,20 @@ func _on_item_selection_clicked(sender):
 	cursor_object_preview.texture = sender.get_texture()
 
 func _process(delta):
-	var mouse_position = get_global_mouse_position()
-	cursor_object_preview.position.x = Globals.round_by_step(mouse_position.x, GRID_INCREMENT) - GRID_INCREMENT / 2
-	cursor_object_preview.position.y = Globals.round_by_step(mouse_position.y, GRID_INCREMENT) - GRID_INCREMENT / 2
+	# Align cursor to grid
+	if not cursor_hitting_ui:
+		var mouse_position = get_global_mouse_position()
+		cursor_object_preview.global_position.x = Globals.round_by_step(mouse_position.x, GRID_INCREMENT) - GRID_INCREMENT / 2
+		cursor_object_preview.global_position.y = Globals.round_by_step(mouse_position.y, GRID_INCREMENT) - GRID_INCREMENT / 2
+	
+	panning = Input.is_action_pressed("editor_pan")
+	if panning:
+		Input.set_default_cursor_shape(CURSOR_MOVE)
+	else:
+		Input.set_default_cursor_shape(CURSOR_ARROW)
 
 func place_object():
+	# Quit function
 	if cursor_hitting_ui or current_selection_scene == null:
 		return
 	
@@ -76,6 +112,15 @@ func place_object():
 		var items_container = map_holder.get_items_container()
 		if items_container != null:
 			items_container.add_child(instance)
+
+func remove_object():
+	# Quit function
+	if cursor_hitting_ui:
+		return
+		
+	var nodes_on_cursor = Globals.get_node_by_position(map_holder.get_map(), cursor_object_preview.global_position)
+	for n in nodes_on_cursor:
+		print(n.name)
 
 func _on_gui_mouse_entered():
 	cursor_hitting_ui = true

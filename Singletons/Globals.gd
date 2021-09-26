@@ -4,6 +4,8 @@ var active_camera = null
 var default_camera_zoom = 1
 onready var target_camera_zoom = default_camera_zoom
 
+const GRID_INCREMENT = 18
+
 # Know if the player is in game
 var in_game = false
 
@@ -18,6 +20,12 @@ func get_children_recursive(parent : Node):
 			for c_2 in get_children_recursive(c):
 				child_list.append(c_2)
 	return child_list
+
+func get_node_by_position(_parent : Node2D, _position : Vector2):
+	var space_state = _parent.get_world_2d().direct_space_state
+	# Node on the positions
+	var nodes = space_state.intersect_point(_position)
+	return nodes
 
 func round_by_step(_to_round : float, _step : float):
 	return ceil(_to_round / _step) * _step

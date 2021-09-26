@@ -1,18 +1,17 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Classes/Map.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Instances/PreviewCamera/PreviewCamera.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Maps/TileSet/CommonTileSet.tres" type="TileSet" id=4]
+[ext_resource path="res://Scenes/Maps/TileSet/CleanTileset.tres" type="TileSet" id=4]
 [ext_resource path="res://Scenes/Main/LevelEditor/LevelEditor.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Main/LevelEditor/MapHolder.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Instances/Weapons/SQLCanon/SQLCanonPickup.tscn" type="PackedScene" id=8]
 
 [node name="LevelEditor" type="Control"]
 pause_mode = 2
-anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = -720.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -30,6 +29,7 @@ player_spawns_path = NodePath("PlayerSpawns")
 items_container_path = NodePath("Items")
 decal_container_path = NodePath("Decals")
 projectile_container_path = NodePath("Projectiles")
+tilemap_path = NodePath("TileMap")
 
 [node name="FightingCamera" parent="MapHolder/Map" instance=ExtResource( 2 )]
 visible = false
@@ -51,8 +51,6 @@ format = 1
 
 [node name="Items" type="Node" parent="MapHolder/Map"]
 
-[node name="SQLCanon" parent="MapHolder/Map/Items" instance=ExtResource( 8 )]
-
 [node name="TerrainItems" type="Node" parent="MapHolder/Map"]
 
 [node name="Boxes" type="Node" parent="MapHolder/Map/TerrainItems"]
@@ -64,6 +62,7 @@ format = 1
 [node name="CursorObjectPreview" type="Sprite" parent="."]
 
 [node name="EditorCamera" type="Camera2D" parent="."]
+current = true
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
