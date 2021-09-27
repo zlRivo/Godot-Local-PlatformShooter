@@ -56,7 +56,9 @@ func connect_item_signals():
 		item.connect("item_clicked", self, "_on_item_clicked")
 		
 func _on_item_clicked(sender):
-	emit_signal("item_clicked", sender)
+	# If the selection is shown
+	if enabled:
+		emit_signal("item_clicked", sender)
 
 func _process(delta):
 	rect_global_position.y = lerp(rect_global_position.y, target_height, 5 * delta)

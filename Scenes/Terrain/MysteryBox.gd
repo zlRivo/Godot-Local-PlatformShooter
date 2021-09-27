@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends EditorObject
 
 var spawn_effect_scene = preload("res://Scenes/Instances/Particles/SmokeParticles/SmokeParticles.tscn")
 
@@ -22,6 +22,13 @@ onready var animation_player = $AnimationPlayer
 onready var hit_sound = $Sounds/HitSound
 onready var recover_sound = $Sounds/RecoverSound
 
+# Contain reference to ourself with the specified type
+var body : StaticBody2D
+
+func _init():
+	var _self = self
+	body = _self
+
 func _ready():
 	# Don't recover at start
 	set_process(false)
@@ -43,15 +50,15 @@ func recover_box():
 	# Switch enabled state to true
 	set_state(true)
 
-func _on_HitDetector_body_entered(body):
+func _on_HitDetector_body_entered(_body):
 	# If the box is not enabled, do nothing
 	if not enabled:
 		return
 	
-	# If the body is a player
-	if body.is_in_group("Player"):
+	# If the _body is a player
+	if _body.is_in_group("Player"):
 		# Get player y velocity
-		var player_velocity = body.get_velocity().y
+		var player_velocity = _body.get_velocity().y
 		# If the player has a high enough velocity
 		if player_velocity < min_hit_velocity:
 			# Get a random item

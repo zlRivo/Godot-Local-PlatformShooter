@@ -8,6 +8,8 @@ const GRID_INCREMENT = 18
 
 # Know if the player is in game
 var in_game = false
+var in_editor = false
+var testing_map = false
 
 var collisions_shown = false
 
@@ -35,6 +37,18 @@ func _input(event):
 	if event is InputEventKey:
 		if event.scancode == KEY_TAB:
 			pass
+
+func set_testing_map_state(_new_state):
+	testing_map = _new_state
+
+func get_testing_map_state():
+	return testing_map
+
+func set_in_editor_state(_new_state):
+	in_editor = _new_state
+
+func get_in_editor_state():
+	return in_editor
 
 func set_camera_process(new_state):
 	if active_camera != null:

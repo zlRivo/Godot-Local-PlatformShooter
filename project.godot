@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "EditorObject",
+"language": "GDScript",
+"path": "res://Classes/EditorObjects/EditorObject.gd"
+}, {
 "base": "RangeWeapon",
 "class": "HitscanWeapon",
 "language": "GDScript",
@@ -19,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/Item.gd"
 }, {
-"base": "RigidBody2D",
+"base": "EditorObject",
 "class": "ItemPickup",
 "language": "GDScript",
 "path": "res://Classes/ItemPickup.gd"
@@ -44,12 +49,18 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/RangeWeapon.gd"
 }, {
+"base": "Reference",
+"class": "ScenePacker",
+"language": "GDScript",
+"path": "res://Classes/ScenePacker.gd"
+}, {
 "base": "Item",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://Classes/Weapon.gd"
 } ]
 _global_script_class_icons={
+"EditorObject": "",
 "HitscanWeapon": "",
 "Item": "",
 "ItemPickup": "",
@@ -57,13 +68,14 @@ _global_script_class_icons={
 "MeleeWeapon": "",
 "ProjectileWeapon": "",
 "RangeWeapon": "",
+"ScenePacker": "",
 "Weapon": ""
 }
 
 [application]
 
 config/name="DinoCharge"
-run/main_scene="res://Scenes/Main/SceneHandler/SceneHandler.tscn"
+run/main_scene="res://Scenes/Main/LevelEditor/LevelEditor.tscn"
 boot_splash/image="res://icon.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.968627, 1, 0, 1 )
@@ -412,6 +424,11 @@ editor_zoom_in={
 editor_zoom_out={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+editor_toggle_items={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
  ]
 }
 

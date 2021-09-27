@@ -7,11 +7,11 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 9 )
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.496689, 1 )
 colors = PoolColorArray( 1, 0, 0, 0.986755, 1, 0, 0, 1, 0.682353, 0, 0, 0 )
 
-[sub_resource type="Shader" id=2]
+[sub_resource type="Shader" id=3]
 code = "/* 
 Earthbound battle backgrounds shader with scrolling effect and palette cycling like in the original game.
 @retr0_dev
@@ -57,15 +57,15 @@ void fragment()
 	// COLOR = mix(vec4(0.0), COLOR, float(int(UV.y * screen_height) % 2));
 }"
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.48062, 1 )
 colors = PoolColorArray( 1, 0, 0, 1, 0.656738, 0, 0, 1, 1, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 2 )
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 3 )
 shader_param/screen_height = 640.0
 shader_param/amplitude = 0.005
 shader_param/frequency = 100.0
@@ -77,16 +77,15 @@ shader_param/scroll_direction = Vector2( 0, 0 )
 shader_param/scrolling_speed = 0.08
 shader_param/enable_palette_cycling = true
 shader_param/palette_speed = 1.0
-shader_param/palette = SubResource( 4 )
+shader_param/palette = SubResource( 5 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 font_data = ExtResource( 1 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 39.5, 6 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "spawn"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Label:rect_scale")
 tracks/0/interp = 1
@@ -134,16 +133,16 @@ linear_accel = -5.0
 angle = 720.0
 angle_random = 1.0
 scale_amount = 5.0
-color_ramp = SubResource( 9 )
+color_ramp = SubResource( 2 )
 
 [node name="Label" type="Label" parent="."]
-material = SubResource( 5 )
+material = SubResource( 6 )
 margin_left = -120.0
 margin_top = -9.0
 margin_right = 40.0
 margin_bottom = 26.0
 rect_scale = Vector2( 1.5, 0.5 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.662745, 0, 0, 1 )
 text = "DELETE FROM players
 WHERE NOT owner_id="
@@ -154,16 +153,17 @@ __meta__ = {
 [node name="CollisionDetection" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection"]
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="ShakeTimer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/spawn = SubResource( 8 )
+anims/spawn = SubResource( 9 )
 
 [node name="Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
 [connection signal="body_entered" from="CollisionDetection" to="." method="_on_CollisionDetection_body_entered"]
 [connection signal="timeout" from="ShakeTimer" to="." method="_on_ShakeTimer_timeout"]

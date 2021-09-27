@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Classes/Map.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Scenes/Main/LevelEditor/LevelEditor.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Main/LevelEditor/MapHolder.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Main/LevelEditor/Grid/Grid.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Main/LevelEditor/CursorObjectPreview.gd" type="Script" id=9]
 
 [node name="LevelEditor" type="Control"]
 pause_mode = 2
@@ -27,6 +29,7 @@ game_camera_path = NodePath("FightingCamera")
 preview_camera_path = NodePath("PreviewCamera")
 player_spawns_path = NodePath("PlayerSpawns")
 items_container_path = NodePath("Items")
+terrain_items_container_path = NodePath("TerrainItems")
 decal_container_path = NodePath("Decals")
 projectile_container_path = NodePath("Projectiles")
 tilemap_path = NodePath("TileMap")
@@ -43,26 +46,27 @@ tile_set = ExtResource( 4 )
 cell_size = Vector2( 18, 18 )
 format = 1
 
-[node name="Decals" type="Node" parent="MapHolder/Map"]
+[node name="Decals" type="Node2D" parent="MapHolder/Map"]
 
-[node name="Projectiles" type="Node" parent="MapHolder/Map"]
+[node name="Projectiles" type="Node2D" parent="MapHolder/Map"]
 
-[node name="PlayerSpawns" type="Node" parent="MapHolder/Map"]
+[node name="PlayerSpawns" type="Node2D" parent="MapHolder/Map"]
 
-[node name="Items" type="Node" parent="MapHolder/Map"]
+[node name="Items" type="Node2D" parent="MapHolder/Map"]
 
-[node name="TerrainItems" type="Node" parent="MapHolder/Map"]
-
-[node name="Boxes" type="Node" parent="MapHolder/Map/TerrainItems"]
-
-[node name="JumpSprings" type="Node" parent="MapHolder/Map/TerrainItems"]
-
-[node name="MysteryBoxes" type="Node" parent="MapHolder/Map/TerrainItems"]
+[node name="TerrainItems" type="Node2D" parent="MapHolder/Map"]
 
 [node name="CursorObjectPreview" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.498039 )
+script = ExtResource( 9 )
+
+[node name="Grid" parent="." instance=ExtResource( 8 )]
+editor_camera_path = NodePath("../EditorCamera")
 
 [node name="EditorCamera" type="Camera2D" parent="."]
 current = true
+
+[node name="PlayerContainer" type="Node" parent="."]
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -77,6 +81,7 @@ margin_left = -212.5
 margin_top = -35.0
 margin_right = 212.5
 margin_bottom = 35.0
+popup_exclusive = true
 window_title = "Veuillez confirmer…"
 dialog_text = "Are you sure you want to quit the editor with unsaved changes ?"
 
@@ -89,8 +94,22 @@ margin_left = -212.5
 margin_top = -35.0
 margin_right = 212.5
 margin_bottom = 35.0
+popup_exclusive = true
 window_title = "Veuillez confirmer…"
 dialog_text = "Are you sure you want to quit the editor with unsaved changes ?"
+
+[node name="NoSavePopup" type="AcceptDialog" parent="GUI/Popups"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -84.0
+margin_top = -29.0
+margin_right = 84.0
+margin_bottom = 29.0
+popup_exclusive = true
+window_title = "Error"
+dialog_text = "No player spawns !"
 
 [node name="ItemSelection" parent="GUI" instance=ExtResource( 6 )]
 
@@ -118,14 +137,66 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonToggleItemsMenu" type="Button" parent="GUI"]
-margin_left = 979.989
-margin_top = 689.556
-margin_right = 1114.99
-margin_bottom = 709.556
+[node name="ButtonActionContainer" type="GridContainer" parent="GUI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -195.307
+margin_top = -94.9424
+margin_right = -60.3069
+margin_bottom = -50.9424
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonToggleItemsMenu" type="Button" parent="GUI/ButtonActionContainer"]
+margin_right = 135.0
+margin_bottom = 20.0
 text = "Toggle items menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="pressed" from="GUI/ButtonToggleItemsMenu" to="." method="_on_ButtonToggleItemsMenu_pressed"]
+[node name="ButtonGoToZero" type="Button" parent="GUI/ButtonActionContainer"]
+margin_top = 24.0
+margin_right = 135.0
+margin_bottom = 44.0
+text = "Go To (0, 0)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonTestMap" type="Button" parent="GUI/ButtonActionContainer"]
+margin_top = 48.0
+margin_right = 135.0
+margin_bottom = 68.0
+text = "Test map"
+
+[node name="OptionsContainer" type="ColorRect" parent="GUI"]
+margin_left = 1071.0
+margin_top = 83.0
+margin_right = 1211.0
+margin_bottom = 248.0
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsContainer" type="VBoxContainer" parent="GUI/OptionsContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ShowGridCbx" type="CheckBox" parent="GUI/OptionsContainer/OptionsContainer"]
+margin_right = 140.0
+margin_bottom = 24.0
+pressed = true
+text = "Show grid"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="GUI/ButtonActionContainer/ButtonToggleItemsMenu" to="." method="_on_ButtonToggleItemsMenu_pressed"]
+[connection signal="pressed" from="GUI/ButtonActionContainer/ButtonGoToZero" to="." method="_on_ButtonGoToZero_pressed"]
+[connection signal="pressed" from="GUI/ButtonActionContainer/ButtonTestMap" to="." method="_on_ButtonTestMap_pressed"]
+[connection signal="toggled" from="GUI/OptionsContainer/OptionsContainer/ShowGridCbx" to="." method="_on_ShowGridCbx_toggled"]

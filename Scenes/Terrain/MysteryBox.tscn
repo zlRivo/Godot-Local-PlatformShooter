@@ -40,7 +40,9 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
 }
 
-[node name="MysteryBox" type="StaticBody2D"]
+[node name="MysteryBox" type="StaticBody2D" groups=[
+"TerrainItem",
+]]
 script = ExtResource( 2 )
 recover_time = 20.0
 

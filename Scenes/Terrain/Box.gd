@@ -1,8 +1,15 @@
-extends RigidBody2D
+extends EditorObject
 
 onready var collision_sound = $CollisionSound
 
 var camera_shake_amount = 2
+
+# Contain reference to ourself with the specified type
+var body : RigidBody2D
+
+func _init():
+	var _self = self
+	body = _self
 
 # When the box hits something
 func handle_collision(body):
@@ -11,5 +18,5 @@ func handle_collision(body):
 	# Camera shake
 	Globals.shake_camera(camera_shake_amount, 0.2)
 
-func _on_Box_body_entered(body):
-	handle_collision(body)
+func _on_Box_body_entered(_body):
+	handle_collision(_body)

@@ -24,7 +24,9 @@ tracks/0/keys = {
 "values": [ 107, 108, 107 ]
 }
 
-[node name="JumpSpring" type="Area2D"]
+[node name="JumpSpring" type="Area2D" groups=[
+"TerrainItem",
+]]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

@@ -15,8 +15,8 @@ onready var health_bar = $PlayerIndicator/HealthBar
 onready var pickup_area = $PickupArea
 onready var kick_area = $Sprite/KickArea
 onready var one_way_exit_detector = $OneWayExitDetector
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
-onready var player_container = get_node("/root/SceneHandler/Players")
+onready var map_handler = null
+onready var player_container = null
 # Sounds
 onready var jump_sound = $Sounds/JumpSound
 onready var hurt_sound = $Sounds/HurtSound
@@ -109,9 +109,6 @@ var gravity_vec = Vector2.ZERO
 
 export var owner_id = 0
 export var sprite_name = "mort"
-
-func _ready():
-	pass
 
 # Initialize a player
 func init_player(_owner_id, _sprite_index, _player_spawns, _player_hud = null):

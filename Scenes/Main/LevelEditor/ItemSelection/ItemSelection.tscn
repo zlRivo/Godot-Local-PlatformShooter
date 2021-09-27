@@ -1,9 +1,31 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/ItemSelection.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Main/LevelEditor/ItemSelection/EditorItem/EditorItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Instances/Weapons/M1911/M1911Pickup.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/US/US1.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0000.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0040.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0080.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0095.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/WW2/USSR/USSR9.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Instances/Weapons/PPSH-41/PPSH-41Pickup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/Sprites/Weapons/Guns/SQLCanon/sqlcanon.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/Instances/Weapons/SQLCanon/SQLCanonPickup.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Sprites/Weapons/Melee/scithersword.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/Instances/Weapons/ScitherSword/ScitherSwordPickup.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/Sprites/Player/doux.png" type="Texture" id=15]
+[ext_resource path="res://Scenes/Instances/Player/PlayerSpawn/PlayerSpawn.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Terrain/JumpSpring.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0107.png" type="Texture" id=18]
+[ext_resource path="res://Scenes/Terrain/MysteryBox.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0009.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Sprites/Tilemap/Individual/tile_0026.png" type="Texture" id=21]
+[ext_resource path="res://Scenes/Terrain/Box.tscn" type="PackedScene" id=22]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 15 )
+region = Rect2( 144, 0, 24, 24 )
 
 [node name="ItemSelection" type="TabContainer"]
 anchor_top = 1.0
@@ -17,6 +39,7 @@ __meta__ = {
 }
 
 [node name="Tiles" type="Tabs" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -32,10 +55,41 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="Tiles/ScrollContainer"]
-columns = 5
+margin_right = 412.0
+margin_bottom = 100.0
+columns = 7
+
+[node name="Grass" parent="Tiles/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+texture = ExtResource( 5 )
+displayed_name = "Grass"
+is_tile = true
+tile_name = "grass"
+
+[node name="Sand" parent="Tiles/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 104.0
+margin_right = 204.0
+texture = ExtResource( 6 )
+displayed_name = "Sand"
+is_tile = true
+tile_name = "sand"
+
+[node name="Snow" parent="Tiles/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 208.0
+margin_right = 308.0
+texture = ExtResource( 7 )
+displayed_name = "Snow"
+is_tile = true
+tile_name = "snow"
+
+[node name="Pipes" parent="Tiles/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 312.0
+margin_right = 412.0
+texture = ExtResource( 8 )
+displayed_name = "Pipes"
+is_tile = true
+tile_name = "pipes"
 
 [node name="Miscellaneous" type="Tabs" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -51,6 +105,35 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="Miscellaneous/ScrollContainer"]
+margin_right = 412.0
+margin_bottom = 100.0
+columns = 7
+
+[node name="PlayerSpawn" parent="Miscellaneous/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+texture = SubResource( 1 )
+scene_to_spawn = ExtResource( 16 )
+displayed_name = "Player spawn"
+
+[node name="JumpSpring" parent="Miscellaneous/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 104.0
+margin_right = 204.0
+texture = ExtResource( 18 )
+scene_to_spawn = ExtResource( 17 )
+displayed_name = "Jump spring"
+
+[node name="MysteryBox" parent="Miscellaneous/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 208.0
+margin_right = 308.0
+texture = ExtResource( 20 )
+scene_to_spawn = ExtResource( 19 )
+displayed_name = "Mystery box"
+
+[node name="Box" parent="Miscellaneous/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 312.0
+margin_right = 412.0
+texture = ExtResource( 21 )
+scene_to_spawn = ExtResource( 22 )
+displayed_name = "Box"
 
 [node name="Weapons" type="Tabs" parent="."]
 visible = false
@@ -69,10 +152,34 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="Weapons/ScrollContainer"]
-margin_right = 100.0
+margin_right = 412.0
 margin_bottom = 100.0
+columns = 7
 
 [node name="M1911" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
 texture = ExtResource( 4 )
 scene_to_spawn = ExtResource( 3 )
 displayed_name = "M1911"
+
+[node name="PPSH-41" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 104.0
+margin_right = 204.0
+texture = ExtResource( 9 )
+scene_to_spawn = ExtResource( 10 )
+displayed_name = "PPSH-41"
+
+[node name="SQLCanon" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 208.0
+margin_right = 308.0
+texture = ExtResource( 11 )
+scene_to_spawn = ExtResource( 12 )
+displayed_name = "SQL Canon"
+texture_scale = 0.7
+
+[node name="ScitherSword" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 312.0
+margin_right = 412.0
+texture = ExtResource( 13 )
+scene_to_spawn = ExtResource( 14 )
+displayed_name = "Scither Sword"
+texture_scale = 0.3

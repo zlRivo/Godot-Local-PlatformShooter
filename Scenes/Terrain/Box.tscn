@@ -7,7 +7,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9, 9 )
 
-[node name="Box" type="RigidBody2D"]
+[node name="Box" type="RigidBody2D" groups=[
+"TerrainItem",
+]]
 collision_mask = 524289
 mass = 4.0
 contacts_reported = 1
