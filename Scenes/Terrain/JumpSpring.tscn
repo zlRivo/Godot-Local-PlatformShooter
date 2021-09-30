@@ -44,5 +44,3 @@ anims/bounce = SubResource( 2 )
 
 [node name="BounceSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-
-[connection signal="body_entered" from="." to="." method="_on_JumpSpring_body_entered"]

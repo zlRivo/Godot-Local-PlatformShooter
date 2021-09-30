@@ -1,4 +1,5 @@
 extends TextureRect
+class_name EditorItem
 
 onready var node_name = $NodeName
 

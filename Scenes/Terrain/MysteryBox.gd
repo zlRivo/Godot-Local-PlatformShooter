@@ -14,10 +14,11 @@ export (float) var recover_time = 5
 var elapsed_time_since_hit = 0
 
 # References
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+var map_handler = null
 onready var spawn_location = $SpawnLocation
 onready var sprite = $CollisionShape2D/Sprite
 onready var animation_player = $AnimationPlayer
+onready var hit_detector = $HitDetector
 # Sounds
 onready var hit_sound = $Sounds/HitSound
 onready var recover_sound = $Sounds/RecoverSound
@@ -30,6 +31,13 @@ func _init():
 	body = _self
 
 func _ready():
+	if Globals.get_in_editor_state():
+		map_handler = get_node("/root/LevelEditor/MapHolder")
+	else:
+		map_handler = get_node("/root/SceneHandler/MapHandler")
+	
+	hit_detector.connect("body_entered", self, "_on_HitDetector_body_entered")
+	
 	# Don't recover at start
 	set_process(false)
 

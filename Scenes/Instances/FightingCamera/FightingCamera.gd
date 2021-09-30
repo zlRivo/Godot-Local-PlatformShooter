@@ -1,7 +1,7 @@
 extends Camera2D
 
 # Player container reference
-onready var player_container_node = get_node_or_null("/root/SceneHandler/Players")
+var player_container_node = null
 
 # Other references
 onready var shake_tween = $ShakeTween
@@ -19,21 +19,37 @@ var MIN_ZOOM = 0.2 # Minimum zoom, so if players are close, it wont zoom in too 
 var players = null
 var camera_rect = null
 
+var handle_physics_process = false
+
 func _ready():
+	# Wait for tree to initialize
+	yield(get_tree().root, "ready")
+	if Globals.get_in_editor_state():
+		player_container_node = get_node("/root/LevelEditor/PlayerContainer")
+	else:
+		player_container_node = get_node("/root/SceneHandler/Players")
+	
 	refresh_player_container()
 
 func refresh_player_container():
-	set_process(false)
+	set_physics_process(false)
+	handle_physics_process = false
 	
 	if player_container_node != null:
 		# Get players
 		players = player_container_node.get_children()
 		# Start updating the camera if there is at least one player
 		# in the container
-		if players.size() > 0:
-			set_process(true)
+		if players != null and players.size() > 0:
+			set_physics_process(true)
+			handle_physics_process = true
 
-func _process(delta):
+func _physics_process(delta):
+	#if players == null:
+	#	return
+	if handle_physics_process == false:
+		return
+	
 	# Create rect to fit the first player
 	camera_rect = Rect2(players[0].position, Vector2())
 	# Expand to fit the other players

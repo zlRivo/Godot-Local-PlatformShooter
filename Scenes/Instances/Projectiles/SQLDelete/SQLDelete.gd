@@ -4,7 +4,7 @@ extends KinematicBody2D
 var owner_entity = null
 
 # Map Handler
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+var map_handler = null
 
 onready var label = $Label
 onready var animation_player = $AnimationPlayer
@@ -23,6 +23,11 @@ var explosion_damage = 0
 var direction = Vector2.ZERO
 
 func _ready():
+	if Globals.get_in_editor_state():
+		map_handler = get_node("/root/LevelEditor/MapHolder")
+	else:
+		map_handler = get_node("/root/SceneHandler/MapHandler")
+	
 	# Play spawn animation
 	animation_player.play("spawn")
 

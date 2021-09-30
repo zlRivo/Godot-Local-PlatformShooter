@@ -1,7 +1,10 @@
 extends Control
 
 # References
-onready var file_menu_button = $GUI/ColorRect/HBoxContainer/MenuButtonFile
+onready var file_menu_button = $GUI/MenuBar/HBoxContainer/MenuButtonFile
+onready var menu_bar = $GUI/MenuBar
+onready var button_action_container = $GUI/ButtonActionContainer
+onready var options_container = $GUI/OptionsContainer
 
 onready var item_selection = $GUI/ItemSelection
 onready var cursor_object_preview = $CursorObjectPreview
@@ -42,7 +45,6 @@ var panning = false
 var is_placing_object = false
 var is_removing_object = false
 
-var testing_mode = false
 var test_mode_map_save = null
 
 const GRID_INCREMENT = 18
@@ -78,6 +80,13 @@ func _ready():
 	OS.set_window_fullscreen(false)
 
 func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel_0"):
+		if Globals.get_testing_map_state():
+			exit_testing_mode()
+	
+	if Globals.get_testing_map_state():
+		return
+		
 	# Camera panning
 	if panning:
 		if event is InputEventMouseMotion:
@@ -90,6 +99,9 @@ func _unhandled_input(event):
 			current_focus_control.release_focus()
 
 func _input(event):
+	if Globals.get_testing_map_state():
+		return
+		
 	if event.is_action_released("editor_place"):
 		is_placing_object = false
 	if event.is_action_released("editor_remove"):
@@ -132,6 +144,9 @@ func connect_all_mouse_entered_exit():
 
 # When the object cursor moves
 func _on_cursor_moved():
+	if Globals.get_testing_map_state():
+		return
+	
 	if is_placing_object and not is_removing_object:
 		place_object()
 		
@@ -140,6 +155,9 @@ func _on_cursor_moved():
 
 # Enter the testing mode
 func enter_testing_mode():
+	if Globals.get_testing_map_state():
+		return
+	
 	# If there is no spawn container
 	var player_spawns = map_holder.get_player_spawns()
 	if player_spawns == null:
@@ -149,7 +167,6 @@ func enter_testing_mode():
 	if player_spawns.get_child_count() == 0:
 		# Show popup
 		no_save_popup.show_modal(true)
-		yield(no_save_popup, "popup_hide")
 		return
 	
 	# Save the map
@@ -158,7 +175,6 @@ func enter_testing_mode():
 	if test_mode_map_save == null:
 		return
 	
-	testing_mode = true
 	Globals.set_testing_map_state(true)
 	# Hide GUI
 	hide_gui()
@@ -174,6 +190,53 @@ func enter_testing_mode():
 		
 	# Enable physics
 	Physics2DServer.set_active(true)
+	
+	# Hide player spawns
+	hide_player_spawns()
+
+# Exit the testing mode
+func exit_testing_mode():
+	if not Globals.get_testing_map_state():
+		return
+	
+	# Delete the players
+	for p in player_container.get_children():
+		player_container.remove_child(p)
+	
+	# Refresh game camera targets
+	var game_camera = map_holder.get_game_camera()
+	if game_camera != null:
+		# Refresh player container on the camera
+		game_camera.refresh_player_container()
+	
+	# Show player spawns
+	show_player_spawns()
+	# Disable physics
+	Physics2DServer.set_active(false)
+	# Switch camera
+	switch_to_editor_camera()
+	# Show GUI
+	show_gui()
+	Globals.set_testing_map_state(false)
+	# Load map save
+	if test_mode_map_save != null:
+		map_holder.set_map(test_mode_map_save)
+
+func hide_player_spawns():
+	var player_spawns = map_holder.get_player_spawns()
+	if player_spawns == null:
+		return
+		
+	for spawn in player_spawns.get_children():
+		spawn.visible = false
+
+func show_player_spawns():
+	var player_spawns = map_holder.get_player_spawns()
+	if player_spawns == null:
+		return
+		
+	for spawn in player_spawns.get_children():
+		spawn.visible = true
 
 func spawn_test_player():
 	# If there is no spawn container or no player spawn
@@ -188,7 +251,6 @@ func spawn_test_player():
 	player.map_handler = get_node("/root/LevelEditor/MapHolder")
 	player.player_container = get_node("/root/LevelEditor/PlayerContainer")
 	player.init_player(0, 0, player_spawns, null)
-	
 
 func _on_map_changed():
 	refresh_map_references()
@@ -239,19 +301,37 @@ func _process(delta):
 	else:
 		Input.set_default_cursor_shape(CURSOR_ARROW)
 
+func disable_control_node(_node : Control):
+	_node.visible = false
+	_node.set_process_input(false)
+	_node.set_process_unhandled_input(false)
+	_node.set_process_unhandled_key_input(false)
+
+func enable_control_node(_node : Control):
+	_node.visible = true
+	_node.set_process_input(true)
+	_node.set_process_unhandled_input(true)
+	_node.set_process_unhandled_key_input(true)
+
 func show_gui():
-	var gui_children = Globals.get_children_recursive(gui)
+	# Show grid
 	grid.visible = true
-	for node in gui_children:
-		if node is Control:
-			node.visible = true
+	
+	# Enable gui nodes
+	enable_control_node(item_selection)
+	enable_control_node(menu_bar)
+	enable_control_node(button_action_container)
+	enable_control_node(options_container)
 
 func hide_gui():
-	var gui_children = Globals.get_children_recursive(gui)
+	# Hide grid
 	grid.visible = false
-	for node in gui_children:
-		if node is Control:
-			node.visible = false
+	
+	# Disblae gui nodes
+	disable_control_node(item_selection)
+	disable_control_node(menu_bar)
+	disable_control_node(button_action_container)
+	disable_control_node(options_container)
 
 func place_object():
 	# If the cursor is hitting the UI or we didn't selected any object

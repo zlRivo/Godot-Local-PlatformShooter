@@ -116,9 +116,9 @@ func start_game():
 			# Get maps' player spawns
 			var player_spawns = map_handler
 			
-			var init_result = new_player.init_player(player_owner_id, p.get_selection_index(), player_spawns, player_hud)
 			new_player.map_handler = get_node("/root/SceneHandler/MapHandler")
 			new_player.player_container = get_node("/root/SceneHandler/Players")
+			var init_result = new_player.init_player(player_owner_id, p.get_selection_index(), player_spawns, player_hud)
 			# If the player has had an error while initializing
 			if init_result == false:
 				# Remove the player from the scene

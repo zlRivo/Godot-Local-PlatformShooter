@@ -9,4 +9,10 @@ static func pack_node(_node : Node) -> PackedScene:
 static func set_owner(_node : Node, _owner : Node) -> void:
 	for child in _node.get_children():
 		child.owner = _owner
-		set_owner(child, _owner)
+		# If the node is a scene 
+		if child.get_filename() != "":
+			# Set to child of the scene
+			set_owner(child, child)
+		else:
+			# Set to child of the defined node
+			set_owner(child, _owner)

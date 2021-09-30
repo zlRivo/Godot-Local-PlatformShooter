@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "TextureRect",
+"class": "EditorItem",
+"language": "GDScript",
+"path": "res://Scenes/Main/LevelEditor/ItemSelection/EditorItem/EditorItem.gd"
+}, {
 "base": "Node2D",
 "class": "EditorObject",
 "language": "GDScript",
@@ -60,6 +65,7 @@ _global_script_classes=[ {
 "path": "res://Classes/Weapon.gd"
 } ]
 _global_script_class_icons={
+"EditorItem": "",
 "EditorObject": "",
 "HitscanWeapon": "",
 "Item": "",
@@ -75,7 +81,7 @@ _global_script_class_icons={
 [application]
 
 config/name="DinoCharge"
-run/main_scene="res://Scenes/Main/LevelEditor/LevelEditor.tscn"
+run/main_scene="res://Scenes/Main/SceneHandler/SceneHandler.tscn"
 boot_splash/image="res://icon.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.968627, 1, 0, 1 )

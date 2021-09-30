@@ -54,6 +54,12 @@ func get_random_spawn():
 		return map.get_random_spawn()
 	return null
 
+func add_node(node_to_add : Node):
+	if map != null:
+		map.add_child(node_to_add)
+		return true
+	return false
+
 # Get current world preview camera reference
 func get_preview_camera():
 	if map == null:
@@ -69,16 +75,15 @@ func get_game_camera():
 	return map.get_game_camera()
 
 func set_map(_new_map : PackedScene):
-	# Delete map
-	map.queue_free()
+	# If there is an existing map delete it
+	if map != null:
+		map.queue_free()
 	
-	# Add map
-	var map_instance = _new_map.instance()
-	add_child(map_instance)
-	
+	# Create world
+	var _new_map_inst = _new_map.instance()
+	add_child(_new_map_inst)
 	# Set reference
-	map = map_instance
-	
+	map = _new_map_inst
 	emit_signal("map_changed")
 
 func get_map():

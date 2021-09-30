@@ -13,6 +13,9 @@ func _init():
 	var _self = self
 	body = _self
 
+func _ready():
+	body.connect("body_entered", self, "_on_JumpSpring_body_entered")
+
 func bounce():
 	bounce_sound.play()
 	animation_player.play("bounce")

@@ -7,10 +7,16 @@ export (String) var item_name = ""
 export (Vector2) var equip_pos = Vector2.ZERO
 
 #### References #####
-onready var map_handler = get_node("/root/SceneHandler/MapHandler")
+var map_handler = null
 
 # Hold reference to the player that is holding the weapon
 var owner_player = null
+
+func _ready():
+	if Globals.get_in_editor_state():
+		map_handler = get_node("/root/LevelEditor/MapHolder")
+	else:
+		map_handler = get_node("/root/SceneHandler/MapHandler")
 
 # Delete the item from the map
 func delete_item():
