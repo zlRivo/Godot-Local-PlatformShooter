@@ -23,4 +23,5 @@ func set_state(_new_state):
 	enabled = _new_state
 
 func _process(delta):
+	# Will call the _draw function
 	update()

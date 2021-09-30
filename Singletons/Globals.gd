@@ -10,6 +10,7 @@ const GRID_INCREMENT = 18
 var in_game = false
 var in_editor = false
 var testing_map = false
+var editor_tree_ready = false
 
 var collisions_shown = false
 
@@ -32,11 +33,11 @@ func get_node_by_position(_parent : Node2D, _position : Vector2):
 func round_by_step(_to_round : float, _step : float):
 	return ceil(_to_round / _step) * _step
 
-# Debug collisions
-func _input(event):
-	if event is InputEventKey:
-		if event.scancode == KEY_TAB:
-			pass
+func set_editor_tree_ready(value):
+	editor_tree_ready = value
+	
+func is_editor_tree_ready():
+	return editor_tree_ready
 
 func set_testing_map_state(_new_state):
 	testing_map = _new_state

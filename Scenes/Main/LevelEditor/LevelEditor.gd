@@ -61,12 +61,19 @@ var map_references = {
 	"tilemap": null
 }
 
+signal map_references_set
+
+func _init():
+	Globals.set_editor_tree_ready(false)
+
 func _ready():
 	# Set in editor state
 	Globals.set_in_editor_state(true)
-	# Pause the game
+	
+	Globals.set_editor_tree_ready(true)
+	
+	# Disable physics
 	Physics2DServer.set_active(false)
-	# get_tree().paused = true
 	# Connect signals
 	connect_all_mouse_entered_exit()
 	item_selection.connect("item_clicked", self, "_on_item_selection_clicked")
@@ -266,6 +273,7 @@ func refresh_map_references():
 		"projectile_container": map_holder.get_projectile_container(),
 		"tilemap": map_holder.get_tilemap()
 	}
+	emit_signal("map_references_set")
 
 func _on_item_selection_clicked(sender):
 	# Get data from the clicked item
@@ -295,11 +303,12 @@ func _process(delta):
 		cursor_object_preview.global_position.x = Globals.round_by_step(mouse_position.x, GRID_INCREMENT) - GRID_INCREMENT / 2
 		cursor_object_preview.global_position.y = Globals.round_by_step(mouse_position.y, GRID_INCREMENT) - GRID_INCREMENT / 2
 	
-	panning = Input.is_action_pressed("editor_pan")
-	if panning:
-		Input.set_default_cursor_shape(CURSOR_MOVE)
-	else:
-		Input.set_default_cursor_shape(CURSOR_ARROW)
+	if Globals.get_testing_map_state() == false:
+		panning = Input.is_action_pressed("editor_pan")
+		if panning:
+			Input.set_default_cursor_shape(CURSOR_MOVE)
+		else:
+			Input.set_default_cursor_shape(CURSOR_ARROW)
 
 func disable_control_node(_node : Control):
 	_node.visible = false
@@ -420,9 +429,8 @@ func remove_object():
 	set_unsaved_changes(true)
 
 func switch_to_game_camera():
-	var game_camera = map_holder.get_game_camera()
-	if game_camera != null:
-		Globals.set_camera(game_camera)
+	if map_references["game_camera"] != null:
+		Globals.set_camera(map_references["game_camera"])
 
 func switch_to_editor_camera():
 	Globals.set_camera(editor_camera)
