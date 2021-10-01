@@ -5,6 +5,7 @@ onready var file_menu_button = $GUI/MenuBar/HBoxContainer/MenuButtonFile
 onready var menu_bar = $GUI/MenuBar
 onready var button_action_container = $GUI/ButtonActionContainer
 onready var options_container = $GUI/OptionsContainer
+onready var save_indicator = $GUI/SaveIndicator
 
 onready var item_selection = $GUI/ItemSelection
 onready var cursor_object_preview = $CursorObjectPreview
@@ -19,12 +20,20 @@ onready var editor_camera = $EditorCamera
 onready var popup_container = $GUI/Popups
 onready var unsave_quit_confirm_popup = $GUI/Popups/UnsaveQuitConfirm
 onready var unsave_return_to_game_popup = $GUI/Popups/UnsaveReturnToGamePopup
-onready var no_save_popup = $GUI/Popups/NoSavePopup
+onready var no_spawn_popup = $GUI/Popups/NoSpawnPopup
+onready var save_map_popup = $GUI/Popups/SaveMapDialog
+onready var existing_file_dialog = $GUI/Popups/ExistingFileDialog
+onready var failed_save_popup = $GUI/Popups/FailedSavePopup
+onready var open_map_dialog = $GUI/Popups/OpenMapDialog
+onready var unsave_load_confirm = $GUI/Popups/UnsaveLoadConfirm
+onready var unsave_new_confirm = $GUI/Popups/UnsaveNewConfirm
 
 var player_scene = preload("res://Scenes/Instances/Player/Player.tscn")
+var empty_map_scene = preload("res://Scenes/Maps/EmptyMap/EmptyMap.tscn")
 
 # Variables
-var save_file_path = "" # Contain the current save file path
+var map_name = "" # Contain the current map name
+var temp_map_name = ""
 
 # Know whether the last changes were saved
 var _unsaved_changes = false
@@ -70,6 +79,7 @@ func _ready():
 	# Set in editor state
 	Globals.set_in_editor_state(true)
 	
+	Globals.set_game_tree_ready(false)
 	Globals.set_editor_tree_ready(true)
 	
 	# Disable physics
@@ -83,6 +93,12 @@ func _ready():
 	
 	unsave_quit_confirm_popup.connect("confirmed", self, "_on_unsave_popup_confirmed")
 	unsave_return_to_game_popup.connect("confirmed", self, "_on_unsave_return_to_game_confirmed")
+	save_map_popup.connect("confirmed", self, "_on_save_map_dialog_confirmed")
+	existing_file_dialog.connect("confirmed", self, "_on_existing_file_dialog_confirmed")
+	open_map_dialog.connect("file_selected", self, "_on_map_dialog_selected")
+	unsave_load_confirm.connect("confirmed", self, "_on_unsave_load_confirmed")
+	unsave_new_confirm.connect("confirmed", self, "_on_unsave_new_confirmed")
+	
 	# Set to windowed
 	OS.set_window_fullscreen(false)
 
@@ -113,6 +129,9 @@ func _input(event):
 		is_placing_object = false
 	if event.is_action_released("editor_remove"):
 		is_removing_object = false
+		
+	if event.is_action_released("editor_save"):
+		save_map()
 	
 	if event.is_action_pressed("editor_place"):
 		is_placing_object = true
@@ -173,7 +192,7 @@ func enter_testing_mode():
 	# If there is no player spawn
 	if player_spawns.get_child_count() == 0:
 		# Show popup
-		no_save_popup.show_modal(true)
+		no_spawn_popup.show_modal(true)
 		return
 	
 	# Save the map
@@ -456,6 +475,20 @@ func _on_ButtonToggleItemsMenu_pressed():
 func _on_file_id_pressed(id):
 	var text = file_menu_button.get_popup().get_item_text(id)
 	match text:
+		"New map":
+			if _unsaved_changes:
+				unsave_new_confirm.show_modal(true)
+			else:
+				create_empty_map()
+		"Open map":
+			if _unsaved_changes:
+				unsave_load_confirm.show_modal(true)
+			else:
+				open_map_dialog.show_modal(true)
+		"Save map":
+			save_map()
+		"Save map as...":
+			save_map_popup.show_modal(true)
 		"Quit":
 			quit_editor()
 		"Return to game":
@@ -476,6 +509,83 @@ func return_to_game():
 		# Unpause the game
 		get_tree().paused = false
 		get_tree().change_scene("res://Scenes/Main/SceneHandler/SceneHandler.tscn")
+
+# Create a new map
+func create_empty_map():
+	map_holder.set_map(empty_map_scene)
+	map_name = ""
+
+func _on_unsave_new_confirmed():
+	create_empty_map()
+
+func _on_unsave_load_confirmed():
+	open_map_dialog.show_modal(true)
+
+func _on_save_map_dialog_confirmed():
+	# Read the input
+	temp_map_name = save_map_popup.get_dialog_text()
+	
+	# Know if the map is already existing
+	var map_exists = MapSaver.map_exists(temp_map_name)
+	# If the map already exists
+	if map_exists:
+		# Show confirmation
+		existing_file_dialog.show_modal(true)
+	else:
+		# Save the map
+		save_map_as(temp_map_name)
+
+func _on_existing_file_dialog_confirmed():
+	save_map_as(temp_map_name)
+
+func save_map():
+	# If we didn't previously set the save location
+	if map_name == "":
+		save_map_popup.show_modal(true)
+	# If we have the location save the map
+	else:
+		save_map_as(map_name)
+
+# Save a map to the device
+func save_map_as(_map_name : String):
+	# Pack map
+	var packed_map = map_holder.pack_map()
+	if packed_map == null or _map_name == "":
+		failed_save_popup.show_modal(true)
+		return false
+	
+	# Save the map
+	var save_result = MapSaver.save_map(_map_name, packed_map)
+	if not save_result:
+		failed_save_popup.show_modal(true)
+	else:
+		set_unsaved_changes(false)
+		# Store map name
+		map_name = _map_name
+		# Play save animation
+		save_indicator.play_save_anim()
+	return save_result
+
+# Load a map with the path
+func load_map(_map_path : String):
+	var loaded_map = MapSaver.load_map(_map_path)
+	if loaded_map == null:
+		return
+	
+	# Retreive map name from filename
+	var _new_map_name = _map_path.get_file().trim_suffix(".scn")
+	# Remove first underscore of string
+	if _new_map_name.begins_with("_"):
+		_new_map_name.erase(0, 1)
+	
+	map_name = _new_map_name
+		
+	map_holder.set_map(loaded_map)
+	set_unsaved_changes(false)
+
+# When the user chooses a map from the file dialog
+func _on_map_dialog_selected(_map_path : String):
+	load_map(_map_path)
 
 func _on_unsave_popup_confirmed():
 	get_tree().quit()

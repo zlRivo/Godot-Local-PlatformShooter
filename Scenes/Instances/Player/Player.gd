@@ -340,6 +340,7 @@ func drop_pickup_item():
 func pick_item_up():
 	if current_item != null:
 		drop_pickup_item()
+		return
 	
 	# Get all colliding bodies with the area
 	var bodies = pickup_area.get_overlapping_bodies()
@@ -433,7 +434,7 @@ func _manage_movement_inputs():
 	direction = Vector2.ZERO
 	
 	if Input.is_action_just_pressed("jump_" + str(owner_id)):
-		if is_on_floor() and not is_kicking():
+		if is_on_floor():
 			jump(JUMP_HEIGHT)
 			jump_sound.play()
 	

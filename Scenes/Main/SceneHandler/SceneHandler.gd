@@ -5,6 +5,8 @@ onready var map_handler = $MapHandler
 onready var player_hud_container = $CanvasPlayerHUD/ContainerPlayerHUD
 
 func _ready():
+	Globals.set_editor_tree_ready(false)
+	Globals.set_game_tree_ready(true)
 	Globals.set_in_editor_state(false)
 	# Enable physics
 	Physics2DServer.set_active(true)

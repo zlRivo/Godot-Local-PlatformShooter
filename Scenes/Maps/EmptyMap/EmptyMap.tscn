@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Instances/PreviewCamera/PreviewCamera.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Instances/FightingCamera/FightingCamera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Classes/Map.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Maps/TileSet/CleanTileset.tres" type="TileSet" id=6]
+
+[node name="Map" type="Node2D"]
+script = ExtResource( 4 )
+game_camera_path = NodePath("FightingCamera")
+preview_camera_path = NodePath("PreviewCamera")
+player_spawns_path = NodePath("PlayerSpawns")
+items_container_path = NodePath("Items")
+terrain_items_container_path = NodePath("TerrainItems")
+decal_container_path = NodePath("Decals")
+projectile_container_path = NodePath("Projectiles")
+tilemap_path = NodePath("TileMap")
+
+[node name="FightingCamera" parent="." instance=ExtResource( 2 )]
+visible = false
+
+[node name="PreviewCamera" parent="." instance=ExtResource( 1 )]
+visible = false
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 6 )
+cell_size = Vector2( 18, 18 )
+format = 1
+
+[node name="Decals" type="Node2D" parent="."]
+
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="PlayerSpawns" type="Node2D" parent="."]
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="TerrainItems" type="Node2D" parent="."]

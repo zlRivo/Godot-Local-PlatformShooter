@@ -12,7 +12,13 @@ var in_editor = false
 var testing_map = false
 var editor_tree_ready = false
 
+var game_tree_ready = false
+
 var collisions_shown = false
+
+const MAP_FOLDER_PATH = "user://Dinomaps/"
+const MAP_EXTENSION = ".scn"
+const MAP_PREFIX = "_"
 
 # Gets all the nodes from a parent
 func get_children_recursive(parent : Node):
@@ -32,6 +38,12 @@ func get_node_by_position(_parent : Node2D, _position : Vector2):
 
 func round_by_step(_to_round : float, _step : float):
 	return ceil(_to_round / _step) * _step
+
+func set_game_tree_ready(value):
+	game_tree_ready = value
+
+func is_game_tree_ready():
+	return game_tree_ready
 
 func set_editor_tree_ready(value):
 	editor_tree_ready = value

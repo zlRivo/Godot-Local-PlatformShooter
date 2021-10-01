@@ -70,6 +70,9 @@ func _input(event):
 						map_handler.set_map(map_handler.get_random_map())
 					"LabelHowToPlay":
 						switch_menu(how_to_play_menu)
+					"LabelLevelEditor":
+						# Go to editor
+						get_tree().change_scene("res://Scenes/Main/LevelEditor/LevelEditor.tscn")
 					"LabelCredits":
 						# Play credits anim
 						if credits_label_anim_player.is_playing():
@@ -144,6 +147,8 @@ func update_current_selection_description():
 				set_selection_description("Assert your dominance in this FFA showdown")
 			"LabelRandomMap":
 				set_selection_description("Choose a random map")
+			"LabelLevelEditor":
+				set_selection_description("Create your own custom maps")
 			"LabelHowToPlay":
 				set_selection_description("How do I play ????")
 			"LabelCredits":

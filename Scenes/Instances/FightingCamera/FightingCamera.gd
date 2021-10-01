@@ -22,9 +22,14 @@ var camera_rect = null
 var handle_physics_process = false
 
 func _ready():
-	if not Globals.is_editor_tree_ready():
-		# Wait for tree to initialize
-		yield(get_tree().root, "ready")
+	if Globals.get_in_editor_state():
+		if not Globals.is_editor_tree_ready():
+			# Wait for tree to initialize
+			yield(get_tree().root, "ready")
+	else:
+		if not Globals.is_game_tree_ready():
+			# Wait for tree to initialize
+			yield(get_tree().root, "ready")
 	
 	if Globals.get_in_editor_state():
 		player_container_node = get_node("/root/LevelEditor/PlayerContainer")
