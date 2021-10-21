@@ -154,31 +154,24 @@ margin_bottom = 132.0
 custom_fonts/font = SubResource( 3 )
 text = "RANDOM MAP"
 
-[node name="LabelLevelEditor" type="Label" parent="MainMenuNode/OptionsContainer"]
+[node name="LabelHowToPlay" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 136.0
 margin_right = 384.0
 margin_bottom = 200.0
 custom_fonts/font = SubResource( 3 )
-text = "LEVEL EDITOR"
+text = "HOW TO PLAY"
 
-[node name="LabelHowToPlay" type="Label" parent="MainMenuNode/OptionsContainer"]
+[node name="LabelCredits" type="Label" parent="MainMenuNode/OptionsContainer"]
 margin_top = 204.0
 margin_right = 384.0
 margin_bottom = 268.0
 custom_fonts/font = SubResource( 3 )
-text = "HOW TO PLAY"
-
-[node name="LabelCredits" type="Label" parent="MainMenuNode/OptionsContainer"]
-margin_top = 272.0
-margin_right = 384.0
-margin_bottom = 336.0
-custom_fonts/font = SubResource( 3 )
 text = "CREDITS"
 
 [node name="LabelQuit" type="Label" parent="MainMenuNode/OptionsContainer"]
-margin_top = 340.0
+margin_top = 272.0
 margin_right = 384.0
-margin_bottom = 404.0
+margin_bottom = 336.0
 custom_fonts/font = SubResource( 3 )
 text = "QUIT"
 
