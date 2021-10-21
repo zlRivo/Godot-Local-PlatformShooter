@@ -1,17 +1,7 @@
-extends Camera2D
+extends ShakingCamera
 
 # Player container reference
 var player_container_node = null
-
-# Other references
-onready var shake_tween = $ShakeTween
-onready var shake_timer = $ShakeTimer
-
-# Used for camera shake
-var shake_amount = 0
-var shake_limit = 200
-var default_offset = offset # Save default offset before shake
-var shaking = false
 
 var CAMERA_MARGIN = 128 # Number of pixels to expand the rectangle
 var MIN_ZOOM = 0.2 # Minimum zoom, so if players are close, it wont zoom in too much
@@ -31,6 +21,7 @@ func _ready():
 			# Wait for tree to initialize
 			yield(get_tree().root, "ready")
 	
+	# Get correct reference
 	if Globals.get_in_editor_state():
 		player_container_node = get_node("/root/LevelEditor/PlayerContainer")
 	else:
@@ -39,6 +30,7 @@ func _ready():
 	refresh_player_container()
 
 func refresh_player_container():
+	# Stop moving the camera along the players
 	set_physics_process(false)
 	handle_physics_process = false
 	
@@ -85,22 +77,3 @@ func _physics_process(delta):
 	# Camera shake
 	if shaking:
 		offset = Vector2(rand_range(-shake_amount, shake_amount), rand_range(-shake_amount, shake_amount)) * delta + default_offset
-
-func shake(new_shake_amount, shake_time = 0.4):
-	shake_amount += new_shake_amount
-	if shake_amount > shake_limit:
-		shake_amount = shake_limit
-	
-	shake_timer.wait_time = shake_time
-	
-	shake_tween.stop_all()
-	shaking = true
-	shake_timer.start()
-
-func _on_ShakeTimer_timeout():
-	shake_amount = 0
-	shaking = false
-	
-	shake_tween.interpolate_property(self, "offset", offset, default_offset,
-	0.25, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
-	shake_tween.start()

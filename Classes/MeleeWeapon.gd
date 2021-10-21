@@ -23,6 +23,7 @@ func _ready():
 	# Add to scene
 	add_child(attack_timer)
 
+# Used to play sound at a specific animation frame
 func play_attack_sound():
 	if attack_sound != null:
 		attack_sound.play()
@@ -33,6 +34,7 @@ func fire():
 		# Play attack animation
 		if animation_player != null:
 			if animation_player.has_animation("fire"):
+				# Stop current animation if playing
 				if animation_player.is_playing():
 					animation_player.stop()
 				animation_player.play("fire")

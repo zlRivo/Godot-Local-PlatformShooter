@@ -1,2 +1,2 @@
 extends HitscanWeapon
-
+# Normal weapon

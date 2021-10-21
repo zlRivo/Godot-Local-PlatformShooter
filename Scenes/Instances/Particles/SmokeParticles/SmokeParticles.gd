@@ -1,5 +1,6 @@
 extends CPUParticles2D
 
+# Store elapsed time
 var time_elapsed = 0
 
 func _ready():

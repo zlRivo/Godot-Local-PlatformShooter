@@ -1,9 +1,11 @@
 extends Node2D
 class_name Map
 
+# Game camera
 export (NodePath) var game_camera_path
 onready var game_camera = get_node_or_null(game_camera_path)
 
+# Preview camera
 export (NodePath) var preview_camera_path
 onready var preview_camera = get_node_or_null(preview_camera_path)
 
